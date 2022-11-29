@@ -46,7 +46,7 @@ Package.install = function (packageList)
 end
 
 Package.update = function ()
-	for _,pkg in Package.pkgs do
+	for _,pkg in ipairs(Package.pkgs) do
 		if pkg.exists then Terminal.runIn('git pull', pkg.dir) end
 	end
 end

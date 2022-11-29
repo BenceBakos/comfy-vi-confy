@@ -15,8 +15,13 @@ Package.install({
 	'L3MON4D3/LuaSnip',
 	'hrsh7th/nvim-cmp',
 	'rafamadriz/friendly-snippets',
-	'natecraddock/nvim-find'
+	'natecraddock/nvim-find',
+	'saadparwaiz1/cmp_luasnip'
 })
+
+-- Package managger functionality
+Keyboard.command('PackagesUpdate', ':lua Package.update()', {})
+Keyboard.command('PackagesClean', ':lua Package.clean()', {})
 
 -- leader
 vim.g.mapleader = " "
@@ -54,10 +59,10 @@ cmp.setup({
 		luaSnip.lsp_expand(args.body)
 	end },
 	sources = {
-		{ name = 'path', keyword_length = 2 },
-		{ name = 'nvim_lsp', keyword_length = 2 },
-		{ name = 'buffer', keyword_length = 2 },
-		{ name = 'luasnip', keyword_length = 2 },
+		{ name = 'path', keyword_length = 1 },
+		{ name = 'nvim_lsp', keyword_length = 1 },
+		{ name = 'buffer', keyword_length = 1 },
+		{ name = 'luasnip', keyword_length = 1 },
 	},
 	mapping = {
 		['<CR>'] = cmp.mapping.confirm({
@@ -65,18 +70,27 @@ cmp.setup({
 			select = true,
 		}),
 		["<Tab>"] = cmp.mapping(function(fallback)
+			local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+			local hasWordsBefore =  col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+
 			if cmp.visible() then
 				cmp.select_next_item()
-			elseif has_words_before() then
+			elseif luaSnip.expand_or_jumpable() then
+				luaSnip.expand_or_jump()
+			elseif hasWordsBefore then
 				cmp.complete()
 			else
 				fallback()
 			end
 		end, { "i", "s" }),
 
-		["<S-Tab>"] = cmp.mapping(function()
+		["<S-Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_prev_item()
+			elseif luaSnip.jumpable(-1) then
+				luaSnip.jump(-1)
+			else
+				fallback()
 			end
 		end, { "i", "s" }),
 	}
@@ -84,18 +98,35 @@ cmp.setup({
 
 -- configure language servers (needs installation with mason after config)
 lspconfig.sumneko_lua.setup({
-	Lua = {
-		diagnostics = {
-			-- Get the language server to recognize the `vim` global
-			globals = { 'vim' },
-		},
-	},
+	settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {'vim'},
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
 })
 
 lspconfig.pylsp.setup({})
 lspconfig.intelephense.setup({})
-lspconfig.eslint.setup({})
+lspconfig.phpactor.setup({})
 lspconfig.bashls.setup({})
+lspconfig.tailwindcss.setup({})
+lspconfig.quick_lint_js.setup({})
+
 
 -- LSP bindings
 Keyboard.map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', false)
@@ -107,10 +138,11 @@ Keyboard.map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', false)
 Keyboard.map('n', 'gk', '<cmd>lua vim.lsp.buf.signature_help()<cr>', false)
 Keyboard.map('n', 'grn', '<cmd>lua vim.lsp.buf.rename()<cr>', false)
 Keyboard.map('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<cr>', false)
-Keyboard.map('n', 'ga', '<cmd>lua vim.lsp.buf.range_code_action()<cr>', false)
 Keyboard.map('n', 'gof', '<cmd>lua vim.diagnostic.open_float()<cr>', false)
 Keyboard.map('n', 'gm', '<cmd>lua vim.diagnostic.goto_prev()<cr>', false)
 Keyboard.map('n', 'gM', '<cmd>lua vim.diagnostic.goto_next()<cr>', false)
+
+-- Snippet bindings
 
 -- fuzzy finder
 local cfg = require("nvim-find.config")
@@ -169,7 +201,6 @@ vim.opt.sidescrolloff = 8
 vim.opt.signcolumn = "number"
 
 
-
 -- copy path to clipboard
 Keyboard.command('Cgpath', ":let @+=expand('%:p')")
 Keyboard.command('Cpath', ":let @+=expand('%')")
@@ -190,12 +221,21 @@ vim.api.nvim_create_autocmd(
 	end
 })
 
+-- force filetypes for extensions
+vim.api.nvim_create_autocmd(
+	{ 'BufReadPost' }, {
+	pattern = { '*.html.twig' },
+	callback = function()
+		vim.bo.filetype = "html"
+	end
+})
+
+
+
 -- capslock to escape
 -- unod setxkbmap :
 --    setxkbmap -option
 Terminal.run('setxkbmap -option caps:escape')
-
-
 
 -- tabs/buffers
 Keyboard.map('n', 'th', ':tabfirst<CR>', false)
@@ -276,6 +316,12 @@ vim.cmd [[
 Keyboard.command('W', 'w', {})
 Keyboard.command('Wq', 'wq', {})
 Keyboard.command('WQ', 'wq', {})
+
+-- quit from current window
+Keyboard.map("n", "ó", ":q<CR>")
+
+-- remove highlights
+Keyboard.map("n", "ö", ":noh<CR>")
 
 -- Better window navigation
 Keyboard.map("n", "<Leader>h", "<C-w>h")
