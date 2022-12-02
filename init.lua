@@ -230,8 +230,6 @@ vim.api.nvim_create_autocmd(
 	end
 })
 
-
-
 -- capslock to escape
 -- unod setxkbmap :
 --    setxkbmap -option
