@@ -4,6 +4,11 @@ Keyboard = require("keyborad")
 Terminal = require("terminal")
 Package = require("packages")
 
+-- globals
+DEBUGGERBASE = "/home/b/debugger/"
+PHPDAPSERVERROOT = "/var/www/html/"
+
+
 -- Packages
 Package.install({
 	'williamboman/mason.nvim',
@@ -16,7 +21,8 @@ Package.install({
 	'hrsh7th/nvim-cmp',
 	'rafamadriz/friendly-snippets',
 	'natecraddock/nvim-find',
-	'saadparwaiz1/cmp_luasnip'
+	'saadparwaiz1/cmp_luasnip',
+	'mfussenegger/nvim-dap'
 })
 
 -- Package managger functionality
@@ -30,7 +36,7 @@ vim.g.maplocalleader = " "
 -- LSP server, DAP server installer
 require("mason").setup()
 
--- Snppets
+-- Snippets
 require('luasnip.loaders.from_vscode').lazy_load()
 
 -- LSP & autocomplete
@@ -55,9 +61,11 @@ vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 local select_opts = { behavior = cmp.SelectBehavior.Select }
 
 cmp.setup({
-	snippet = { function(args)
-		luaSnip.lsp_expand(args.body)
-	end },
+	snippet = {
+		expand = function(args)
+			luaSnip.lsp_expand(args.body)
+		end
+	},
 	sources = {
 		{ name = 'path', keyword_length = 2 },
 		{ name = 'nvim_lsp', keyword_length = 2 },
@@ -142,7 +150,46 @@ Keyboard.map('n', 'gof', '<cmd>lua vim.diagnostic.open_float()<cr>', false)
 Keyboard.map('n', 'gm', '<cmd>lua vim.diagnostic.goto_prev()<cr>', false)
 Keyboard.map('n', 'gM', '<cmd>lua vim.diagnostic.goto_next()<cr>', false)
 
--- Snippet bindings
+-- DAP (needs mason install after config)
+local dap = require('dap')
+
+-- DAP PHP
+-- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#PHP
+-- https://github.com/xdebug/vscode-php-debug#installation
+if File.fileExists(DEBUGGERBASE .. "vscode-php-debug/") then
+	dap.adapters.php = {
+		type = 'executable',
+		command = 'node',
+		args = { DEBUGGERBASE .. "vscode-php-debug/out/" .. 'phpDebug.js' }
+	}
+
+	dap.configurations.php = {
+		{
+			type = 'php',
+			request = 'launch',
+			name = 'Listen for Xdebug',
+			log = true,
+			serverSourceRoot = vim.fn.expand("%:p:h") .. "/",
+			localSourceRoot = vim.fn.expand("%:p:h") .. "/"
+		}
+	}
+
+	--force deleting of debugger buffer
+	vim.api.nvim_create_autocmd('BufHidden', {
+		pattern  = '[dap-terminal]*',
+		callback = function(arg)
+			vim.schedule(function() vim.api.nvim_buf_delete(arg.buf, { force = true }) end)
+		end
+	})
+end
+
+-- Dap mappings
+Keyboard.map('n', '<Leader>m', ':lua require"dap".toggle_breakpoint()<CR>',false)
+Keyboard.map('n', '<Leader>n', ':lua require"dap".continue()<CR>',false)
+Keyboard.map('n', '<Leader>i', ':lua require"dap".step_into()<CR>',false)
+Keyboard.map('n', '<Leader>o', ':lua require"dap".step_over)<CR>',false)
+Keyboard.map('n', '<Leader>s', ':lua require("dap").repl.open({}, "vsplit")<CR>',false)
+Keyboard.map('n', '<Leader>p', ':lua require("dap").repl.open({}, "vsplit")<CR><C-w>hi.scopes<CR><Esc>{',false)
 
 -- fuzzy finder
 local cfg = require("nvim-find.config")
