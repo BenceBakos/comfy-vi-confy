@@ -377,4 +377,13 @@ Keyboard.map("n", "<Leader>l", "<C-w>l")
 Keyboard.map("n", "<Leader>é", "<C-w>l")
 
 -- Spell checking 
-vim.opt.spell = true
+vim.api.nvim_create_autocmd(
+	{ 'BufReadPost' }, {
+	pattern = '*.md',
+	callback = function()
+		vim.opt.spelllang={'en'}
+		vim.opt.spell = true
+	end
+})
+
+
