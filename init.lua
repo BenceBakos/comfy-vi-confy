@@ -375,3 +375,6 @@ Keyboard.map("n", "<Leader>j", "<C-w>j")
 Keyboard.map("n", "<Leader>k", "<C-w>k")
 Keyboard.map("n", "<Leader>l", "<C-w>l")
 Keyboard.map("n", "<Leader>é", "<C-w>l")
+
+-- Spell checking 
+vim.opt.spell = true
