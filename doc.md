@@ -1,1 +1,0 @@
-helytelen good will

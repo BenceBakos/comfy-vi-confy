@@ -223,6 +223,10 @@ vim.opt.clipboard = "unnamedplus"
 -- line numbers
 vim.opt.number = true
 
+-- errors into line number column
+vim.opt.signcolumn = "number"
+
+
 -- smart search with / and ?
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
@@ -243,9 +247,6 @@ vim.opt.mouse = nil
 -- no need to scroll till end/top of screen to move buffer content
 vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 8
-
--- errors into line number column
-vim.opt.signcolumn = "number"
 
 
 -- copy path to clipboard
@@ -329,8 +330,6 @@ Keyboard.map("i", '`', '``<Esc>i')
 -- remove surrounding symbols
 Keyboard.mapFunction("n", "X", function()
 	local char = Keyboard.getCurrentChar()
-	Log.err("wefawef")
-	Log.err(char)
 
 	for i, _ in pairs(Keyboard.doubleCharactersOpen) do
 		local opening = Keyboard.doubleCharactersOpen[i]
@@ -377,13 +376,9 @@ Keyboard.map("n", "<Leader>l", "<C-w>l")
 Keyboard.map("n", "<Leader>é", "<C-w>l")
 
 -- Spell checking 
-vim.api.nvim_create_autocmd(
-	{ 'BufReadPost' }, {
-	pattern = '*.md',
-	callback = function()
-		vim.opt.spelllang={'en'}
-		vim.opt.spell = true
-	end
-})
+vim.opt.spelllang={'en'}
+vim.opt.spell = false
 
+Keyboard.command('SpellIn',  ":lua vim.opt.spell = true")
+Keyboard.command('SpellOut', ":lua vim.opt.spell = false")
 
