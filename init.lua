@@ -282,6 +282,7 @@ vim.api.nvim_create_autocmd(
 -- unod setxkbmap :
 --    setxkbmap -option
 Terminal.run('setxkbmap -option caps:escape')
+-- gnome solution: gnome-tweaks package
 
 -- tabs/buffers
 Keyboard.map('n', 'th', ':tabfirst<CR>', false)
