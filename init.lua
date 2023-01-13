@@ -8,6 +8,10 @@ Package = require("packages")
 DEBUGGERBASE = "/home/b/debugger/"
 PHPDAPSERVERROOT = "/var/www/html/"
 
+-- DEPENDENCIES
+-- git
+-- fd
+-- ripgrep
 
 -- Packages
 Package.install({
