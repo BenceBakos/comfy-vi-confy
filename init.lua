@@ -282,7 +282,7 @@ vim.api.nvim_create_autocmd(
 	end
 })
 
--- capslock to escape
+-- capslock to escape in x
 -- unod setxkbmap :
 --    setxkbmap -option
 Terminal.run('setxkbmap -option caps:escape')
@@ -333,22 +333,6 @@ Keyboard.map("i", "'", "''<Esc>i")
 Keyboard.map("i", '"', '""<Esc>i')
 Keyboard.map("i", '`', '``<Esc>i')
 
--- remove surrounding symbols
-Keyboard.mapFunction("n", "X", function()
-	local char = Keyboard.getCurrentChar()
-
-	for i, _ in pairs(Keyboard.doubleCharactersOpen) do
-		local opening = Keyboard.doubleCharactersOpen[i]
-		local closing = Keyboard.doubleCharactersClose[i]
-
-		if char == opening
-		then Keyboard.feed("di" .. closing .. "va" .. closing .. "p", "n") end
-
-		if char == closing
-		then Keyboard.feed("di" .. opening .. "va" .. opening .. "p", "n") end
-
-	end
-end)
 
 -- remove double symbols in insert mode
 --on a beautifull sunday afternoon...
