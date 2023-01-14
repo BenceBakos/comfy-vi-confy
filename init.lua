@@ -16,6 +16,7 @@ PHPDAPSERVERROOT = "/var/www/html/"
 -- Packages
 Package.install({
 	'williamboman/mason.nvim',
+	"williamboman/mason-lspconfig.nvim",
 	'neovim/nvim-lspconfig',
 	'hrsh7th/nvim-cmp',
 	'hrsh7th/cmp-nvim-lsp',
@@ -39,6 +40,11 @@ vim.g.maplocalleader = " "
 
 -- LSP server, DAP server installer
 require("mason").setup()
+
+-- Autoinstall LSP, DAP servers
+require("mason-lspconfig").setup {
+	automatic_installation = true
+}
 
 -- Snippets
 require('luasnip.loaders.from_vscode').lazy_load()
@@ -132,12 +138,18 @@ lspconfig.sumneko_lua.setup({
   },
 })
 
+-- https://github.com/williamboman/mason-lspconfig.nvim
 lspconfig.pylsp.setup({})
 lspconfig.intelephense.setup({})
 lspconfig.phpactor.setup({})
 lspconfig.bashls.setup({})
 lspconfig.tailwindcss.setup({})
 lspconfig.quick_lint_js.setup({})
+lspconfig.cssls.setup({})
+lspconfig.dockerls.setup({})
+lspconfig.lemminx.setup({})
+lspconfig.yamlls.setup({})
+
 
 
 -- LSP bindings
