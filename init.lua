@@ -139,7 +139,7 @@ lspconfig.sumneko_lua.setup({
 })
 
 -- https://github.com/williamboman/mason-lspconfig.nvim
-lspconfig.pylsp.setup({})
+-- lspconfig.pylsp.setup({})
 lspconfig.intelephense.setup({})
 lspconfig.phpactor.setup({})
 lspconfig.bashls.setup({})
@@ -241,7 +241,6 @@ vim.opt.number = true
 
 -- errors into line number column
 vim.opt.signcolumn = "number"
-
 
 -- smart search with / and ?
 vim.opt.hlsearch = true
@@ -383,4 +382,19 @@ vim.opt.spell = false
 
 Keyboard.command('SpellIn',  ":lua vim.opt.spell = true")
 Keyboard.command('SpellOut', ":lua vim.opt.spell = false")
+
+-- Auto indentation
+vim.opt.autoindent = true
+
+-- Overwrite php autoindent for blade templates
+vim.api.nvim_create_autocmd(
+	{ 'BufEnter' },{
+		pattern = {'*.blade.php'},
+		callback = function()
+			vim.opt.autoindent = true
+		end
+	}
+)
+
+vim.opt.swapfile = false
 
