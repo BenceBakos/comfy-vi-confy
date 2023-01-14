@@ -398,3 +398,6 @@ vim.api.nvim_create_autocmd(
 
 vim.opt.swapfile = false
 
+-- edit file
+Keyboard.map('n','jk',':e<space>', { noremap = true, silent = false })
+Keyboard.map('n','kj',':e<space>', { noremap = true, silent = false })
