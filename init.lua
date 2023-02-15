@@ -22,8 +22,11 @@ Package.install({
 	'hrsh7th/cmp-nvim-lsp',
 	'hrsh7th/cmp-buffer',
 	'hrsh7th/cmp-path',
+	'L3MON4D3/LuaSnip',
 	'hrsh7th/nvim-cmp',
+	'rafamadriz/friendly-snippets',
 	'natecraddock/nvim-find',
+	'saadparwaiz1/cmp_luasnip',
 	'mfussenegger/nvim-dap'
 })
 
@@ -43,11 +46,14 @@ require("mason-lspconfig").setup {
 	automatic_installation = true
 }
 
+-- Snippets
+require('luasnip.loaders.from_vscode').lazy_load()
 
 -- LSP & autocomplete
 local lspconfig = require('lspconfig')
 local cmp = require('cmp')
 local cmpLsp = require('cmp_nvim_lsp')
+local luaSnip = require('luasnip')
 
 -- Extend cmp capabilities
 local lspDefaults = lspconfig.util.default_config
@@ -65,10 +71,16 @@ vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 local select_opts = { behavior = cmp.SelectBehavior.Select }
 
 cmp.setup({
+	snippet = {
+		expand = function(args)
+			luaSnip.lsp_expand(args.body)
+		end
+	},
 	sources = {
 		{ name = 'path', keyword_length = 2 },
 		{ name = 'nvim_lsp', keyword_length = 2 },
 		{ name = 'buffer', keyword_length = 2 },
+		{ name = 'luasnip', keyword_length = 2 },
 	},
 	mapping = {
 		['<CR>'] = cmp.mapping.confirm({
@@ -91,6 +103,8 @@ cmp.setup({
 		["<S-Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_prev_item()
+			elseif luaSnip.jumpable(-1) then
+				luaSnip.jump(-1)
 			else
 				fallback()
 			end
