@@ -374,6 +374,13 @@ Keyboard.map("n", "<Leader>k", "<C-w>k")
 Keyboard.map("n", "<Leader>l", "<C-w>l")
 Keyboard.map("n", "<Leader>é", "<C-w>l")
 
+-- go to netrw from file
+Keyboard.map("n", "-", ":Explore<CR>")
+
+-- next/prev finding
+Keyboard.map("n", "ú", ":cn<CR>")
+Keyboard.map("n", "Ú", ":cp<CR>")
+
 -- Spell checking 
 vim.opt.spelllang={'en'}
 vim.opt.spell = false
