@@ -12,6 +12,7 @@ PHPDAPSERVERROOT = "/var/www/html/"
 -- git
 -- fd
 -- ripgrep
+-- xclip
 
 -- Packages
 Package.install({
@@ -113,7 +114,7 @@ cmp.setup({
 })
 
 -- configure language servers (needs installation with mason after config)
-lspconfig.sumneko_lua.setup({
+lspconfig.lua_ls.setup({
 	settings = {
     Lua = {
       runtime = {
@@ -147,8 +148,7 @@ lspconfig.cssls.setup({})
 lspconfig.dockerls.setup({})
 lspconfig.lemminx.setup({})
 lspconfig.yamlls.setup({})
-
-
+lspconfig.rnix.setup{}
 
 -- LSP bindings
 Keyboard.map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', false)
