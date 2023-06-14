@@ -13,6 +13,11 @@ PHPDAPSERVERROOT = "/var/www/html/"
 -- fd
 -- ripgrep
 -- xclip
+-- cargo
+-- node
+-- php
+-- composer
+-- phpactor (https://phpactor.readthedocs.io/en/master/usage/standalone.html#global-installation)
 
 -- Packages
 Package.install({
@@ -78,8 +83,8 @@ cmp.setup({
 		end
 	},
 	sources = {
-		{ name = 'path', keyword_length = 2 },
 		{ name = 'nvim_lsp', keyword_length = 2 },
+		{ name = 'path', keyword_length = 2 },
 		{ name = 'buffer', keyword_length = 2 },
 		{ name = 'luasnip', keyword_length = 2 },
 	},
@@ -139,10 +144,10 @@ lspconfig.lua_ls.setup({
 
 -- https://github.com/williamboman/mason-lspconfig.nvim
 -- lspconfig.pylsp.setup({})
-lspconfig.intelephense.setup({})
-lspconfig.phpactor.setup({})
-lspconfig.bashls.setup({})
+-- lspconfig.intelephense.setup({})
+lspconfig.phpactor.setup({}) -- slow
 lspconfig.tailwindcss.setup({})
+lspconfig.bashls.setup({})
 lspconfig.quick_lint_js.setup({})
 lspconfig.cssls.setup({})
 lspconfig.dockerls.setup({})
@@ -277,7 +282,6 @@ vim.api.nvim_create_autocmd(
 		local markpos = vim.api.nvim_buf_get_mark(0, '"')
 		if (markpos[1] > 1) and (markpos[1] <= vim.api.nvim_buf_line_count(0)) then
 			vim.api.nvim_win_set_cursor(0, { markpos[1], markpos[2] })
-			Keyboard.feed("zz", "n")
 		end
 	end
 })
@@ -373,6 +377,14 @@ Keyboard.map("n", "<Leader>j", "<C-w>j")
 Keyboard.map("n", "<Leader>k", "<C-w>k")
 Keyboard.map("n", "<Leader>l", "<C-w>l")
 Keyboard.map("n", "<Leader>é", "<C-w>l")
+
+Keyboard.map("n", "ch", "<C-w>h")
+Keyboard.map("n", "cj", "<C-w>j")
+Keyboard.map("n", "ck", "<C-w>k")
+Keyboard.map("n", "cl", "<C-w>l")
+Keyboard.map("n", "cé", "<C-w>l")
+
+
 
 -- go to netrw from file
 Keyboard.map("n", "-", ":Explore<CR>")
