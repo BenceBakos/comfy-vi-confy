@@ -168,6 +168,12 @@ Keyboard.map('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<cr>', false)
 Keyboard.map('n', 'gof', '<cmd>lua vim.diagnostic.open_float()<cr>', false)
 Keyboard.map('n', 'gm', '<cmd>lua vim.diagnostic.goto_prev()<cr>', false)
 Keyboard.map('n', 'gM', '<cmd>lua vim.diagnostic.goto_next()<cr>', false)
+Keyboard.map('n', 'gwa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>', false)
+Keyboard.map('n', 'gwr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>', false)
+Keyboard.mapFunction("n", "gF", function()
+  vim.lsp.buf.format { async = true }
+end)
+
 
 -- DAP (needs mason install after config)
 local dap = require('dap')
