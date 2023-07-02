@@ -33,7 +33,8 @@ Package.install({
 	'rafamadriz/friendly-snippets',
 	'natecraddock/nvim-find',
 	'saadparwaiz1/cmp_luasnip',
-	'mfussenegger/nvim-dap'
+	'mfussenegger/nvim-dap',
+	'skanehira/preview-uml.vim'
 })
 
 -- Package managger functionality
@@ -43,6 +44,14 @@ Keyboard.command('PackagesClean', ':lua Package.clean()', {})
 -- leader
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+
+-- plantuml setup
+-- use :PreviewUML for the preview
+-- run docker:
+-- docker run -d -p 1212:8080 plantuml/plantuml-server:jetty
+vim.g.preview_uml_url='http://localhost:1212'
+
+
 
 -- LSP server, DAP server installer
 require("mason").setup()
@@ -145,7 +154,7 @@ lspconfig.lua_ls.setup({
 -- https://github.com/williamboman/mason-lspconfig.nvim
 -- lspconfig.pylsp.setup({})
 -- lspconfig.intelephense.setup({})
-lspconfig.phpactor.setup({}) -- slow
+lspconfig.phpactor.setup({})
 lspconfig.tailwindcss.setup({})
 lspconfig.bashls.setup({})
 lspconfig.quick_lint_js.setup({})
@@ -390,8 +399,6 @@ Keyboard.map("n", "cj", "<C-w>j")
 Keyboard.map("n", "ck", "<C-w>k")
 Keyboard.map("n", "cl", "<C-w>l")
 Keyboard.map("n", "cé", "<C-w>l")
-
-
 
 -- go to netrw from file
 Keyboard.map("n", "-", ":Explore<CR>")
