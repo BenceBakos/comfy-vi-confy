@@ -34,7 +34,6 @@ Package.install({
 	'natecraddock/nvim-find',
 	'saadparwaiz1/cmp_luasnip',
 	'mfussenegger/nvim-dap',
-	'skanehira/preview-uml.vim'
 })
 
 -- Package managger functionality
@@ -44,13 +43,6 @@ Keyboard.command('PackagesClean', ':lua Package.clean()', {})
 -- leader
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-
--- plantuml setup
--- use :PreviewUML for the preview
--- run docker:
--- docker run -d -p 1212:8080 plantuml/plantuml-server:jetty
-vim.g.preview_uml_url='http://localhost:1212'
-
 
 
 -- LSP server, DAP server installer
