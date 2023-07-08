@@ -34,6 +34,9 @@ Package.install({
 	'natecraddock/nvim-find',
 	'saadparwaiz1/cmp_luasnip',
 	'mfussenegger/nvim-dap',
+	'tyru/open-browser.vim',
+	'aklt/plantuml-syntax',
+	'weirongxu/plantuml-previewer.vim',
 })
 
 -- Package managger functionality
