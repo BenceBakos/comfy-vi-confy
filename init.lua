@@ -158,6 +158,8 @@ lspconfig.dockerls.setup({})
 lspconfig.lemminx.setup({})
 lspconfig.yamlls.setup({})
 lspconfig.rnix.setup{}
+lspconfig.tsserver.setup{}
+lspconfig.jedi_language_server.setup{}
 
 -- LSP bindings
 Keyboard.map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', false)
