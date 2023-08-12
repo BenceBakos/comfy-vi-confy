@@ -37,6 +37,7 @@ Package.install({
 	'tyru/open-browser.vim',
 	'aklt/plantuml-syntax',
 	'weirongxu/plantuml-previewer.vim',
+	'f-person/git-blame.nvim'
 })
 
 -- Package managger functionality
@@ -46,6 +47,9 @@ Keyboard.command('PackagesClean', ':lua Package.clean()', {})
 -- leader
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+
+-- disable git blame by default(enable with :GitBlameEnable)
+vim.g.gitblame_enabled = 0
 
 
 -- LSP server, DAP server installer
@@ -148,8 +152,8 @@ lspconfig.lua_ls.setup({
 
 -- https://github.com/williamboman/mason-lspconfig.nvim
 -- lspconfig.pylsp.setup({})
--- lspconfig.intelephense.setup({})
-lspconfig.phpactor.setup({})
+lspconfig.intelephense.setup({})
+-- lspconfig.phpactor.setup({})
 lspconfig.tailwindcss.setup({})
 lspconfig.bashls.setup({})
 lspconfig.quick_lint_js.setup({})
