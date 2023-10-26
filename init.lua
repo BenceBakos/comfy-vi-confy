@@ -153,7 +153,7 @@ lspconfig.lua_ls.setup({
 -- https://github.com/williamboman/mason-lspconfig.nvim
 -- lspconfig.pylsp.setup({})
 lspconfig.intelephense.setup({})
--- lspconfig.phpactor.setup({})
+lspconfig.phpactor.setup({})
 lspconfig.tailwindcss.setup({})
 lspconfig.bashls.setup({})
 lspconfig.quick_lint_js.setup({})

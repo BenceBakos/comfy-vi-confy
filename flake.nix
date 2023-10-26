@@ -1,5 +1,5 @@
 {
-  description = "Neovim dev env";
+  description = "My own Neovim flake";
   inputs = {
     nixpkgs = {
       url = "github:NixOS/nixpkgs";
@@ -9,11 +9,29 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = { self, nixpkgs, neovim }: {
-      packages.x86_64-linux.default = neovim.packages.x86_64-linux.neovim;
+  outputs = { self, nixpkgs, neovim }:
+    let
+      overlayFlakeInputs = prev: final: {
+        neovim = neovim.packages.x86_64-linux.neovim;
+      };
+
+      overlayNeovim = prev: final: {
+        neovim = import ./nix/neovim.nix {
+          pkgs = final;
+        };
+      };
+
+      pkgs = import nixpkgs {
+        system = "x86_64-linux";
+        overlays = [ overlayFlakeInputs overlayNeovim ];
+      };
+
+    in {
+      packages.x86_64-linux.default = pkgs.neovim;
       apps.x86_64-linux.default = {
         type = "app";
-        program = "${neovim.packages.x86_64-linux.neovim}/bin/nvim";
+        program = "${pkgs.neovim}/bin/nvim";
       };
     };
 }
+
