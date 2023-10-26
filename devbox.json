@@ -1,0 +1,24 @@
+{
+  "packages": [
+    "neovim@0.9.4",
+    "phpactor@2023.08.06-1",
+    "php@8.3.0RC4",
+    "nodenv@latest",
+    "cargo@latest",
+    "xclip@latest",
+    "ripgrep@latest",
+    "fd@latest",
+    "git@latest",
+    "lazygit@latest"
+  ],
+  "shell": {
+    "init_hook": [
+      "echo 'Welcome to devbox!' > /dev/null"
+    ],
+    "scripts": {
+      "test": [
+        "echo \"Error: no test specified\" && exit 1"
+      ]
+    }
+  }
+}
