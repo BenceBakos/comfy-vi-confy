@@ -9,7 +9,9 @@
     "ripgrep@latest",
     "fd@latest",
     "git@latest",
-    "lazygit@latest"
+    "lazygit@latest",
+    "docker-compose@latest",
+    "docker@latest"
   ],
   "shell": {
     "init_hook": [

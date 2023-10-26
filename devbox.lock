@@ -21,6 +21,46 @@
         }
       }
     },
+    "docker-compose@latest": {
+      "last_modified": "2023-09-27T18:02:17Z",
+      "resolved": "github:NixOS/nixpkgs/517501bcf14ae6ec47efd6a17dda0ca8e6d866f9#docker-compose",
+      "source": "devbox-search",
+      "version": "2.21.0",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/0b8pr63npfilr122amnsagzbs30lk420-docker-compose-2.21.0"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/z37mm1r5g0z56y3m96rsyz4m7k8rahni-docker-compose-2.21.0"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/nhgkwsjhiij70agznpbhx5mh1a1v2mjy-docker-compose-2.21.0"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/n2vg8v76r9izwilsggrn6szdq15jjl7n-docker-compose-2.21.0"
+        }
+      }
+    },
+    "docker@latest": {
+      "last_modified": "2023-10-19T22:57:55Z",
+      "resolved": "github:NixOS/nixpkgs/d042a296139c6a111be3e3d5dc9ef6783b5e7c16#docker",
+      "source": "devbox-search",
+      "version": "20.10.26",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/hkn2hq2bdxzzarlg0h66d7p6lgvrcqaj-docker-20.10.26"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/3p8k7zjm9d9zr6wzcx56953rsab4my3m-docker-20.10.26"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/6i1y1zfqi017d1b7icagd9ywmw3rfqrl-docker-20.10.26"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/kg5sf0d7rz84vvdc9fm96yc3jmrz91r1-docker-20.10.26"
+        }
+      }
+    },
     "fd@latest": {
       "last_modified": "2023-10-21T19:15:59Z",
       "resolved": "github:NixOS/nixpkgs/51d906d2341c9e866e48c2efcaac0f2d70bfd43e#fd",
