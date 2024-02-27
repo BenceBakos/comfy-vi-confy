@@ -8,6 +8,11 @@ Package = require("packages")
 DEBUGGERBASE = "/home/b/vscode-php-debug/"
 PHPDAPSERVERROOT = "/var/www/html/"
 
+-- replace all in multilple files
+-- 1. :grep <search term>
+-- 2. :cdo %s/<search term>/<replace term>/gc
+-- 3. (If you want to save the changes in all files) :cdo update
+
 -- DEPENDENCIES
 -- git
 -- fd
@@ -37,7 +42,10 @@ Package.install({
 	'tyru/open-browser.vim',
 	'aklt/plantuml-syntax',
 	'weirongxu/plantuml-previewer.vim',
-	'f-person/git-blame.nvim'
+	'f-person/git-blame.nvim',
+	'nvim-lua/plenary.nvim',
+	'stevearc/dressing.nvim',
+	'akinsho/flutter-tools.nvim'
 })
 
 -- Package managger functionality
@@ -50,7 +58,6 @@ vim.g.maplocalleader = " "
 
 -- disable git blame by default(enable with :GitBlameEnable)
 vim.g.gitblame_enabled = 0
-
 
 -- LSP server, DAP server installer
 require("mason").setup()
@@ -218,6 +225,7 @@ if File.fileExists(DEBUGGERBASE) then
 	})
 end
 
+
 -- Dap mappings
 Keyboard.map('n', '<Leader>m', ':lua require"dap".toggle_breakpoint()<CR>',false)
 Keyboard.map('n', '<Leader>n', ':lua require"dap".continue()<CR>',false)
@@ -317,7 +325,10 @@ vim.api.nvim_create_autocmd(
 --    setxkbmap -option
 Terminal.run('setxkbmap -option caps:escape')
 -- gnome solution: gnome-tweaks package
---
+
+-- Flutter
+require("flutter-tools").setup {
+}
 
 -- tabs/buffers
 Keyboard.map('n', 'th', ':tabfirst<CR>', false)
@@ -416,7 +427,7 @@ Keyboard.command('SpellIn',  ":lua vim.opt.spell = true")
 Keyboard.command('SpellOut', ":lua vim.opt.spell = false")
 
 -- Auto indentation
-vim.opt.autoindent = true
+vim.opt.smartindent = true
 
 -- Overwrite php autoindent for blade templates
 vim.api.nvim_create_autocmd(
@@ -429,4 +440,5 @@ vim.api.nvim_create_autocmd(
 )
 
 vim.opt.swapfile = false
+
 
