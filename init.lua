@@ -75,7 +75,9 @@ require('luasnip.loaders.from_vscode').lazy_load()
 Hop = require('hop')
 Hop.setup()
 Keyboard.mapFunction({"n","v"}, "<Leader><Leader>", function()
-	Hop.hint_words()
+	Hop.hint_words({
+		multi_windows = true
+	})
 end)
 
 -- LSP & autocomplete
