@@ -45,7 +45,8 @@ Package.install({
 	'f-person/git-blame.nvim',
 	'nvim-lua/plenary.nvim',
 	'stevearc/dressing.nvim',
-	'akinsho/flutter-tools.nvim'
+	'akinsho/flutter-tools.nvim',
+	'smoka7/hop.nvim'
 })
 
 -- Package managger functionality
@@ -69,6 +70,13 @@ require("mason-lspconfig").setup {
 
 -- Snippets
 require('luasnip.loaders.from_vscode').lazy_load()
+
+-- Hop
+Hop = require('hop')
+Hop.setup()
+Keyboard.mapFunction({"n","v"}, "<Leader><Leader>", function()
+	Hop.hint_words()
+end)
 
 -- LSP & autocomplete
 local lspconfig = require('lspconfig')
@@ -159,8 +167,17 @@ lspconfig.lua_ls.setup({
 
 -- https://github.com/williamboman/mason-lspconfig.nvim
 -- lspconfig.pylsp.setup({})
-lspconfig.intelephense.setup({})
-lspconfig.phpactor.setup({})
+-- lspconfig.intelephense.setup({
+--    init_options = {
+--        licenceKey = File.get_intelephense_license()
+--    }
+--})
+lspconfig.phpactor.setup({
+    init_options = {
+        ["language_server_phpstan.enabled"] = false,
+        ["language_server_psalm.enabled"] = false,
+    }
+})
 lspconfig.tailwindcss.setup({})
 lspconfig.bashls.setup({})
 lspconfig.quick_lint_js.setup({})

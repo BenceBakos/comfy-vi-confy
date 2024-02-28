@@ -16,7 +16,7 @@ Keyboard.mapFunction = function(mode, keys, callback, opts)
 		opts = Keyboard.opts
 	end
 
-	vim.api.nvim_set_keymap(mode, keys, "", { callback = callback })
+	vim.keymap.set(mode, keys, "", { callback = callback })
 end
 
 Keyboard.feed=function(keys, mode)
