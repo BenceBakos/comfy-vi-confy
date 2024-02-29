@@ -22,6 +22,7 @@ PHPDAPSERVERROOT = "/var/www/html/"
 -- node
 -- php
 -- composer
+-- tree-sitter
 -- phpactor (https://phpactor.readthedocs.io/en/master/usage/standalone.html#global-installation)
 
 -- Packages
@@ -46,12 +47,26 @@ Package.install({
 	'nvim-lua/plenary.nvim',
 	'stevearc/dressing.nvim',
 	'akinsho/flutter-tools.nvim',
-	'smoka7/hop.nvim'
+	'smoka7/hop.nvim',
+	'nvim-treesitter/nvim-treesitter'
 })
 
 -- Package managger functionality
 Keyboard.command('PackagesUpdate', ':lua Package.update()', {})
 Keyboard.command('PackagesClean', ':lua Package.clean()', {})
+
+-- Treesitter
+require'nvim-treesitter.configs'.setup {
+  -- A list of parser names, or "all" (the five listed parsers should always be installed)
+  ensure_installed = { "c", "lua", "vim", "vimdoc", "query",'php','json'},
+
+  -- Install parsers synchronously (only applied to `ensure_installed`)
+  sync_install = false,
+
+  -- Automatically install missing parsers when entering buffer
+  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+  auto_install = true,
+}
 
 -- leader
 vim.g.mapleader = " "
@@ -74,7 +89,7 @@ require('luasnip.loaders.from_vscode').lazy_load()
 -- Hop
 Hop = require('hop')
 Hop.setup()
-Keyboard.mapFunction({"n","v"}, "<Leader><Leader>", function()
+Keyboard.mapFunction({ "n", "v" }, "<Leader><Leader>", function()
 	Hop.hint_words({
 		multi_windows = true
 	})
@@ -109,9 +124,9 @@ cmp.setup({
 	},
 	sources = {
 		{ name = 'nvim_lsp', keyword_length = 2 },
-		{ name = 'path', keyword_length = 2 },
-		{ name = 'buffer', keyword_length = 2 },
-		{ name = 'luasnip', keyword_length = 2 },
+		{ name = 'path',     keyword_length = 2 },
+		{ name = 'buffer',   keyword_length = 2 },
+		{ name = 'luasnip',  keyword_length = 2 },
 	},
 	mapping = {
 		['<CR>'] = cmp.mapping.confirm({
@@ -120,7 +135,8 @@ cmp.setup({
 		}),
 		["<Tab>"] = cmp.mapping(function(fallback)
 			local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-			local hasWordsBefore =  col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+			local hasWordsBefore = col ~= 0 and
+			vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 
 			if cmp.visible() then
 				cmp.select_next_item()
@@ -146,25 +162,25 @@ cmp.setup({
 -- configure language servers (needs installation with mason after config)
 lspconfig.lua_ls.setup({
 	settings = {
-    Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-        version = 'LuaJIT',
-      },
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
-      },
-      workspace = {
-        -- Make the server aware of Neovim runtime files
-        library = vim.api.nvim_get_runtime_file("", true),
-      },
-      -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
+		Lua = {
+			runtime = {
+				-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+				version = 'LuaJIT',
+			},
+			diagnostics = {
+				-- Get the language server to recognize the `vim` global
+				globals = { 'vim' },
+			},
+			workspace = {
+				-- Make the server aware of Neovim runtime files
+				library = vim.api.nvim_get_runtime_file("", true),
+			},
+			-- Do not send telemetry data containing a randomized but unique identifier
+			telemetry = {
+				enable = false,
+			},
+		},
+	},
 })
 
 -- https://github.com/williamboman/mason-lspconfig.nvim
@@ -175,11 +191,48 @@ lspconfig.lua_ls.setup({
 --    }
 --})
 lspconfig.phpactor.setup({
-    init_options = {
-        ["language_server_phpstan.enabled"] = false,
-        ["language_server_psalm.enabled"] = false,
-    }
+	init_options = {
+		["language_server_phpstan.enabled"] = false,
+		["language_server_psalm.enabled"] = false,
+	},
+
+	capabilities = {
+		textDocument = {
+			completion = {
+				completionItem = {
+					snippetSupport = false
+				}
+			}
+		}
+	}
 })
+
+local function confirmDone(evt)
+  local context = evt.entry.context
+  if context.filetype ~= 'php' then
+    return
+  end
+
+
+  if vim.startswith(context.cursor_after_line, '(') then
+    return
+  end
+
+  local endRange = evt.entry.source_insert_range['end']
+  vim.treesitter.get_parser(context.bufnr):parse({endRange.line, endRange.line})
+  local node = vim.treesitter.get_node({pos = {endRange.line, endRange.character - 1}})
+
+  local methodNodeTypes = {'class_constant_access_expression','member_access_expression'}
+
+  if vim.tbl_contains(methodNodeTypes,node:parent():type()) then
+	  vim.api.nvim_feedkeys('(', 'i', false)
+  end
+
+end
+
+cmp.event:on('confirm_done', confirmDone)
+
+
 lspconfig.tailwindcss.setup({})
 lspconfig.bashls.setup({})
 lspconfig.quick_lint_js.setup({})
@@ -187,9 +240,9 @@ lspconfig.cssls.setup({})
 lspconfig.dockerls.setup({})
 lspconfig.lemminx.setup({})
 lspconfig.yamlls.setup({})
-lspconfig.rnix.setup{}
-lspconfig.tsserver.setup{}
-lspconfig.jedi_language_server.setup{}
+lspconfig.rnix.setup {}
+lspconfig.tsserver.setup {}
+lspconfig.jedi_language_server.setup {}
 
 -- LSP bindings
 Keyboard.map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', false)
@@ -207,7 +260,7 @@ Keyboard.map('n', 'gM', '<cmd>lua vim.diagnostic.goto_next()<cr>', false)
 Keyboard.map('n', 'gwa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>', false)
 Keyboard.map('n', 'gwr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>', false)
 Keyboard.mapFunction("n", "gF", function()
-  vim.lsp.buf.format { async = true }
+	vim.lsp.buf.format { async = true }
 end)
 
 
@@ -246,12 +299,12 @@ end
 
 
 -- Dap mappings
-Keyboard.map('n', '<Leader>m', ':lua require"dap".toggle_breakpoint()<CR>',false)
-Keyboard.map('n', '<Leader>n', ':lua require"dap".continue()<CR>',false)
-Keyboard.map('n', '<Leader>i', ':lua require"dap".step_into()<CR>',false)
-Keyboard.map('n', '<Leader>o', ':lua require"dap".step_over)<CR>',false)
-Keyboard.map('n', '<Leader>s', ':lua require("dap").repl.open({}, "vsplit")<CR>',false)
-Keyboard.map('n', '<Leader>p', ':lua require("dap").repl.open({}, "vsplit")<CR><C-w>hi.scopes<CR><Esc>{',false)
+Keyboard.map('n', '<Leader>m', ':lua require"dap".toggle_breakpoint()<CR>', false)
+Keyboard.map('n', '<Leader>n', ':lua require"dap".continue()<CR>', false)
+Keyboard.map('n', '<Leader>i', ':lua require"dap".step_into()<CR>', false)
+Keyboard.map('n', '<Leader>o', ':lua require"dap".step_over)<CR>', false)
+Keyboard.map('n', '<Leader>s', ':lua require("dap").repl.open({}, "vsplit")<CR>', false)
+Keyboard.map('n', '<Leader>p', ':lua require("dap").repl.open({}, "vsplit")<CR><C-w>hi.scopes<CR><Esc>{', false)
 
 -- fuzzy finder
 local cfg = require("nvim-find.config")
@@ -317,27 +370,29 @@ Keyboard.command('Cpath', ":let @+=expand('%')")
 -- persistent cursor position
 vim.api.nvim_create_autocmd(
 	{ 'BufReadPost' }, {
-	pattern = { '*' },
-	callback = function()
-		if (vim.opt_local.filetype:get():match('commit') or vim.opt_local.filetype:get():match('rebase'))
-		then return end
+		pattern = { '*' },
+		callback = function()
+			if (vim.opt_local.filetype:get():match('commit') or vim.opt_local.filetype:get():match('rebase'))
+			then
+				return
+			end
 
-		local markpos = vim.api.nvim_buf_get_mark(0, '"')
-		if (markpos[1] > 1) and (markpos[1] <= vim.api.nvim_buf_line_count(0)) then
-			vim.api.nvim_win_set_cursor(0, { markpos[1], markpos[2] })
+			local markpos = vim.api.nvim_buf_get_mark(0, '"')
+			if (markpos[1] > 1) and (markpos[1] <= vim.api.nvim_buf_line_count(0)) then
+				vim.api.nvim_win_set_cursor(0, { markpos[1], markpos[2] })
+			end
+			vim.cmd('stopinsert')
 		end
-		vim.cmd('stopinsert')
-	end
-})
+	})
 
 -- force filetypes for extensions
 vim.api.nvim_create_autocmd(
 	{ 'BufReadPost' }, {
-	pattern = { '*.html.twig' },
-	callback = function()
-		vim.bo.filetype = "html"
-	end
-})
+		pattern = { '*.html.twig' },
+		callback = function()
+			vim.bo.filetype = "html"
+		end
+	})
 
 -- capslock to escape in x
 -- unod setxkbmap :
@@ -438,11 +493,11 @@ Keyboard.map("n", "-", ":Explore<CR>")
 Keyboard.map("n", "ú", ":cn<CR>")
 Keyboard.map("n", "Ú", ":cp<CR>")
 
--- Spell checking 
-vim.opt.spelllang={'en'}
+-- Spell checking
+vim.opt.spelllang = { 'en' }
 vim.opt.spell = false
 
-Keyboard.command('SpellIn',  ":lua vim.opt.spell = true")
+Keyboard.command('SpellIn', ":lua vim.opt.spell = true")
 Keyboard.command('SpellOut', ":lua vim.opt.spell = false")
 
 -- Auto indentation
@@ -450,8 +505,8 @@ vim.opt.smartindent = true
 
 -- Overwrite php autoindent for blade templates
 vim.api.nvim_create_autocmd(
-	{ 'BufEnter' },{
-		pattern = {'*.blade.php'},
+	{ 'BufEnter' }, {
+		pattern = { '*.blade.php' },
 		callback = function()
 			vim.opt.autoindent = true
 		end
@@ -459,5 +514,3 @@ vim.api.nvim_create_autocmd(
 )
 
 vim.opt.swapfile = false
-
-
