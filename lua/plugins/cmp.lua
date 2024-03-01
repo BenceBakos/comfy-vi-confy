@@ -48,7 +48,7 @@ CmpConfig.init = function(Cmp,LuaSnip)
 
 	local function confirmDone(evt)
 		local context = evt.entry.context
-		if vim.tbl_contains({ 'php', 'lua' }, context.filetype) then
+		if not vim.tbl_contains({ 'php', 'lua' }, context.filetype) then
 			return
 		end
 
@@ -68,7 +68,6 @@ CmpConfig.init = function(Cmp,LuaSnip)
 	end
 
 	Cmp.event:on('confirm_done', confirmDone)
-
 
 end
 
