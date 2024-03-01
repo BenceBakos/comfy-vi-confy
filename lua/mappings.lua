@@ -1,6 +1,6 @@
 Mappings = {}
 
-Mappings.init = function(Hop, Keyboard)
+Mappings.init = function(Hop, Keyboard,Log)
 	Keyboard.mapFunction({ "n", "v" }, "<Leader><Leader>", function()
 		Hop.hint_words({
 			multi_windows = true
@@ -124,6 +124,7 @@ Mappings.init = function(Hop, Keyboard)
 	-- next/prev finding
 	Keyboard.map("n", "ú", ":cn<CR>")
 	Keyboard.map("n", "Ú", ":cp<CR>")
+
 end
 
 return Mappings
