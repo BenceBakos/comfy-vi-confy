@@ -1,14 +1,17 @@
 DapConfig = {}
 
+DapConfig.DEBUGGERBASE = "/home/b/vscode-php-debug/"
+DapConfig.PHPDAPSERVERROOT = "/var/www/html/"
+
 DapConfig.init = function(Dap)
 	-- DAP PHP
 	-- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#PHP
 	-- https://github.com/xdebug/vscode-php-debug#installation
-	if File.fileExists(DEBUGGERBASE) then
+	if File.fileExists(DapConfig.DEBUGGERBASE) then
 		Dap.adapters.php = {
 			type = 'executable',
 			command = 'node',
-			args = { DEBUGGERBASE .. "out/" .. 'phpDebug.js' }
+			args = { DapConfig.DEBUGGERBASE .. "out/" .. 'phpDebug.js' }
 		}
 
 		Dap.configurations.php = {
