@@ -1,3 +1,22 @@
+
+-- Todo:
+-- finish outsourvce
+-- treesitter possible configs
+-- other good plugins
+
+
+-- DEPENDENCIES
+-- git
+-- fd
+-- ripgrep
+-- xclip
+-- cargo
+-- node
+-- php
+-- composer
+-- tree-sitter
+-- phpactor (https://phpactor.readthedocs.io/en/master/usage/standalone.html#global-installation)
+
 Log = require("utils.log")
 File = require("utils.file")
 Keyboard = require("utils.keyborad")
@@ -12,28 +31,6 @@ Options = require("options")
 -- globals
 DEBUGGERBASE = "/home/b/vscode-php-debug/"
 PHPDAPSERVERROOT = "/var/www/html/"
-
--- Todo:
--- finish outsourvce
--- treesitter possible configs
--- other good plugins
-
--- replace all in multilple files
--- 1. :grep <search term>
--- 2. :cdo %s/<search term>/<replace term>/gc
--- 3. (If you want to save the changes in all files) :cdo update
-
--- DEPENDENCIES
--- git
--- fd
--- ripgrep
--- xclip
--- cargo
--- node
--- php
--- composer
--- tree-sitter
--- phpactor (https://phpactor.readthedocs.io/en/master/usage/standalone.html#global-installation)
 
 -- Packages
 Package.install({
