@@ -1,8 +1,8 @@
-Log = require("log")
-File = require("file")
-Keyboard = require("keyborad")
-Terminal = require("terminal")
-Package = require("packages")
+Log = require("utils.log")
+File = require("utils.file")
+Keyboard = require("utils.keyborad")
+Terminal = require("utils.terminal")
+Package = require("utils.packages")
 
 -- globals
 DEBUGGERBASE = "/home/b/vscode-php-debug/"

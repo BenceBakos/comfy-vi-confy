@@ -1,8 +1,8 @@
 -- https://github.com/savq/dotfiles/blob/63cf083ccfdddf58758c6c7837c60c7c651ae8e3/nvim/init.lua
 -- https://github.com/savq/dotfiles/blob/63cf083ccfdddf58758c6c7837c60c7c651ae8e3/nvim/lua/pkg.lua
 
-Log = require('log')
-Terminal = require('terminal')
+Log = require('utils.log')
+Terminal = require('utils.terminal')
 
 Package = {}
 

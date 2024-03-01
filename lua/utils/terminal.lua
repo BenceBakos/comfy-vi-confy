@@ -1,6 +1,6 @@
 require("os")
 require("io")
-Log = require("log")
+Log = require("utils.log")
 
 Terminal = {}
 
