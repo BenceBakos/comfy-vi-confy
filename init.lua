@@ -3,6 +3,7 @@ File = require("utils.file")
 Keyboard = require("utils.keyborad")
 Terminal = require("utils.terminal")
 Package = require("utils.packages")
+
 AutoCommands = require("autocommands")
 Mappings = require("mappings")
 Commands = require("commands")
@@ -11,6 +12,12 @@ Options = require("options")
 -- globals
 DEBUGGERBASE = "/home/b/vscode-php-debug/"
 PHPDAPSERVERROOT = "/var/www/html/"
+
+-- Todo:
+-- finish outsourvce
+-- treesitter possible configs
+-- replace all, find
+-- other good plugins
 
 -- replace all in multilple files
 -- 1. :grep <search term>
