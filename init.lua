@@ -209,10 +209,9 @@ lspconfig.phpactor.setup({
 
 local function confirmDone(evt)
   local context = evt.entry.context
-  if context.filetype ~= 'php' then
+  if vim.tbl_contains({'php','lua'},context.filetype) then
     return
   end
-
 
   if vim.startswith(context.cursor_after_line, '(') then
     return
