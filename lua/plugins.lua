@@ -24,11 +24,9 @@ Plugins.init = function(Package)
 		'stevearc/dressing.nvim',
 		'akinsho/flutter-tools.nvim',
 		'smoka7/hop.nvim',
-		'nvim-treesitter/nvim-treesitter'
+		'nvim-treesitter/nvim-treesitter',
+		'numToStr/Comment.nvim'
 	})
-
-
-
 
 	Treesitter = require('nvim-treesitter.configs')
 	require('plugins.treesitter').init(Treesitter)
@@ -71,6 +69,10 @@ Plugins.init = function(Package)
 	-- fuzzy finder
 	local NvimFind = require("nvim-find.config")
 	require('plugins.nvimfind').init(NvimFind)
+
+	-- comment 
+	local Comment = require('Comment')
+	require('plugins.comment').init(Comment)
 end
 
 return Plugins
