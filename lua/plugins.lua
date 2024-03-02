@@ -16,16 +16,14 @@ Plugins.init = function(Package)
 		'natecraddock/nvim-find',
 		'saadparwaiz1/cmp_luasnip',
 		'mfussenegger/nvim-dap',
-		'tyru/open-browser.vim',
 		'aklt/plantuml-syntax',
 		'weirongxu/plantuml-previewer.vim',
 		'f-person/git-blame.nvim',
 		'nvim-lua/plenary.nvim',
 		'stevearc/dressing.nvim',
-		'akinsho/flutter-tools.nvim',
 		'smoka7/hop.nvim',
 		'nvim-treesitter/nvim-treesitter',
-		'numToStr/Comment.nvim'
+		'numToStr/Comment.nvim',
 	})
 
 	Treesitter = require('nvim-treesitter.configs')
@@ -57,10 +55,6 @@ Plugins.init = function(Package)
 	-- LSP & autocomplete
 	LspConfig = require('lspconfig')
 	require('plugins.lspconfig').init(LspConfig, CmpLsp)
-
-	-- Flutter
-	Flutter = require("flutter-tools")
-	require("plugins.flutter").init(Flutter)
 
 	-- DAP (needs mason install after config)
 	local Dap = require('dap')
