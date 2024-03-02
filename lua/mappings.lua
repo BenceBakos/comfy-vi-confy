@@ -127,8 +127,8 @@ Mappings.init = function(Hop, Keyboard,Log)
 
 	--tagbar
 	Keyboard.map("n", "ű", ":TagbarToggle fcj<CR>")
-	Keyboard.map('n', '<C-j>', ':TagbarJumpNext<CR>')
-	Keyboard.map('n', '<C-k>', ':TagbarJumpPrev<CR>')
+	-- Keyboard.map('n', '<C-j>', ':TagbarJumpNext<CR>')
+	-- Keyboard.map('n', '<C-k>', ':TagbarJumpPrev<CR>')
 
 
 end
