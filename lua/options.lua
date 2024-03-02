@@ -61,7 +61,8 @@ Options.init = function()
 
 	vim.opt.swapfile = false
 
-	vim.g.tagbar_position = 'rightbelow vertical'
+	vim.g.tagbar_position = 'rightbelow vertical' --https://github.com/preservim/tagbar/issues/806
+	vim.g.tagbar_map_showproto = 'r' -- https://github.com/preservim/tagbar/issues/795
 end
 
 return Options
