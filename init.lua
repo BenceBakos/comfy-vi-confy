@@ -9,6 +9,7 @@
 -- composer
 -- tree-sitter
 -- phpactor (https://phpactor.readthedocs.io/en/master/usage/standalone.html#global-installation)
+-- ctags
 
 -- Todo:
 -- finish outsourvce
@@ -34,7 +35,7 @@ Commands = require("commands")
 Commands.init(Keyboard)
 
 AutoCommands = require("autocommands")
-AutoCommands.init()
+AutoCommands.init(Keyboard)
 
 Mappings = require("mappings")
 Mappings.init(Hop,Keyboard,Log)

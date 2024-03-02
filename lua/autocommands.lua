@@ -1,6 +1,6 @@
 AutoCommands = {}
 
-AutoCommands.init = function()
+AutoCommands.init = function(Keyboard)
 	-- persistent cursor position
 	vim.api.nvim_create_autocmd(
 		{ 'BufReadPost' }, {

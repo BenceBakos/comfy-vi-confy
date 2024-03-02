@@ -24,6 +24,7 @@ Plugins.init = function(Package)
 		'smoka7/hop.nvim',
 		'nvim-treesitter/nvim-treesitter',
 		'numToStr/Comment.nvim',
+		'preservim/tagbar'
 	})
 
 	Treesitter = require('nvim-treesitter.configs')

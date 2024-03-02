@@ -60,6 +60,8 @@ Options.init = function()
 
 
 	vim.opt.swapfile = false
+
+	vim.g.tagbar_position = 'rightbelow vertical'
 end
 
 return Options
