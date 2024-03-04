@@ -21,6 +21,7 @@ Plugins.init = function(Package)
 		'f-person/git-blame.nvim',
 		'nvim-lua/plenary.nvim',
 		'stevearc/dressing.nvim',
+		'akinsho/flutter-tools.nvim',
 		'smoka7/hop.nvim',
 		'nvim-treesitter/nvim-treesitter',
 		'numToStr/Comment.nvim',
@@ -68,6 +69,10 @@ Plugins.init = function(Package)
 	-- comment 
 	local Comment = require('Comment')
 	require('plugins.comment').init(Comment)
+
+	-- flutter
+	local FlutterTools = require('flutter-tools')
+	require('plugins.fluttertools').init(FlutterTools)
 end
 
 return Plugins
