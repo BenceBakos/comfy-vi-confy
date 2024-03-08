@@ -46,29 +46,6 @@ CmpConfig.init = function(Cmp,LuaSnip)
 		}
 	})
 
-	local function confirmDone(evt)
-		local context = evt.entry.context
-		if not vim.tbl_contains({ 'php', 'lua' }, context.filetype) then
-			return
-		end
-
-		if vim.startswith(context.cursor_after_line, '(') then
-			return
-		end
-
-		local endRange = evt.entry.source_insert_range['end']
-		vim.treesitter.get_parser(context.bufnr):parse({ endRange.line, endRange.line })
-		local node = vim.treesitter.get_node({ pos = { endRange.line, endRange.character - 1 } })
-
-		local methodNodeTypes = { 'class_constant_access_expression', 'member_access_expression' }
-
-		if vim.tbl_contains(methodNodeTypes, node:parent():type()) then
-			vim.api.nvim_feedkeys('(', 'i', false)
-		end
-	end
-
-	Cmp.event:on('confirm_done', confirmDone)
-
 end
 
 return CmpConfig

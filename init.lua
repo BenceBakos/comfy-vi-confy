@@ -12,7 +12,8 @@
 -- ctags
 
 -- Todo:
--- finish outsourvce
+-- formatter for php
+-- combine phpactor, ntelephense
 -- treesitter possible configs
 -- other good plugins
 
