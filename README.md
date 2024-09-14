@@ -1,0 +1,5 @@
+# Nvim conf
+
+## Todo
+
+
