@@ -56,4 +56,8 @@ Package.clean = function ()
 	Terminal.run('rm -rf '..Package.PATH..'/opt/*')
 end
 
+Package.isInstalled = function(packageName) 
+	local packages = File.list(Package.PATH)
+end
+
 return Package

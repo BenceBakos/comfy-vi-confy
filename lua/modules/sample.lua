@@ -7,12 +7,12 @@ Sample.excludeOs = {
 	-- Terminal.TERMUX
 }
 
-Sample.envCommands = {
-	-- ''
+Sample.dependencyBinaries = {
+	-- debian =  'git fz'
 }
 
-Sample.packages = {
-	-- debian = 'git fz' 
+Sample.envCommands = {
+	-- debian =  {'',''}
 }
 
 Sample.plugins = {
