@@ -37,6 +37,7 @@
      - iterate modules
          - write logs regarding steps succeeded
          - check os inclusion
+         - env commands
          - init fn
          - options
          - cmds

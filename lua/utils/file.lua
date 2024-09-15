@@ -1,3 +1,5 @@
+require('io')
+
 File = {}
 
 File.fileExists = function(file)
@@ -23,6 +25,11 @@ File.get_intelephense_license = function ()
     local content = f:read("*a")
     f:close()
     return string.gsub(content, "%s+", "")
+end
+
+File.list = function (path)
+	items = vim.split(io.popen('ls '..path..' -1v'):read("*a"),'\n')
+	return vim.tbl_filter(function(item) return item ~= "" end, items )
 end
 
 return File

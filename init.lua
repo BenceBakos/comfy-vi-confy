@@ -1,44 +1,40 @@
--- DEPENDENCIES
--- git
--- fd
--- ripgrep
--- xclip
--- cargo
--- node
--- php
--- composer
--- tree-sitter
--- phpactor (https://phpactor.readthedocs.io/en/master/usage/standalone.html#global-installation)
--- ctags
 
--- Todo:
--- formatter for php
--- combine phpactor, ntelephense
--- treesitter possible configs
--- other good plugins
+require('globals')
 
 Log = require("utils.log")
 File = require("utils.file")
 Keyboard = require("utils.keyborad")
 Terminal = require("utils.terminal")
-Package = require("utils.packages")
+Table = require("utils.table")
 
-Enviornment = require('enviornment')
-Enviornment.init(Terminal)
+-- Package = require("utils.packages")
 
-Plugins = require("plugins")
-Plugins.init(Package)
+local modules = {
+	'test'
+}
 
-Options = require("options")
-Options.init()
+Log.log('MODULES: ')
+Log.log(modules)
 
-Commands = require("commands")
-Commands.init(Keyboard)
+local os = Terminal.getOs()
 
-AutoCommands = require("autocommands")
-AutoCommands.init(Keyboard)
+Log.log('OS: '..os)
 
-Mappings = require("mappings")
-Mappings.init(Hop,Keyboard,Log)
+for moduleName in modules do
+	local module = require(moduleName)
+
+	if Table.hasKey(module,'excludeOs') and Table.hasValue(module.excludeOs,os) then
+		goto continue
+	end
+
+	if Table.hasKey(module,'envCommands') then
+		for command in module.envCommands do Terminal.runSync(command) end
+	end
+
+	if Table.hasKey(module,'packages') and Table.hasKey(module.packages,os) then
+		Terminal.install(packages) --todo implement install, then continue with other params from Sample
+	end
 
 
+	::continue::
+end
