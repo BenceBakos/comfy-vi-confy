@@ -1,29 +1,29 @@
 
 Terminal = require("utils.terminal")
 
-Sample = {}
+Base = {}
 
-Sample.excludeOs = {
+Base.excludeOs = {
 	-- Terminal.TERMUX
 }
 
-Sample.dependencyBinaries = {
+Base.dependencyBinaries = {
 	-- debian =  'git fz'
 }
 
-Sample.envCommands = {
+Base.envCommands = {
 	-- debian =  {'',''}
 }
 
-Sample.plugins = {
+Base.plugins = {
 	-- ''
 }
 
-Sample.init = function()
+Base.init = function()
 	-- print('hello')
 end
 
-Sample.options = {
+Base.options = {
 	g = {
 
 	},
@@ -32,20 +32,20 @@ Sample.options = {
 	}
 }
 
-Sample.commands = {
+Base.commands = {
 	-- Cpath = ":let @+=expand('%')"
 }
 
-Sample.autocmds = {
+Base.autocmds = {
 	-- {events = { 'BufReadPost' }, pattern = { '*' } callback = function() end}
 }
 
-Sample.maps = {
+Base.maps = {
 	-- {mode='', map='', to=''}
 }
 
-Sample.mapFunctions = {
+Base.mapFunctions = {
 	-- {mode='', map='', to=function() end}
 }
 
-return Sample 
+return Base

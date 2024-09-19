@@ -7,10 +7,12 @@ Keyboard = require("utils.keyborad")
 Terminal = require("utils.terminal")
 Table = require("utils.table")
 
+
 -- Package = require("utils.packages")
 
 local modules = {
-	'test'
+	'env',
+	-- 'base'
 }
 
 Log.log('MODULES: ')
@@ -22,12 +24,15 @@ Log.log('OS: '..os)
 -- INSTALL MISSING PACKAGES
 local missingPackages = {}
 for _,moduleName in ipairs(modules) do
-	local module = require(moduleName)
+	local module = require('modules.'..moduleName)
+
+	Log.log('module:')
+	Log.log('modules.'..moduleName)
 
 	if Table.hasKey(module,'packages') then
 		for _,packageName in ipairs(modules.packages) do
 			local folderName = vim.split(packageName,'/')[2]
-			if !Package.isInstalled(folderName) then
+			if not Package.isInstalled(folderName) then
 				missingPackages[#missingPackages + 1] = packageName
 			end
 		end
@@ -36,11 +41,13 @@ end
 
 if next(missingPackages) ~= nil then Package.install(missingPackages) end
 
+-- HANDLE MISSING DEPENDENCIES
 MISSING_DEPENDENCIES = ''
 Keyboard.command('ShowMissingDependencies', ":lua print(MISSING_DEPENDENCIES)")
 
+-- INIT MODULES
 for _,moduleName in ipairs(modules) do
-	local module = require(moduleName)
+	local module = require('modules.'..moduleName)
 
 	if Table.hasKey(module,'excludeOs') and Table.hasValue(module.excludeOs,os) then
 		Log.log(moduleName..' - '..'exclude for os: '..os)
@@ -60,7 +67,7 @@ for _,moduleName in ipairs(modules) do
 	end
 
 	if Table.hasKey(module,'envCommands') and Table.hasKey(module.envCommands,os) then
-		for _,command in ipairs(module.envCommands) do
+		for _,command in ipairs(module.envCommands[os]) do
 			Log.log(moduleName..' - '..'executing command: '..command)
 			Terminal.runSync(command)
 		end

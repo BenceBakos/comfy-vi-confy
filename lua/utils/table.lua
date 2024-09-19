@@ -14,4 +14,5 @@ Table.hasKey = function(table,key)
 	return table[key] ~= nil
 end
 
+return Table
 
