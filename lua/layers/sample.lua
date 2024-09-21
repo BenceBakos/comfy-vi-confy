@@ -8,7 +8,7 @@ Sample.excludeOs = {
 }
 
 Sample.dependencyBinaries = {
-	-- debian =  'git fz'
+	-- debian =  {'git', 'fz'}
 }
 
 Sample.envCommands = {
