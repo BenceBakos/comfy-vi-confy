@@ -1,4 +1,3 @@
-
 require('globals')
 
 Log = require("utils.log")
@@ -10,28 +9,28 @@ Table = require("utils.table")
 
 -- Package = require("utils.packages")
 
-local modules = {
+local layers = {
 	'env',
-	-- 'base'
+	'base'
 }
 
-Log.log('MODULES: ')
-Log.log(modules)
+Log.log('LAYERS: ')
+Log.log(layers)
 
 local os = Terminal.getOs()
-Log.log('OS: '..os)
+Log.log('OS: ' .. os)
 
 -- INSTALL MISSING PACKAGES
 local missingPackages = {}
-for _,moduleName in ipairs(modules) do
-	local module = require('modules.'..moduleName)
+for _, layerName in pairs(layers) do
+	local layer = require('layers.' .. layerName)
 
-	Log.log('module:')
-	Log.log('modules.'..moduleName)
+	Log.log('layer:')
+	Log.log('layers.' .. layerName)
 
-	if Table.hasKey(module,'packages') then
-		for _,packageName in ipairs(modules.packages) do
-			local folderName = vim.split(packageName,'/')[2]
+	if Table.hasKey(layer, 'packages') then
+		for _, packageName in pairs(layers.packages) do
+			local folderName = vim.split(packageName, '/')[2]
 			if not Package.isInstalled(folderName) then
 				missingPackages[#missingPackages + 1] = packageName
 			end
@@ -45,60 +44,86 @@ if next(missingPackages) ~= nil then Package.install(missingPackages) end
 MISSING_DEPENDENCIES = ''
 Keyboard.command('ShowMissingDependencies', ":lua print(MISSING_DEPENDENCIES)")
 
--- INIT MODULES
-for _,moduleName in ipairs(modules) do
-	local module = require('modules.'..moduleName)
+-- INIT LAYERS
+for _, layerName in pairs(layers) do
+	local layer = require('layers.' .. layerName)
 
-	if Table.hasKey(module,'excludeOs') and Table.hasValue(module.excludeOs,os) then
-		Log.log(moduleName..' - '..'exclude for os: '..os)
+	if Table.hasKey(layer, 'excludeOs') and Table.hasValue(layer.excludeOs, os) then
+		Log.log(layerName .. ' - ' .. 'exclude for os: ' .. os)
 		goto continue
 	end
 
 
-	if Table.hasKey(module,'dependencyBinaries') and Table.hasKey(module.dependencyBinaries,os) then
-		local dependencyList = vim.split(module.dependencyBinaries[os],' ')
-		for _,binaryName in ipairs(dependencyList) do
-			if not Terminal.binaryExists(binaryName) then 
-				Log.log(moduleName..' - '..'skipping because binary is missing: '..binaryName)
-				MISSING_DEPENDENCIES = MISSING_DEPENDENCIES..' '..binaryName
+	if Table.hasKey(layer, 'dependencyBinaries') and Table.hasKey(layer.dependencyBinaries, os) then
+		local dependencyList = vim.split(layer.dependencyBinaries[os], ' ')
+		for _, binaryName in pairs(dependencyList) do
+			if not Terminal.binaryExists(binaryName) then
+				Log.log(layerName .. ' - ' .. 'skipping because binary is missing: ' .. binaryName)
+				MISSING_DEPENDENCIES = MISSING_DEPENDENCIES .. ' ' .. binaryName
 				goto continue
 			end
 		end
 	end
 
-	if Table.hasKey(module,'envCommands') and Table.hasKey(module.envCommands,os) then
-		for _,command in ipairs(module.envCommands[os]) do
-			Log.log(moduleName..' - '..'executing command: '..command)
+	if Table.hasKey(layer, 'envCommands') and Table.hasKey(layer.envCommands, os) then
+		for _, command in pairs(layer.envCommands[os]) do
+			Log.log(layerName .. ' - ' .. 'executing command: ' .. command)
 			Terminal.runSync(command)
 		end
 	end
 
-	if Table.hasKey(module,'init') then
-		module.init()
+	if Table.hasKey(layer, 'init') then
+		layer.init()
 	end
 
 
-	if Table.hasKey(module,'options') and Table.hasKey(module.options,'g') then
-		for optionName,optionValue in ipairs(module.options.g) do
+	if Table.hasKey(layer, 'options') and Table.hasKey(layer.options, 'g') then
+		for optionName, optionValue in pairs(layer.options.g) do
 			vim.g[optionName] = optionValue
 		end
 	end
 
-	if Table.hasKey(module,'options') and Table.hasKey(module.options,'opt') then
-		for optionName,optionValue in ipairs(module.options.opt) do
+	if Table.hasKey(layer, 'options') and Table.hasKey(layer.options, 'opt') then
+		for optionName, optionValue in pairs(layer.options.opt) do
 			vim.opt[optionName] = optionValue
 		end
 	end
 
-	if Table.hasKey(module,'commands') then
-		for commandName,commandValue in ipairs(module.commands) do
-			Keyboard.command(commandName,commandValue)
+	if Table.hasKey(layer, 'commands') then
+		for commandName, commandValue in pairs(layer.commands) do
+			Keyboard.command(commandName, commandValue)
 		end
 	end
 
-	-- TODO: 
-	-- - autocmds,maps,map functions
-	-- - base model with the very basics I need
+	if Table.hasKey(layer, 'autocmds') then
+		for _, cmdValue in pairs(layer.autocmds) do
+			vim.api.nvim_create_autocmd(cmdValue.events, cmdValue.settings)
+		end
+	end
+
+	if Table.hasKey(layer, 'maps') then
+		for _, mapping in pairs(layer.maps) do
+			local options = false
+
+			if Table.hasKey(mapping,'options') then options = mapping.options end
+
+			Keyboard.map(mapping.mode, mapping.map, mapping.to, options)
+		end
+	end
+
+	if Table.hasKey(layer, 'mapFunctions') then
+		for _, mapping in pairs(layer.mapFunctions) do
+			local options = false
+
+			if Table.hasKey(mapping,'options') then options = mapping.options end
+
+			Keyboard.mapFunction(mapping.mode, mapping.map, mapping.to, options)
+		end
+	end
+
+	-- TODO:
+	-- - move init into module and optimize code
+	-- - plugin managger, plugins in general
 
 	::continue::
 end

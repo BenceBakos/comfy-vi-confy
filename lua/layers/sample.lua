@@ -37,15 +37,15 @@ Sample.commands = {
 }
 
 Sample.autocmds = {
-	-- {events = { 'BufReadPost' }, pattern = { '*' } callback = function() end}
+	-- {events = { 'BufReadPost' }, settings ={ pattern = { '*' }, callback = function() end}}
 }
 
 Sample.maps = {
-	-- {mode='', map='', to=''}
+	-- {mode='n', map='th',to= ':tabfirst<CR>',options = false},
 }
 
 Sample.mapFunctions = {
-	-- {mode='', map='', to=function() end}
+	-- {mode='', map='', to=function() end,options=false}
 }
 
 return Sample 
