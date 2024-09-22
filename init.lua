@@ -24,8 +24,67 @@ Main.sections = {
 		init = function(key, value)
 			if value == OS then return false end
 		end
-	}
-
+	},
+	{
+		path = { 'dependencyBinaries', OS },
+		init = function(key, value)
+			if not Terminal.binaryExists(value) then
+				return false
+			end
+		end
+	},
+	{
+		path = { 'envCommands', OS },
+		init = function(key, value)
+			Terminal.runSync(value)
+		end
+	},
+	{
+		path = 'init',
+		init = function(key, value)
+			value()
+		end
+	},
+	{
+		path = { 'options', 'g' },
+		init = function(key, value)
+			vim.g[key] = value
+		end
+	},
+	{
+		path = { 'options', 'opt' },
+		init = function(key, value)
+			vim.opt[key] = value
+		end
+	},
+	{
+		path = 'commands',
+		init = function(key, value)
+			Keyboard.command(key, value)
+		end
+	},
+	{
+		path = 'autocmds',
+		init = function(key, value)
+			vim.api.nvim_create_autocmd(value.events, value.settings)
+		end
+	},
+	{
+		path = 'maps',
+		init = function(key, value)
+			local options = false
+			if Table.hasKey(value, 'options') then options = value.options end
+			Keyboard.map(value.mode, value.map, value.to, options)
+		end
+	},
+	{
+		path = 'mapFunctions',
+		init = function(key, value)
+			local options = false
+			if Table.hasKey(value, 'options') then options = value.options end
+			Keyboard.mapFunction(value.mode, value.map, value.to, options)
+		end
+	},
 }
 
 Main.init = function()
@@ -64,64 +123,9 @@ Main.init = function()
 	for _, layerName in pairs(Main.layers) do
 		local layer = require('layers.' .. layerName)
 
-		-- OS EXCLUSION
-		if Table.hasKey(layer, 'excludeOs') and Table.hasValue(layer.excludeOs, OS) then
-			Log.log(layerName .. ' - ' .. 'exclude for os: ' .. OS)
-			goto continue
+		for _,section in ipairs(Main.sections) do
+			Main.initSection(layer, section.path, section.init)
 		end
-
-		-- DEPENDENCY BINARY EXCLUSION
-		if Table.hasKey(layer, 'dependencyBinaries') and Table.hasKey(layer.dependencyBinaries, OS) then
-			for _, binaryName in pairs(layer.dependencyBinaries[OS]) do
-				if not Terminal.binaryExists(binaryName) then
-					Log.log(layerName .. ' - ' .. 'skipping because binary is missing: ' .. binaryName)
-					MISSING_DEPENDENCIES = MISSING_DEPENDENCIES .. ' ' .. binaryName
-					goto continue
-				end
-			end
-		end
-
-		Main.initSection(layer, { 'envCommands', OS }, function(key, value)
-			Terminal.runSync(value)
-		end)
-
-		if Table.hasKey(layer, 'init') then
-			layer.init()
-		end
-
-		Main.initSection(layer, { 'options', 'g' }, function(key, value)
-			vim.g[key] = value
-		end)
-
-		Main.initSection(layer, { 'options', 'opt' }, function(key, value)
-			vim.opt[key] = value
-		end)
-
-		Main.initSection(layer, 'commands', function(key, value)
-			Keyboard.command(key, value)
-		end)
-
-		Main.initSection(layer, 'autocmds', function(key, value)
-			vim.api.nvim_create_autocmd(value.events, value.settings)
-		end)
-
-		Main.initSection(layer, 'maps', function(key, value)
-			local options = false
-
-			if Table.hasKey(value, 'options') then options = value.options end
-
-			Keyboard.map(value.mode, value.map, value.to, options)
-		end)
-
-		Main.initSection(layer, 'mapFunctions', function(key, value)
-			local options = false
-
-			if Table.hasKey(value, 'options') then options = value.options end
-
-			Keyboard.mapFunction(value.mode, value.map, value.to, options)
-		end)
-
-		::continue::
 	end
 end
 
