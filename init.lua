@@ -10,7 +10,22 @@ Main = {}
 
 Main.layers = {
 	'env',
-	'base'
+	'base',
+	-- all init section tables(handle fn's in it as well)
+	-- 'ide',
+	--IDE or separate it? Get the most out, smallest possible layers, and one shall not depend on the other
+	-- git tab open fast (lazygit, or just terminal)
+	-- note tab open fast
+}
+
+Main.sections = {
+	{
+		path = 'excludeOs',
+		init = function(key, value)
+			if value == OS then return false end
+		end
+	}
+
 }
 
 Main.init = function()
@@ -19,8 +34,7 @@ Main.init = function()
 	Log.log('LAYERS: ')
 	Log.log(Main.layers)
 
-	local os = Terminal.getOs()
-	Log.log('OS: ' .. os)
+	Log.log('OS: ' .. OS)
 
 	-- INSTALL MISSING PACKAGES
 	local missingPackages = {}
@@ -51,15 +65,14 @@ Main.init = function()
 		local layer = require('layers.' .. layerName)
 
 		-- OS EXCLUSION
-		if Table.hasKey(layer, 'excludeOs') and Table.hasValue(layer.excludeOs, os) then
-			Log.log(layerName .. ' - ' .. 'exclude for os: ' .. os)
+		if Table.hasKey(layer, 'excludeOs') and Table.hasValue(layer.excludeOs, OS) then
+			Log.log(layerName .. ' - ' .. 'exclude for os: ' .. OS)
 			goto continue
 		end
 
 		-- DEPENDENCY BINARY EXCLUSION
-		if Table.hasKey(layer, 'dependencyBinaries') and Table.hasKey(layer.dependencyBinaries, os) then
-			local dependencyList = vim.split(layer.dependencyBinaries[os], ' ')
-			for _, binaryName in pairs(dependencyList) do
+		if Table.hasKey(layer, 'dependencyBinaries') and Table.hasKey(layer.dependencyBinaries, OS) then
+			for _, binaryName in pairs(layer.dependencyBinaries[OS]) do
 				if not Terminal.binaryExists(binaryName) then
 					Log.log(layerName .. ' - ' .. 'skipping because binary is missing: ' .. binaryName)
 					MISSING_DEPENDENCIES = MISSING_DEPENDENCIES .. ' ' .. binaryName
@@ -68,7 +81,7 @@ Main.init = function()
 			end
 		end
 
-		Main.initSection(layer, { 'envCommands', os }, function(key, value)
+		Main.initSection(layer, { 'envCommands', OS }, function(key, value)
 			Terminal.runSync(value)
 		end)
 
@@ -108,9 +121,6 @@ Main.init = function()
 			Keyboard.mapFunction(value.mode, value.map, value.to, options)
 		end)
 
-		-- TODO:
-		-- - plugin managger, plugins in general
-
 		::continue::
 	end
 end
@@ -119,25 +129,23 @@ Main.initSection = function(layer, path, init)
 	if type(path) == 'string' then
 		if Table.hasKey(layer, path) then
 			for key, value in pairs(layer[path]) do
-				init(key, value)
+				if not init(key, value) then return false end
 			end
 		end
-		return nil
+		return true
 	end
 
 	local embeddedValues = Table.getEmbeddedValue(layer, path)
-
 	if embeddedValues then
 		for key, value in pairs(embeddedValues) do
-			init(key, value)
+			if not init(key, value) then return false end
 		end
-		return nil
+		return true
 	end
 
-	Log.err('ERROR: section value invalid for path:')
-	Log.err(path)
-	Log.err('in layer:')
-	Log.err(layer)
+	if Table.hasKey(layer, path) and type(layer[path]) == "function" then
+		return layer[path]()
+	end
 end
 
 Main.init()

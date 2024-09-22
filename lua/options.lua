@@ -12,9 +12,6 @@ Options.init = function()
 	vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 
 
-	-- cmdline autocomplete setup
-	vim.opt.wildmode = "longest,full"
-
 	
 
 	
