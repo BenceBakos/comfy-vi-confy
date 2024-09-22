@@ -3,6 +3,7 @@ File = require("utils.file")
 Keyboard = require("utils.keyborad")
 Terminal = require("utils.terminal")
 Table = require("utils.table")
+Package = require("utils.package")
 
 Main = {}
 
@@ -87,7 +88,7 @@ Main.init = function(layers)
 		local layer = require('layers.' .. layerName)
 
 		if Table.hasKey(layer, 'packages') then
-			for _, packageName in pairs(layers.packages) do
+			for _, packageName in pairs(layer.packages) do
 				local folderName = vim.split(packageName, '/')[2]
 				if not Package.isInstalled(folderName) then
 					missingPackages[#missingPackages + 1] = packageName
@@ -97,10 +98,6 @@ Main.init = function(layers)
 	end
 
 	if next(missingPackages) ~= nil then Package.install(missingPackages) end
-
-	-- HANDLE MISSING DEPENDENCIES
-	MISSING_DEPENDENCIES = ''
-	Keyboard.command('ShowMissingDependencies', ":lua print(MISSING_DEPENDENCIES)")
 
 	-- INIT LAYERS
 	for _, layerName in pairs(layers) do

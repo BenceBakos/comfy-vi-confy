@@ -17,6 +17,7 @@ Package.installPackage = function (args)
     if name == nil then Log.log('parse', args[1]) return end
 
     local dir = Package.PATH .. (args.opt and 'opt/' or 'start/') .. name
+	Log.log(dir)
 
 	local pkg = {
         name = name,
@@ -40,7 +41,7 @@ Package.installPackage = function (args)
 end
 
 Package.install = function (packageList)
-	for _,args in pairs(packageList) do
+	for _,args in ipairs(packageList) do
 		Package.installPackage(args)
 	end
 end

@@ -15,7 +15,7 @@ Sample.envCommands = {
 	-- debian =  {'',''}
 }
 
-Sample.plugins = {
+Sample.packages = {
 	-- ''
 }
 
