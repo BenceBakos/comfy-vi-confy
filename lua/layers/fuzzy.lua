@@ -13,7 +13,7 @@ Fuzzy.dependencyBinaries = {
 }
 
 Fuzzy.packages = {
-	'natecraddock/nvim-find'
+	'bencebakos/nvim-find'
 }
 
 Fuzzy.nvimFind = nil
