@@ -8,7 +8,6 @@ Main.init({
 	'base',
 	'treesitter',
 	'fuzzy'
-	-- gracefully handle when package is not installed(Use Package.want)
 	-- handle missing binaries
 	-- 'ide',
 	--IDE or separate it? Get the most out, smallest possible layers, and one shall not depend on the other
