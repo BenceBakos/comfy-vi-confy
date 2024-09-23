@@ -37,16 +37,6 @@ Mappings.init = function(Hop, Keyboard,Log)
 	Keyboard.map('n', '<Leader>p', ':lua require("dap").repl.open({}, "vsplit")<CR><C-w>hi.scopes<CR><Esc>{', false)
 
 
-	-- fuzzy search file finder
-	Keyboard.map('n', '<Leader>c', ':lua require("nvim-find.defaults").files()<cr>')
-
-
-
-
-
-
-
-
 	--tagbar
 	Keyboard.map("n", "ű", ":TagbarToggle fcj<CR>")
 	-- Keyboard.map('n', '<C-j>', ':TagbarJumpNext<CR>')

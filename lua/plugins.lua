@@ -13,7 +13,6 @@ Plugins.init = function(Package)
 		'L3MON4D3/LuaSnip',
 		'hrsh7th/nvim-cmp',
 		'rafamadriz/friendly-snippets',
-		'natecraddock/nvim-find',
 		'saadparwaiz1/cmp_luasnip',
 		'mfussenegger/nvim-dap',
 		'aklt/plantuml-syntax',
@@ -23,13 +22,9 @@ Plugins.init = function(Package)
 		'stevearc/dressing.nvim',
 		'akinsho/flutter-tools.nvim',
 		'smoka7/hop.nvim',
-		'nvim-treesitter/nvim-treesitter',
 		'numToStr/Comment.nvim',
 		'preservim/tagbar'
 	})
-
-	Treesitter = require('nvim-treesitter.configs')
-	require('plugins.treesitter').init(Treesitter)
 
 	-- LSP server, DAP server installer
 	Mason = require("mason")
@@ -61,10 +56,6 @@ Plugins.init = function(Package)
 	-- DAP (needs mason install after config)
 	local Dap = require('dap')
 	require('plugins.dap').init(Dap)
-
-	-- fuzzy finder
-	local NvimFind = require("nvim-find.config")
-	require('plugins.nvimfind').init(NvimFind)
 
 	-- comment 
 	local Comment = require('Comment')

@@ -6,7 +6,9 @@ Main = require("main")
 Main.init({
 	'env',
 	'base',
-	'treesitter'
+	'treesitter',
+	'fuzzy'
+	-- gracefully handle when package is not installed(require and check for error?)
 	-- handle missing binaries
 	-- 'ide',
 	--IDE or separate it? Get the most out, smallest possible layers, and one shall not depend on the other
