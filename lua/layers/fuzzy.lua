@@ -7,10 +7,11 @@ Fuzzy.excludeOs = {
 	Terminal.TERMUX
 }
 
-Fuzzy.dependencyBinaries = {
-	debian = { 'fz' },
-	arch = { 'fz' }
-}
+-- TODO: add optional depdnenveies. nvim-find can use "find" as a fallback package, ofc. it is better with fz.
+-- Fuzzy.dependencyBinaries = {
+-- 	debian = { 'fz' },
+-- 	arch = { 'fz' }
+-- }
 
 Fuzzy.packages = {
 	'bencebakos/nvim-find'
