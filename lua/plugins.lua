@@ -21,7 +21,6 @@ Plugins.init = function(Package)
 		'nvim-lua/plenary.nvim',
 		'stevearc/dressing.nvim',
 		'akinsho/flutter-tools.nvim',
-		'numToStr/Comment.nvim',
 		'preservim/tagbar'
 	})
 
@@ -51,10 +50,6 @@ Plugins.init = function(Package)
 	-- DAP (needs mason install after config)
 	local Dap = require('dap')
 	require('plugins.dap').init(Dap)
-
-	-- comment 
-	local Comment = require('Comment')
-	require('plugins.comment').init(Comment)
 
 	-- flutter
 	local FlutterTools = require('flutter-tools')
