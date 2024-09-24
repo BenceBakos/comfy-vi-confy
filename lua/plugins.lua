@@ -21,7 +21,6 @@ Plugins.init = function(Package)
 		'nvim-lua/plenary.nvim',
 		'stevearc/dressing.nvim',
 		'akinsho/flutter-tools.nvim',
-		'smoka7/hop.nvim',
 		'numToStr/Comment.nvim',
 		'preservim/tagbar'
 	})
@@ -33,10 +32,6 @@ Plugins.init = function(Package)
 	-- Autoinstall LSP, DAP servers
 	MasonLsp = require("mason-lspconfig")
 	require('plugins.masonlsp').init(MasonLsp)
-
-	-- Hop
-	Hop = require('hop')
-	require('plugins.hop').init(Hop)
 
 	-- LuaSnip
 	LuaSnip = require('luasnip')

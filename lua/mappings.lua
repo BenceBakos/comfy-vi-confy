@@ -1,12 +1,6 @@
 Mappings = {}
 
 Mappings.init = function(Hop, Keyboard,Log)
-	Keyboard.mapFunction({ "n", "v" }, "<Leader><Leader>", function()
-		Hop.hint_words({
-			multi_windows = true
-		})
-	end)
-
 
 	-- LSP bindings
 	Keyboard.map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', false)
