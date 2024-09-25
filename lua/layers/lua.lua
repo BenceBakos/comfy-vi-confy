@@ -12,6 +12,9 @@ Lua.dependencyBinaries = {
 }
 
 Lua.init = function()
+	local LspConfig = Package.want("lspconfig")
+	if not LspConfig then return false end
+
 	LspConfig.lua_ls.setup({
 		settings = {
 			Lua = {
