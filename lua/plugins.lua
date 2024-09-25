@@ -13,14 +13,6 @@ Plugins.init = function(Package)
 		'preservim/tagbar'
 	})
 
-	TODO THIS
-	-- Cmp lsp configs
-	CmpLsp = require('cmp_nvim_lsp')
-
-	-- LSP & autocomplete
-	LspConfig = require('lspconfig')
-	require('plugins.lspconfig').init(LspConfig, CmpLsp)
-
 	-- DAP (needs mason install after config)
 	local Dap = require('dap')
 	require('plugins.dap').init(Dap)

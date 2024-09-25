@@ -7,7 +7,8 @@ Lsp.excludeOs = {
 }
 
 Lsp.dependencyBinaries = {
-	debian =  {'git', 'curl', 'unzip'} -- TODO gzip as an optional
+	debian = { 'git', 'curl', 'unzip' }, -- TODO gzip as an optional
+	arch = { 'git', 'curl', 'unzip' } -- TODO gzip as an optional
 }
 
 Lsp.envCommands = {
@@ -29,7 +30,6 @@ Lsp.plugins = {
 }
 
 Lsp.init = function()
-
 	-- LSP, DAP related sys dependency installer(requires some package managgers like npm, depending on the server)
 	local Mason = Package.want("mason")
 
@@ -103,20 +103,25 @@ Lsp.init = function()
 	})
 
 
+	local CmpLsp = Package.want('cmp_nvim_lsp')
+	local LspConfig = Package.want('lspconfig')
 
+	if not CmpLsp or not LspConfig then return false end
+
+	-- Extend cmp capabilities
+	local lspDefaults = LspConfig.util.default_config
+
+	lspDefaults.capabilities = vim.tbl_deep_extend(
+		'force',
+		lspDefaults.capabilities,
+		CmpLsp.default_capabilities()
+	)
 end
 
 Lsp.options = {
-	g = {
-
-	},
 	opt = {
-		-- signcolumn = 'number'
+		completeopt = { 'menu', 'menuone', 'noselect' }
 	}
-}
-
-Lsp.commands = {
-	-- Cpath = ":let @+=expand('%')"
 }
 
 Lsp.autocmds = {
@@ -142,11 +147,31 @@ Lsp.autocmds = {
 }
 
 Lsp.maps = {
-	-- {mode='n', map='th',to= ':tabfirst<CR>',options = false},
+	{ mode = 'n', map = 'K',   to = '<cmd>lua vim.lsp.buf.hover()<cr>',                   options = false },
+	{ mode = 'n', map = 'gd',  to = '<cmd>lua vim.lsp.buf.definition()<cr>',              options = false },
+	{ mode = 'n', map = 'gD',  to = '<cmd>lua vim.lsp.buf.declaration()<cr>',             options = false },
+	{ mode = 'n', map = 'gi',  to = '<cmd>lua vim.lsp.buf.implementation()<cr>',          options = false },
+	{ mode = 'n', map = 'gt',  to = '<cmd>lua vim.lsp.buf.type_definition()<cr>',         options = false },
+	{ mode = 'n', map = 'gr',  to = '<cmd>lua vim.lsp.buf.references()<cr>',              options = false },
+	{ mode = 'n', map = 'gk',  to = '<cmd>lua vim.lsp.buf.signature_help()<cr>',          options = false },
+	{ mode = 'n', map = 'grn', to = '<cmd>lua vim.lsp.buf.rename()<cr>',                  options = false },
+	{ mode = 'n', map = 'ga',  to = '<cmd>lua vim.lsp.buf.code_action()<cr>',             options = false },
+	{ mode = 'n', map = 'gof', to = '<cmd>lua vim.diagnostic.open_float()<cr>',           options = false },
+	{ mode = 'n', map = 'gm',  to = '<cmd>lua vim.diagnostic.goto_prev()<cr>',            options = false },
+	{ mode = 'n', map = 'gM',  to = '<cmd>lua vim.diagnostic.goto_next()<cr>',            options = false },
+	{ mode = 'n', map = 'gwa', to = '<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>',    options = false },
+	{ mode = 'n', map = 'gwr', to = '<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>', options = false },
 }
 
 Lsp.mapFunctions = {
-	-- {mode='', map='', to=function() end,options=false}
+	{
+		mode = 'n',
+		map = 'gF',
+		to = function()
+			vim.lsp.buf.format { async = true }
+		end,
+		options = false
+	},
 }
 
 return Lsp

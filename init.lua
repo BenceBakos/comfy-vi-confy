@@ -10,7 +10,8 @@ Main.init({
 	'fuzzy',
 	'hop',
 	'comment',
-	'lsp', 
+	'lsp',
+	'lua',
 	-- cmp into separate layer
 	-- rethink cmp, get snippets
 	-- git tab open fast (lazygit, or just terminal)
@@ -24,7 +25,7 @@ Main.init({
 	-- get list of todos in code(just a fixlist)
 	-- refactor if not Fuzzy.nvimFind or not nvimFindConfig then return false end lines for less repetition -> Package->setupPackage, also make log when package not found
 	-- treesitter based lsp replacement? treesitter does one file, but I could map all files?
-	--https://www.josean.com/posts/nvim-treesitter-and-textobjects
+	-- https://www.josean.com/posts/nvim-treesitter-and-textobjects
 	-- incremental_selection for treesitter
 	-- textobject aware selection for treesitter
 })
