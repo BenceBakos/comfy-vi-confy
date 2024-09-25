@@ -3,17 +3,6 @@ Plugins = {}
 Plugins.init = function(Package)
 	-- Packages
 	Package.install({
-		'williamboman/mason.nvim',
-		"williamboman/mason-lspConfig.nvim",
-		'neovim/nvim-lspconfig',
-		'hrsh7th/nvim-cmp',
-		'hrsh7th/cmp-nvim-lsp',
-		'hrsh7th/cmp-buffer',
-		'hrsh7th/cmp-path',
-		'L3MON4D3/LuaSnip',
-		'hrsh7th/nvim-cmp',
-		'rafamadriz/friendly-snippets',
-		'saadparwaiz1/cmp_luasnip',
 		'mfussenegger/nvim-dap',
 		'aklt/plantuml-syntax',
 		'weirongxu/plantuml-previewer.vim',
@@ -24,22 +13,7 @@ Plugins.init = function(Package)
 		'preservim/tagbar'
 	})
 
-	-- LSP server, DAP server installer
-	Mason = require("mason")
-	require('plugins.mason').init(Mason)
-
-	-- Autoinstall LSP, DAP servers
-	MasonLsp = require("mason-lspconfig")
-	require('plugins.masonlsp').init(MasonLsp)
-
-	-- LuaSnip
-	LuaSnip = require('luasnip')
-	require('plugins.luasnip').init(LuaSnip)
-
-	-- Cmp
-	Cmp = require('cmp')
-	require('plugins.cmp').init(Cmp, LuaSnip)
-
+	TODO THIS
 	-- Cmp lsp configs
 	CmpLsp = require('cmp_nvim_lsp')
 
