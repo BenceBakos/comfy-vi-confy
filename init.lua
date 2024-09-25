@@ -12,7 +12,13 @@ Main.init({
 	'comment',
 	'lsp',
 	'lua',
-	-- cmp into separate layer
+	'web',
+	'php',
+	'bash',
+	'docker',
+	'nix',
+	'yaml',
+	'xml',
 	-- rethink cmp, get snippets
 	-- git tab open fast (lazygit, or just terminal)
 	-- note tab open fast

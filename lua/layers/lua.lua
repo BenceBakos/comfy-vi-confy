@@ -37,6 +37,8 @@ Lua.init = function()
 			},
 		},
 	})
+
+	LspConfig.jedi_language_server.setup {}
 end
 
 return Lua
