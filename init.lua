@@ -21,7 +21,7 @@ Main.init({
 	'nix',
 	'yaml',
 	'xml',
-	-- 'dap',
+	-- 'dap', TODO
 	-- rethink cmp, get snippets
 	-- git tab open fast (lazygit, or just terminal)
 	-- note tab open fast
@@ -37,4 +37,5 @@ Main.init({
 	-- https://www.josean.com/posts/nvim-treesitter-and-textobjects
 	-- incremental_selection for treesitter
 	-- textobject aware selection for treesitter
+	-- rest of the plugins
 })
