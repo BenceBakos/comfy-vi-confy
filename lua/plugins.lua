@@ -3,7 +3,6 @@ Plugins = {}
 Plugins.init = function(Package)
 	-- Packages
 	Package.install({
-		'mfussenegger/nvim-dap',
 		'aklt/plantuml-syntax',
 		'weirongxu/plantuml-previewer.vim',
 		'f-person/git-blame.nvim',
@@ -12,10 +11,6 @@ Plugins.init = function(Package)
 		'akinsho/flutter-tools.nvim',
 		'preservim/tagbar'
 	})
-
-	-- DAP (needs mason install after config)
-	local Dap = require('dap')
-	require('plugins.dap').init(Dap)
 
 	-- flutter
 	local FlutterTools = require('flutter-tools')

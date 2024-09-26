@@ -10,6 +10,8 @@ Main.init({
 	'fuzzy',
 	'hop',
 	'comment',
+	'gitblame',
+	'spell',
 	'lsp',
 	'lua',
 	'web',
@@ -19,6 +21,7 @@ Main.init({
 	'nix',
 	'yaml',
 	'xml',
+	-- 'dap',
 	-- rethink cmp, get snippets
 	-- git tab open fast (lazygit, or just terminal)
 	-- note tab open fast
