@@ -10,7 +10,7 @@ Main.init({
 	'fuzzy',
 	'hop',
 	'comment',
-	'gitblame',
+	'git',
 	'spell',
 	'lsp',
 	'lua',
@@ -21,10 +21,12 @@ Main.init({
 	'nix',
 	'yaml',
 	'xml',
+	'git',
 	-- 'dap', TODO
 	-- rethink cmp, get snippets
 	-- git tab open fast (lazygit, or just terminal)
 	-- note tab open fast
+	-- maps, map functions under same key
 	-- treesitter advanced setup: https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#incremental-selection
 	-- file managger as text buffer
 	-- handle missing binaries, optional depdendencies(in case of fuzzy)
