@@ -4,7 +4,7 @@ Keyboard = require("utils.keyborad")
 
 Oil = {}
 
-Hop.excludeOs = {
+Oil.excludeOs = {
 	Terminal.TERMUX
 }
 
