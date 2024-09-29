@@ -152,7 +152,8 @@ Base.maps = {
 	{ mode = "n", map = "gT",        to = ':cexpr system("git grep -iF --line-number TODO")<CR>' },
 
 	-- registry accessing qwertz mod
-	{ mode = "n", map = '"',         to = "ö" },
+	{ mode = "n", map = 'ö',         to = '"' },
+
 	{
 		mode = 'n',
 		map = 'tu',
