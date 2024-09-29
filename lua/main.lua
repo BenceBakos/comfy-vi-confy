@@ -65,10 +65,10 @@ Main.sections = {
 
 			if Table.hasKey(value, 'options') then options = value.options end
 
-			if type(value.to) == 'funciton' then
-				Keyboard.mapFunction(value.mode, value.map, value.to, options)
-			else
+			if type(value.to) == 'string' then
 				Keyboard.map(value.mode, value.map, value.to, options)
+			else
+				Keyboard.mapFunction(value.mode, value.map, value.to, options)
 			end
 		end
 	},
