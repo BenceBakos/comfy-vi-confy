@@ -21,6 +21,7 @@ Main.init({
 	'yaml',
 	'xml',
 	'git',
+	'oil'
 	-- rethink cmp, get snippets
 	-- 'dap', TODO
 	-- note tab open fast
