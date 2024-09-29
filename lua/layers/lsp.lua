@@ -16,6 +16,8 @@ Lsp.envCommands = {
 }
 
 Lsp.plugins = {
+	'nvim-lua/plenary.nvim',
+	'stevearc/dressing.nvim',
 	'williamboman/mason.nvim',
 	"williamboman/mason-lspConfig.nvim",
 	'neovim/nvim-lspconfig',
