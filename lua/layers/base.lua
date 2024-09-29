@@ -99,39 +99,39 @@ Base.maps = {
 	-- {mode='', map='', to='',options={}},
 
 	--tabs/buffers
-	{ mode = 'n', map = 'th',     to = ':tabfirst<CR>',                        options = false },
-	{ mode = 'n', map = 'tj',     to = ':tabnext<CR>',                         options = false },
-	{ mode = 'n', map = 'tk',     to = ':tabprev<CR>',                         options = false },
-	{ mode = 'n', map = 'tl',     to = ':tablast<CR>',                         options = false },
-	{ mode = 'n', map = 'té',     to = ':vsplit<Space>',                       options = { noremap = true, silent = false } },
-	{ mode = 'n', map = 'tt',     to = ':tabedit<Space>',                      options = { noremap = true, silent = false } },
-	{ mode = 'n', map = 'td',     to = ':tabclose<CR>',                        options = false },
-	{ mode = "n", map = "ti",     to = ":tabedit<Space><CR>:tab ter<CR>",      options = false },
-	{ mode = "n", map = "to",     to = ":botright vnew<Space><CR>:tab ter<CR>", options = false },
+	{ mode = 'n', map = 'th',        to = ':tabfirst<CR>',                                       options = false },
+	{ mode = 'n', map = 'tj',        to = ':tabnext<CR>',                                        options = false },
+	{ mode = 'n', map = 'tk',        to = ':tabprev<CR>',                                        options = false },
+	{ mode = 'n', map = 'tl',        to = ':tablast<CR>',                                        options = false },
+	{ mode = 'n', map = 'té',        to = ':vsplit<Space>',                                      options = { noremap = true, silent = false } },
+	{ mode = 'n', map = 'tt',        to = ':tabedit<Space>',                                     options = { noremap = true, silent = false } },
+	{ mode = 'n', map = 'td',        to = ':tabclose<CR>',                                       options = false },
+	{ mode = "n", map = "ti",        to = ":tabedit<Space><CR>:tab ter<CR>",                     options = false },
+	{ mode = "n", map = "to",        to = ":botright vnew<Space><CR>:tab ter<CR>",               options = false },
 	-- qwertz modes
-	{ mode = "n", map = "é",      to = "$" },
-	{ mode = "v", map = "é",      to = "$" },
+	{ mode = "n", map = "é",         to = "$" },
+	{ mode = "v", map = "é",         to = "$" },
 	-- remove selection
-	{ mode = "n", map = 'á',      to = ':noh<CR>' },
+	{ mode = "n", map = 'á',         to = ':noh<CR>' },
 	-- close line with semicolon
-	{ mode = 'n', map = ';',      to = '$a;<ESC>' },
+	{ mode = 'n', map = ';',         to = '$a;<ESC>' },
 	-- stay in visual mode while indenting
-	{ mode = "v", map = "<",      to = "<gv" },
-	{ mode = "v", map = ">",      to = ">gv" },
+	{ mode = "v", map = "<",         to = "<gv" },
+	{ mode = "v", map = ">",         to = ">gv" },
 	-- exit to normal mode from terminal
-	{ mode = "t", map = "<Esc>",  to = "<C-\\><C-n>" },
+	{ mode = "t", map = "<Esc>",     to = "<C-\\><C-n>" },
 	-- close symbols
-	{ mode = "i", map = "(",      to = "()<Esc>i" },
-	{ mode = "i", map = "[",      to = "[]<Esc>i" },
-	{ mode = "i", map = "{",      to = "{}<Esc>i" },
-	{ mode = "i", map = "'",      to = "''<Esc>i" },
-	{ mode = "i", map = '"',      to = '""<Esc>i' },
-	{ mode = "i", map = '`',      to = '``<Esc>i' },
+	{ mode = "i", map = "(",         to = "()<Esc>i" },
+	{ mode = "i", map = "[",         to = "[]<Esc>i" },
+	{ mode = "i", map = "{",         to = "{}<Esc>i" },
+	{ mode = "i", map = "'",         to = "''<Esc>i" },
+	{ mode = "i", map = '"',         to = '""<Esc>i' },
+	{ mode = "i", map = '`',         to = '``<Esc>i' },
 	-- quit from current window
-	{ mode = "n", map = "ó",      to = ":q<CR>" },
+	{ mode = "n", map = "ó",         to = ":q<CR>" },
 
 	-- remove highlights
-	{ mode = "n", map = "ö",      to = ":noh<CR>" },
+	{ mode = "n", map = "ö",         to = ":noh<CR>" },
 
 	-- Better window navigation
 	{ mode = "n", map = "<Leader>h", to = "<C-w>h" },
@@ -141,14 +141,18 @@ Base.maps = {
 	{ mode = "n", map = "<Leader>é", to = "<C-w>l" },
 
 	-- go to netrw from file
-	{ mode = "n", map = "-",      to = ":Explore<CR>" },
+	{ mode = "n", map = "-",         to = ":Explore<CR>" },
 
-	-- next/prev finding
-	{ mode = "n", map = "ú",      to = ":cn<CR>" },
-	{ mode = "n", map = "Ú",      to = ":cp<CR>" },
-}
+	-- next/prev quickfix item
+	{ mode = "n", map = "ú",         to = ":cn<CR>" },
+	{ mode = "n", map = "Ú",         to = ":cp<CR>" },
+	{ mode = "n", map = "co",        to = ":copen<CR>" },
 
-Base.mapFunctions = {
+	-- get to do items
+	{ mode = "n", map = "gT",        to = ':cexpr system("git grep -iF --line-number TODO")<CR>' },
+
+	-- registry accessing qwertz mod
+	{ mode = "n", map = '"',         to = "ö" },
 	{
 		mode = 'n',
 		map = 'tu',
@@ -165,7 +169,6 @@ Base.mapFunctions = {
 		end,
 		options = false
 	},
-	-- {mode='', map='', to=function() end,options={}},
 }
 
 return Base

@@ -161,9 +161,6 @@ Lsp.maps = {
 	{ mode = 'n', map = 'gM',  to = '<cmd>lua vim.diagnostic.goto_next()<cr>',            options = false },
 	{ mode = 'n', map = 'gwa', to = '<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>',    options = false },
 	{ mode = 'n', map = 'gwr', to = '<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>', options = false },
-}
-
-Lsp.mapFunctions = {
 	{
 		mode = 'n',
 		map = 'gF',
@@ -171,7 +168,7 @@ Lsp.mapFunctions = {
 			vim.lsp.buf.format { async = true }
 		end,
 		options = false
-	},
+	}
 }
 
 return Lsp

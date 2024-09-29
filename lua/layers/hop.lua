@@ -21,7 +21,7 @@ Hop.init = function()
 	Hop.hop.setup()
 end
 
-Hop.mapFunctions = {
+Hop.maps= {
 	{
 		mode = { "n", "v" },
 		map = '<Leader><Leader>',

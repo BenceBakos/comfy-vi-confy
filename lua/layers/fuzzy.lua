@@ -37,7 +37,7 @@ Fuzzy.init = function()
 	nvimFindConfig.search.start_closed = false
 end
 
-Fuzzy.mapFunctions = {
+Fuzzy.maps = {
 	{
 		mode = 'n',
 		map = '<Leader>c',
@@ -47,6 +47,5 @@ Fuzzy.mapFunctions = {
 		end
 	}
 }
-
 
 return Fuzzy

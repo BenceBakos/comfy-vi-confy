@@ -1,4 +1,3 @@
-
 Terminal = require("utils.terminal")
 
 Sample = {}
@@ -42,10 +41,7 @@ Sample.autocmds = {
 
 Sample.maps = {
 	-- {mode='n', map='th',to= ':tabfirst<CR>',options = false},
-}
-
-Sample.mapFunctions = {
 	-- {mode='', map='', to=function() end,options=false}
 }
 
-return Sample 
+return Sample

@@ -17,7 +17,7 @@ Git.options = {
 	}
 }
 
-Fuzzy.mapFunctions = {
+Git.maps= {
 	{
 		mode = 'n',
 		map = 'tg',
@@ -43,6 +43,5 @@ Fuzzy.mapFunctions = {
 		end
 	}
 }
-
 
 return Git
