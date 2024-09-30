@@ -33,8 +33,8 @@ Package.installPackage = function(args)
 
 	Package.pkgs[name] = pkg
 
-	if pkg.exists then 
-		return 
+	if pkg.exists then
+		return
 	end
 
 	if pkg.branch then
@@ -72,7 +72,7 @@ Package.want           = function(name)
 	then
 		return out -- success
 	else
-		Log.log('package '..name..' not found')
+		Log.log('package ' .. name .. ' not found')
 		return nil, out
 	end -- error
 end
