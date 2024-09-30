@@ -15,7 +15,7 @@ Lsp.envCommands = {
 	-- debian =  {'',''}
 }
 
-Lsp.plugins = {
+Lsp.packages = {
 	'nvim-lua/plenary.nvim',
 	'stevearc/dressing.nvim',
 	'williamboman/mason.nvim',
