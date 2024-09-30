@@ -52,6 +52,14 @@ Fuzzy.maps = {
 			if not Fuzzy.nvimFind then return nil end
 			Fuzzy.nvimFind.files()
 		end
+	},
+	{
+		mode = 'n',
+		map = '<Leader>b',
+		to = function()
+			if not Fuzzy.nvimFind then return nil end
+			Fuzzy.nvimFind.buffers()
+		end
 	}
 }
 
