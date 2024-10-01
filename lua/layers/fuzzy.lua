@@ -1,5 +1,6 @@
 Terminal = require("utils.terminal")
 Package = require("utils.package")
+Os = require('os')
 
 Fuzzy = {}
 
@@ -32,6 +33,12 @@ Fuzzy.init = function()
 	-- e.g. "*.png" will ignore any file ending in .png and
 	-- "*node_modules*" ignores any path containing node_modules
 	nvimFindConfig.files.ignore = { "*.png", "*.pdf", "*.jpg", "*.jpeg", "*.webp" }
+
+	local notesPath = os.getenv('NOTES_PATH')
+	if notesPath ~= nil then
+		nvimFindConfig.alternative_paths = { notesPath }
+	end
+
 
 	-- start with all result groups collapsed
 	nvimFindConfig.search.start_closed = false
