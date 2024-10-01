@@ -22,7 +22,6 @@ Main.init({
 	'xml',
 	'git',
 	'oil',
-	'notes'
 	-- NOTES IS STUPID, ADD PATHS TO FUZZY FIND
 	-- rethink cmp, get snippets
 	-- 'dap', TODO
