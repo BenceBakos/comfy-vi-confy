@@ -8,10 +8,10 @@ Fuzzy.excludeOs = {
 	Terminal.TERMUX
 }
 
--- TODO: add optional depdnenveies. nvim-find can use "find" as a fallback package, ofc. it is better with fz.
+-- TODO: add optional depdnenveies. nvim-find can use "find" as a fallback package, ofc. it is better with ripgrep.
 -- Fuzzy.dependencyBinaries = {
--- 	debian = { 'fz' },
--- 	arch = { 'fz' }
+-- 	debian = { 'ripgrep' },
+-- 	arch = { 'ripgrep' }
 -- }
 
 Fuzzy.packages = {
