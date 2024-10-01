@@ -20,16 +20,28 @@ File.fileExists = function(file)
 	return true
 end
 
-File.get_intelephense_license = function ()
-    local f = assert(io.open(os.getenv("HOME") .. "/intelephense/license.txt", "rb"))
-    local content = f:read("*a")
-    f:close()
-    return string.gsub(content, "%s+", "")
+File.get_intelephense_license = function()
+	local f = assert(io.open(os.getenv("HOME") .. "/intelephense/license.txt", "rb"))
+	local content = f:read("*a")
+	f:close()
+	return string.gsub(content, "%s+", "")
 end
 
-File.list = function (path)
-	items = vim.split(io.popen('ls '..path..' -1v'):read("*a"),'\n')
-	return vim.tbl_filter(function(item) return item ~= "" end, items )
+File.list = function(path)
+	items = vim.split(io.popen('ls ' .. path .. ' -1v'):read("*a"), '\n')
+	return vim.tbl_filter(function(item) return item ~= "" end, items)
+end
+
+File.readAll = function(path)
+	local file = io.open(path, "r")
+
+	if not file then return nil end
+
+	local content = file:read("*all")
+
+	file:close()
+
+	return content
 end
 
 return File
