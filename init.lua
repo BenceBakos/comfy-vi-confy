@@ -22,7 +22,8 @@ Main.init({
 	'xml',
 	'git',
 	'oil',
-	-- refactors
+	-- where to store snippets, refactors, spells?
+	-- refactors -> treesitter based, low-code definitions
 	-- gitlab cli or gitlab nvim plugin
 	-- rethink cmp, get snippets
 	-- 'dap', TODO
