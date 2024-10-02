@@ -45,7 +45,7 @@ Base.options = {
 		softtabstop = -1,
 		tabpagemax = 2,
 		-- disable mouse
-		mouse = nil,
+		mouse = "",
 		-- no need to scroll till end/top of screen to move buffer content
 		scrolloff = 8,
 		sidescrolloff = 8,
