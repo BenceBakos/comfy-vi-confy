@@ -15,7 +15,14 @@ Php.init = function()
 	local LspConfig = Package.want("lspconfig")
 	if not LspConfig then return false end
 
-	LspConfig.intelephense.setup()
+	local capabilities = LspConfig.util.default_config.capabilities
+
+	LspConfig.intelephense.setup({
+		capabilities = capabilities,
+		init_options = {
+			licenceKey = File.get_intelephense_license()
+		},
+	})
 	-- LspConfig.phpactor.setup({
 	-- 	init_options = {
 	-- 		["language_server_phpstan.enabled"] = true,

@@ -22,6 +22,7 @@ Main.init({
 	'xml',
 	'git',
 	'oil',
+	-- refactors
 	-- gitlab cli or gitlab nvim plugin
 	-- rethink cmp, get snippets
 	-- 'dap', TODO
