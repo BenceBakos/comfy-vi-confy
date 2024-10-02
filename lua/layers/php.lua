@@ -27,6 +27,16 @@ Php.init = function()
 			["language_server_phpstan.enabled"] = false,
 			["language_server_psalm.enabled"] = false,
 		},
+		capabilities = {
+			textDocument = {
+				completion = {
+					completionItem = {
+						snippetSupport = false
+					}
+				}
+			}
+		}
+
 	})
 
 end
