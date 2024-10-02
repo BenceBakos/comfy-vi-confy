@@ -39,7 +39,6 @@ Fuzzy.init = function()
 		nvimFindConfig.alternative_paths = { notesPath }
 	end
 
-
 	-- start with all result groups collapsed
 	nvimFindConfig.search.start_closed = false
 end

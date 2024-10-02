@@ -25,7 +25,6 @@ Main.init({
 	-- gitlab cli or gitlab nvim plugin
 	-- rethink cmp, get snippets
 	-- 'dap', TODO
-	-- note tab open fast
 	-- handle missing binaries, optional depdendencies(in case of fuzzy)
 	-- premade macros
 	-- treesitter advanced setup: https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#incremental-selection
