@@ -22,7 +22,6 @@ Main.init({
 	'xml',
 	'git',
 	'oil',
-	-- NOTES IS STUPID, ADD PATHS TO FUZZY FIND
 	-- gitlab cli or gitlab nvim plugin
 	-- rethink cmp, get snippets
 	-- 'dap', TODO
