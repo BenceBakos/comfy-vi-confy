@@ -15,30 +15,23 @@ Php.init = function()
 	local LspConfig = Package.want("lspconfig")
 	if not LspConfig then return false end
 
-	-- https://github.com/williamboman/mason-lspconfig.nvim
-	-- lspconfig.pylsp.setup({})
-	-- lspconfig.intelephense.setup({
-	--    init_options = {
-	--        licenceKey = File.get_intelephense_license()
-	--    }
-	--})
-	LspConfig.phpactor.setup({
-		init_options = {
-			["language_server_phpstan.enabled"] = false,
-			["language_server_psalm.enabled"] = false,
-		},
-		capabilities = {
-			textDocument = {
-				completion = {
-					completionItem = {
-						snippetSupport = false
-					}
-				}
-			}
-		}
-
-	})
-
+	LspConfig.intelephense.setup()
+	-- LspConfig.phpactor.setup({
+	-- 	init_options = {
+	-- 		["language_server_phpstan.enabled"] = true,
+	-- 		["language_server_psalm.enabled"] = true,
+	-- 	},
+	-- 	capabilities = {
+	-- 		textDocument = {
+	-- 			completion = {
+	-- 				completionItem = {
+	-- 					snippetSupport = false
+	-- 				}
+	-- 			}
+	-- 		}
+	-- 	}
+	--
+	-- })
 end
 
 return Php
