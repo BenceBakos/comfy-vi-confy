@@ -106,8 +106,8 @@ Base.maps = {
 	{ mode = 'n', map = 'té',        to = ':vsplit<Space>',                                      options = { noremap = true, silent = false } },
 	{ mode = 'n', map = 'tt',        to = ':tabedit<Space>',                                     options = { noremap = true, silent = false } },
 	{ mode = 'n', map = 'td',        to = ':tabclose<CR>',                                       options = false },
-	{ mode = "n", map = "ti",        to = ":botright ter<CR>",                     options = false },
-	{ mode = "n", map = "to",        to = ":botright vnew<Space><CR>:ter<CR>",               options = false },
+	{ mode = "n", map = "ti",        to = ":tab ter<CR>",                                        options = false },
+	{ mode = "n", map = "to",        to = ":botright vnew<Space><CR>:ter<CR>",                   options = false },
 	-- qwertz modes
 	{ mode = "n", map = "é",         to = "$" },
 	{ mode = "v", map = "é",         to = "$" },
