@@ -13,7 +13,6 @@ Oil.packages = {
 }
 
 Oil.init = function()
-	require("oil").setup()
 
 	local oil = Package.want("oil")
 
