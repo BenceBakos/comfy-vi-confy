@@ -35,11 +35,11 @@ Git.maps= {
 		map = 'gé',
 		to = function()
 			if Terminal.binaryExists('lazygit') then
-				Keyboard.feed(":vsplit | terminal lazygit<CR>", "n")
+				Keyboard.feed(":vsplit<CR><C-w>l:terminal lazygit<CR>", "n")
 				return
 			end
 
-			Keyboard.feed(":vsplit | terminal<CR>", "n")
+			Keyboard.feed(":vsplit<CR><C-w>l :terminal<CR>", "n")
 		end
 	}
 }
