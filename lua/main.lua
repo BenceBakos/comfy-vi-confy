@@ -47,6 +47,12 @@ Main.sections = {
 		end
 	},
 	{
+		path = { 'options', 'wo' },
+		init = function(key, value)
+			vim.wo[key] = value
+		end
+	},
+	{
 		path = 'commands',
 		init = function(key, value)
 			Keyboard.command(key, value)
