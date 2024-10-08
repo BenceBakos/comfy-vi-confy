@@ -17,28 +17,28 @@ Php.init = function()
 
 	local capabilities = LspConfig.util.default_config.capabilities
 
-	LspConfig.intelephense.setup({
-		capabilities = capabilities,
-		init_options = {
-			licenceKey = File.get_intelephense_license()
-		},
-	})
-	-- LspConfig.phpactor.setup({
+	-- LspConfig.intelephense.setup({
+	-- 	capabilities = capabilities,
 	-- 	init_options = {
-	-- 		["language_server_phpstan.enabled"] = true,
-	-- 		["language_server_psalm.enabled"] = true,
+	-- 		licenceKey = File.get_intelephense_license()
 	-- 	},
-	-- 	capabilities = {
-	-- 		textDocument = {
-	-- 			completion = {
-	-- 				completionItem = {
-	-- 					snippetSupport = false
-	-- 				}
-	-- 			}
-	-- 		}
-	-- 	}
-	--
 	-- })
+	LspConfig.phpactor.setup({
+		init_options = {
+			["language_server_phpstan.enabled"] = true,
+			["language_server_psalm.enabled"] = true,
+		},
+		capabilities = {
+			textDocument = {
+				completion = {
+					completionItem = {
+						snippetSupport = false
+					}
+				}
+			}
+		}
+
+	})
 end
 
 return Php
