@@ -30,17 +30,7 @@ Php.init = function()
 			["language_server_php_cs_fixer.enabled"] = true,
 			["php_code_sniffer.enabled"] = true,
 			["prophecy.enabled"] = true,
-		},
-		capabilities = {
-			textDocument = {
-				completion = {
-					completionItem = {
-						snippetSupport = false
-					}
-				}
-			}
 		}
-
 	})
 end
 
