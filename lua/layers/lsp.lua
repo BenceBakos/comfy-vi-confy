@@ -45,7 +45,7 @@ Lsp.init = function()
 	if not MasonLsp then return false end
 
 	MasonLsp.setup {
-		automatic_installation = true
+		automatic_installation ={exclude = {'phpactor'}}
 	}
 
 	-- LuaSnip
