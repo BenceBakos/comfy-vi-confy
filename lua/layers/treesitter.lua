@@ -9,6 +9,7 @@ Treesitter.excludeOs = {
 
 Treesitter.packages = {
 	'nvim-treesitter/nvim-treesitter',
+	'nvim-treesitter/nvim-treesitter-refactor',
 }
 
 Treesitter.treeclimber = nil
@@ -38,10 +39,26 @@ Treesitter.init = function()
 		incremental_selection = {
 			enable = true,
 			keymaps = {
-				init_selection = "gn", -- set to `false` to disable one of the mappings
-				node_incremental = "gn",
+				init_selection = "gm", -- set to `false` to disable one of the mappings
+				node_incremental = "gm",
 				scope_incremental = false,
-				node_decremental = "gm",
+				node_decremental = "gM",
+			},
+		},
+		refactor = {
+			highlight_definitions = {
+				enable = true,
+				clear_on_cursor_move = true,
+			},
+			highlight_current_scope = { enable = true },
+			navigation = {
+				enable = true,
+				-- Assign keymaps to false to disable them, e.g. `goto_definition = false`.
+				keymaps = {
+					goto_definition_lsp_fallback = "gd",
+					goto_next_usage = "gn",
+					goto_previous_usage = "gN",
+				},
 			},
 		},
 	}
