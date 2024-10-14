@@ -24,6 +24,7 @@ Main.init({
 	'oil',
 	'macro',
 	'theme',
+	'refactor'
 	-- where to store snippets, refactors, spells?
 	-- refactors -> treesitter based, low-code definitions
 	-- gitlab cli or gitlab nvim plugin
