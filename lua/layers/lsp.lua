@@ -31,6 +31,9 @@ Lsp.packages = {
 	'saadparwaiz1/cmp_luasnip',
 }
 
+Lsp.capabilities = nil
+Lsp.lspconfig = nil
+
 Lsp.init = function()
 	-- LSP, DAP related sys dependency installer(requires some package managgers like npm, depending on the server)
 	local Mason = Package.want("mason")
@@ -106,17 +109,19 @@ Lsp.init = function()
 
 
 	local CmpLsp = Package.want('cmp_nvim_lsp')
-	local LspConfig = Package.want('lspconfig')
+	Lsp.lspconfig = Package.want('lspconfig')
 
-	if not CmpLsp or not LspConfig then return false end
+	if not CmpLsp or not Lsp.lspconfig then return false end
 
 	-- Extend cmp capabilities
-	local lspDefaults = LspConfig.util.default_config
+	local lspDefaults = Lsp.lspconfig.util.default_config
+
+	Lsp.capabilities = CmpLsp.default_capabilities()
 
 	lspDefaults.capabilities = vim.tbl_deep_extend(
 		'force',
 		lspDefaults.capabilities,
-		CmpLsp.default_capabilities()
+		Lsp.capabilities
 	)
 end
 

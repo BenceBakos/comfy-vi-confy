@@ -1,4 +1,5 @@
 Terminal = require("utils.terminal")
+Lsp = require("layers.lsp")
 
 Php = {}
 
@@ -12,10 +13,6 @@ Php.dependencyBinaries = {
 }
 
 Php.init = function()
-	local LspConfig = Package.want("lspconfig")
-	if not LspConfig then return false end
-
-	local capabilities = LspConfig.util.default_config.capabilities
 
 	-- LspConfig.intelephense.setup({
 	-- 	capabilities = capabilities,
@@ -23,14 +20,14 @@ Php.init = function()
 	-- 		licenceKey = File.get_intelephense_license()
 	-- 	},
 	-- })
-	LspConfig.phpactor.setup({
+	Lsp.lspconfig.phpactor.setup({
 		init_options = {
 			["language_server_phpstan.enabled"] = true,
 			["language_server_psalm.enabled"] = true,
 			["language_server_php_cs_fixer.enabled"] = true,
 			["php_code_sniffer.enabled"] = true,
-			["prophecy.enabled"] = true,
-		}
+		},
+		capabilities = Lsp.capabilities
 	})
 end
 
