@@ -69,7 +69,8 @@ Treesitter.init = function()
 	if not Treesitter.treesj then return false end
 
 	Treesitter.treesj.setup({
-		use_default_keymaps = false
+		use_default_keymaps = false,
+		max_join_length = 1000
 	})
 end
 
