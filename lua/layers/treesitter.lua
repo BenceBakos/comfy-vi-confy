@@ -10,9 +10,10 @@ Treesitter.excludeOs = {
 Treesitter.packages = {
 	'nvim-treesitter/nvim-treesitter',
 	'nvim-treesitter/nvim-treesitter-refactor',
+	'Wansmer/treesj'
 }
 
-Treesitter.treeclimber = nil
+Treesitter.treesj = nil
 
 Treesitter.init = function()
 	local treesitter = Package.want('nvim-treesitter.configs')
@@ -62,11 +63,24 @@ Treesitter.init = function()
 			},
 		},
 	}
+
+	Treesitter.treesj = Package.want('treesj')
+
+	if not Treesitter.treesj then return false end
+
+	Treesitter.treesj.setup({
+		use_default_keymaps = false
+	})
 end
 
 Treesitter.maps = {
-
-
+	{
+		mode = "n",
+		map = "gs",
+		to = function()
+			Treesitter.treesj.toggle()
+		end
+	},
 }
 
 
