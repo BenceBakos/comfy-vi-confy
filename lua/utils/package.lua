@@ -20,7 +20,6 @@ Package.installPackage = function(args)
 	end
 
 	local dir = Package.PATH .. (args.opt and 'opt/' or 'start/') .. name
-	Log.log(dir)
 
 	local pkg = {
 		name = name,

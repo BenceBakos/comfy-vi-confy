@@ -46,22 +46,22 @@ Treesitter.init = function()
 				node_decremental = "gM",
 			},
 		},
-		refactor = {
-			highlight_definitions = {
-				enable = true,
-				clear_on_cursor_move = true,
-			},
-			highlight_current_scope = { enable = true },
-			navigation = {
-				enable = true,
-				-- Assign keymaps to false to disable them, e.g. `goto_definition = false`.
-				keymaps = {
-					goto_definition_lsp_fallback = "gd",
-					goto_next_usage = "gn",
-					goto_previous_usage = "gN",
-				},
-			},
-		},
+		-- refactor = {
+		-- 	highlight_definitions = {
+		-- 		enable = true,
+		-- 		clear_on_cursor_move = true,
+		-- 	},
+		-- 	highlight_current_scope = { enable = true },
+		-- 	navigation = {
+		-- 		enable = true,
+		-- 		-- Assign keymaps to false to disable them, e.g. `goto_definition = false`.
+		-- 		keymaps = {
+		-- 			goto_definition_lsp_fallback = "gd",
+		-- 			goto_next_usage = "gn",
+		-- 			goto_previous_usage = "gN",
+		-- 		},
+		-- 	},
+		-- },
 	}
 
 	Treesitter.treesj = Package.want('treesj')
