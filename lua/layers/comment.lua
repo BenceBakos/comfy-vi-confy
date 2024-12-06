@@ -1,13 +1,13 @@
 Terminal = require("utils.terminal")
 Package = require("utils.package")
 
+Comment = {}
+
 Comment.excludeOs = {
 	Terminal.TERMUX
 }
 
 
-
-Comment = {}
 
 Comment.packages = {
 	'numToStr/Comment.nvim'

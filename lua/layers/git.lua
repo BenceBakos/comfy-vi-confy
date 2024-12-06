@@ -2,13 +2,14 @@ Terminal = require("utils.terminal")
 Package = require("utils.package")
 Keyboard = require("utils.keyborad")
 
+
+Git = {}
+
 Git.excludeOs = {
 	Terminal.TERMUX
 }
 
 
-
-Git = {}
 
  -- TODO optional depdendency for lazygit
 
