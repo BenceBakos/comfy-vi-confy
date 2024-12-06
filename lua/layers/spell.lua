@@ -3,6 +3,12 @@ Package = require("utils.package")
 
 Spell = {}
 
+Spell.excludeOs = {
+	Terminal.TERMUX
+}
+
+
+
 Spell.packages = {
 	'f-person/git-blame.nvim'
 }

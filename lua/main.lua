@@ -90,7 +90,7 @@ Main.init = function(layers)
 	for _, layerName in pairs(layers) do
 		local layer = require('layers.' .. layerName)
 
-		if Table.hasKey(layer, 'packages') then
+		if Table.hasKey(layer, 'packages') and !(Table.hasKey(layer,'excludeOs') and Table.hasValue(layer.excludeOs,OS))then
 			for _, packageName in pairs(layer.packages) do
 				local folderName = vim.split(packageName, '/')[2]
 				if not Package.isInstalled(folderName) then

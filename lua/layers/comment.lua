@@ -1,6 +1,12 @@
 Terminal = require("utils.terminal")
 Package = require("utils.package")
 
+Comment.excludeOs = {
+	Terminal.TERMUX
+}
+
+
+
 Comment = {}
 
 Comment.packages = {
