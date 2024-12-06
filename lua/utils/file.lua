@@ -3,21 +3,10 @@ require('io')
 File = {}
 
 File.fileExists = function(file)
-	-- some error codes:
-	-- 13 : EACCES - Permission denied
-	-- 17 : EEXIST - File exists
-	-- 20	: ENOTDIR - Not a directory
-	-- 21	: EISDIR - Is a directory
-	--
-	local isok, errstr, errcode = os.rename(file, file)
-	if isok == nil then
-		if errcode == 13 then
-			-- Permission denied, but it exists
-			return true
-		end
-		return false
-	end
-	return true
+	local home = require('os').getenv('HOME')
+
+	local f=io.open(file:gsub('~',home),"r")
+	if f~=nil then io.close(f) return true else return false end
 end
 
 File.get_intelephense_license = function()
