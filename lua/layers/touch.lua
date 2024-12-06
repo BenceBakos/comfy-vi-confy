@@ -1,9 +1,11 @@
 Terminal = require("utils.terminal")
+File = require("utils.file")
 
 Touch = {}
 
 Touch.excludeOs = {
-	-- Terminal.TERMUX
+	Terminal.DEBIAN,
+	Terminal.ARCH,
 }
 
 Touch.envCommands = {
@@ -11,11 +13,9 @@ Touch.envCommands = {
 }
 
 Touch.packages = {
-	-- ''
 }
 
 Touch.init = function()
-	-- print('hello')
 end
 
 Touch.options = {

@@ -1,6 +1,7 @@
 require("os")
 require("io")
 Log = require("utils.log")
+File = require("utils.file")
 
 Terminal = {}
 
@@ -46,17 +47,10 @@ Terminal.getOs = function()
 		return Terminal.ARCH
 	end
 
-	local aptPath = Terminal.getBinaryPath('apt')
-
-	if (aptPath == '/data/data/com.termux/files/usr/bin/apt') then
+	if File.fileExists('~/.termux') then
 		return Terminal.TERMUX
 	end
 
-	if (aptPath ~= '') then
-		return Terminal.DEBIAN
-	end
-
-	Log.log('Can not determine OS! Defaulting to debian!')
 	return Terminal.DEBIAN
 end
 
