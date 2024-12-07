@@ -8,6 +8,10 @@ Touch.excludeOs = {
 	-- Terminal.ARCH,
 }
 
+Touch.maps = {
+
+}
+
 Touch.envCommands = {
 	-- debian =  {'',''}
 }
@@ -15,7 +19,38 @@ Touch.envCommands = {
 Touch.packages = {
 }
 
+Touch.events = {
+	'<ScrollWheelUp>',
+	'<ScrollWheelDown>',
+	'<LeftMouse>',
+	'<LeftDrag>',
+	'<LeftRelease>',
+	'<MiddleMouse>',
+	'<MiddleDrag>',
+	'<MiddleRelease>',
+	'<RightMouse>',
+	'<RightDrag>',
+	'<RightRelease>',
+	'<X1Mouse>',
+	'<X1Drag>',
+	'<X1Release>',
+	'<X2Mouse>',
+	'<X2Drag>',
+	'<X2Release>'
+}
+
 Touch.init = function()
+	for _,eventName in pairs(Touch.events) do
+		table.insert(
+			Touch.maps,
+			{
+				mode = 'n',
+				map = eventName,
+				to = function() Touch.logMouseClick(eventName) end,
+				options = { noremap = true, silent = true },
+			}
+		)
+	end
 end
 
 Touch.options = {
@@ -23,7 +58,8 @@ Touch.options = {
 
 	},
 	opt = {
-		mouse = 'a'
+		mouse = 'a',
+		mousefocus = true
 	}
 }
 
@@ -35,53 +71,15 @@ Touch.autocmds = {
 	-- {events = { 'BufReadPost' }, settings ={ pattern = { '*' }, callback = function() end}}
 }
 
-Touch.maps = {
-	-- {mode='', map='', to=function() end,options=false}
-	{
-		mode = 'n',
-		map = '<ScrollWheelUp>',
-		to = function()
-			vim.api.nvim_buf_set_lines(0, 0, -1, false, { "scroll up" })
-		end,
-		options = false
-	},
-	{
-		mode = 'n',
-		map = '<ScrollWheelDown>',
-		to = function()
-			vim.api.nvim_buf_set_lines(0, 0, -1, false, { "scroll down" })
-		end,
-		options = false
-	},
-	{
-		mode = 'n',
-		map = '<ScrollWheelLeft>',
-		to = function()
-			vim.api.nvim_buf_set_lines(0, 0, -1, false, { "scroll left" })
-		end,
-		options = false
-	},
-	{
-		mode = 'n',
-		map = '<ScrollWheelRight>',
-		to = function()
-			vim.api.nvim_buf_set_lines(0, 0, -1, false, { "scroll right" })
-		end,
-		options = false
-	},
-	{
-		mode = 'n',
-		map = '<LeftMouse>',
-		to = function()
-			-- Get the mouse position
-			local mouse_pos = vim.fn.getmousepos()
-			local x = mouse_pos.wincol
-			local y = mouse_pos.winrow
+Touch.logMouseClick = function(eventName)
+	-- Get the mouse position
+	local mouse_pos = vim.fn.getmousepos()
+	local x = mouse_pos.wincol
+	local y = mouse_pos.winrow
 
-			vim.api.nvim_buf_set_lines(0, 0, -1, false, { "click at"..x.."  "..y })
-		end,
-		options = { noremap = true, silent = true }
-	}
-}
+	-- Log the event name and coordinates
+	vim.api.nvim_buf_set_lines(0, 0, -1, false, { eventName .. " at " .. x .. " " .. y })
+end
+
 
 return Touch
