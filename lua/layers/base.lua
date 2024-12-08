@@ -15,6 +15,13 @@ Base.init = function()
 	endfunction
 ]]
 
+	-- statusline color
+	vim.cmd [[
+		highlight StatusLine guifg=#ffffff guibg=#007acc ctermfg=white ctermbg=blue
+		highlight StatusLineNC guifg=#7f7f7f guibg=#1e1e1e ctermfg=grey ctermbg=darkgrey
+	]]
+
+
 	-- print('hello')
 end
 

@@ -78,7 +78,15 @@ Touch.logMouseClick = function(eventName)
 	local y = mouse_pos.winrow
 
 	-- Log the event name and coordinates
-	vim.api.nvim_buf_set_lines(0, 0, -1, false, { eventName .. " at " .. x .. " " .. y })
+	vim.o.statusline = table.concat({
+	  ' %t',
+	  '%r',
+	  '%m',
+	  '%=',
+	  '%{&filetype}',
+	  eventName .. " at " .. x .. " " .. y,
+	}, '')
+
 end
 
 
