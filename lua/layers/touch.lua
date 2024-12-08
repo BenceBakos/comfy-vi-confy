@@ -71,6 +71,8 @@ Touch.autocmds = {
 	-- {events = { 'BufReadPost' }, settings ={ pattern = { '*' }, callback = function() end}}
 }
 
+Touch.index = 0;
+
 Touch.logMouseClick = function(eventName)
 	-- Get the mouse position
 	local mouse_pos = vim.fn.getmousepos()
@@ -86,6 +88,9 @@ Touch.logMouseClick = function(eventName)
 	  '%{&filetype}',
 	  eventName .. " at " .. x .. " " .. y,
 	}, '')
+
+	Touch.index = Touch.index + 1
+	vim.api.nvim_buf_set_lines(0, Touch.index, -1, false, {eventName .. " at " .. x .. " " .. y  })
 
 end
 
