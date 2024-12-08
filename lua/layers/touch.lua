@@ -8,9 +8,7 @@ Touch.excludeOs = {
 	-- Terminal.ARCH,
 }
 
-Touch.maps = {
-
-}
+Touch.maps = {}
 
 Touch.envCommands = {
 	-- debian =  {'',''}
@@ -23,20 +21,20 @@ Touch.events = {
 	'<ScrollWheelUp>',
 	'<ScrollWheelDown>',
 	'<LeftMouse>',
-	'<LeftDrag>',
 	'<LeftRelease>',
-	'<MiddleMouse>',
-	'<MiddleDrag>',
-	'<MiddleRelease>',
-	'<RightMouse>',
-	'<RightDrag>',
-	'<RightRelease>',
-	'<X1Mouse>',
-	'<X1Drag>',
-	'<X1Release>',
-	'<X2Mouse>',
-	'<X2Drag>',
-	'<X2Release>'
+	-- '<LeftDrag>',
+	-- '<MiddleMouse>',
+	-- '<MiddleDrag>',
+	-- '<MiddleRelease>',
+	-- '<RightMouse>',
+	-- '<RightDrag>',
+	-- '<RightRelease>',
+	-- '<X1Mouse>',
+	-- '<X1Drag>',
+	-- '<X1Release>',
+	-- '<X2Mouse>',
+	-- '<X2Drag>',
+	-- '<X2Release>'
 }
 
 Touch.init = function()
@@ -63,15 +61,7 @@ Touch.options = {
 	}
 }
 
-Touch.commands = {
-	-- Cpath = ":let @+=expand('%')"
-}
-
-Touch.autocmds = {
-	-- {events = { 'BufReadPost' }, settings ={ pattern = { '*' }, callback = function() end}}
-}
-
-Touch.index = 0;
+-- Touch.index = 0;
 
 Touch.logMouseClick = function(eventName)
 	-- Get the mouse position
@@ -89,10 +79,16 @@ Touch.logMouseClick = function(eventName)
 	  eventName .. " at " .. x .. " " .. y,
 	}, '')
 
-	Touch.index = Touch.index + 1
-	vim.api.nvim_buf_set_lines(0, Touch.index, -1, false, {eventName .. " at " .. x .. " " .. y  })
+	-- Touch.index = Touch.index + 1
+	-- vim.api.nvim_buf_set_lines(0, Touch.index, -1, false, {eventName .. " at " .. x .. " " .. y  })
 
 end
+
+Touch.autocmds = {
+	-- {events = { 'BufReadPost' }, settings ={ pattern = { '*' }, callback = function() end}}
+}
+
+
 
 
 return Touch
