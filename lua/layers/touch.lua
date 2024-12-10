@@ -59,14 +59,14 @@ Touch.handleEvent = function(eventName)
 	end
 end
 
-Touch.buffer = nil
+Touch.bufferId = nil
 
 Touch.init = function()
 
 	-- create and focus buffer
-	Touch.buffer = vim.api.nvim_create_buf(true, true)
-	vim.api.nvim_buf_set_name(Touch.buffer, "Abz")
-	vim.api.nvim_set_current_buf(Touch.buffer)
+	Touch.bufferId = vim.api.nvim_create_buf(true, true)
+	vim.api.nvim_buf_set_name(Touch.bufferId, "Abz")
+	vim.api.nvim_set_current_buf(Touch.bufferId)
 
 	for _,eventName in pairs(Touch.events) do
 		table.insert(
