@@ -1,5 +1,6 @@
 Terminal = require("utils.terminal")
 File = require("utils.file")
+Buffer = require("utils.buffer")
 
 Touch = {}
 
@@ -58,7 +59,15 @@ Touch.handleEvent = function(eventName)
 	end
 end
 
+Touch.buffer = nil
+
 Touch.init = function()
+
+	-- create and focus buffer
+	Touch.buffer = vim.api.nvim_create_buf(true, true)
+	vim.api.nvim_buf_set_name(Touch.buffer, "Abz")
+	vim.api.nvim_set_current_buf(Touch.buffer)
+
 	for _,eventName in pairs(Touch.events) do
 		table.insert(
 			Touch.maps,
@@ -93,7 +102,7 @@ Touch.logEvent = function(eventName,x,y)
 	  '%m',
 	  '%=',
 	  '%{&filetype}',
-	  eventName .. " at " .. x .. " " .. y,
+	  eventName .. " at " .. x .. " " .. y.." W"..Buffer.getWidth().." H:"..Buffer.getHeight(),
 	}, '')
 
 	-- Touch.index = Touch.index + 1
