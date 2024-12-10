@@ -37,6 +37,27 @@ Touch.events = {
 	-- '<X2Release>'
 }
 
+Touch.components = {
+	require('layers.touch.sampleComponent')
+}
+
+Touch.handleEvent = function(eventName)
+	-- Get the mouse position
+	local mouse_pos = vim.fn.getmousepos()
+	local x = mouse_pos.wincol
+	local y = mouse_pos.winrow
+
+	Touch.logEvent(eventName,x,y)
+
+	for _, component in pairs(Touch.components) do
+		if (component.condition(eventName,x,y)) then
+			component.controller(eventName,x,y)
+		end
+
+		component.render(eventName,x,y)
+	end
+end
+
 Touch.init = function()
 	for _,eventName in pairs(Touch.events) do
 		table.insert(
@@ -44,7 +65,7 @@ Touch.init = function()
 			{
 				mode = 'n',
 				map = eventName,
-				to = function() Touch.logMouseClick(eventName) end,
+				to = function() Touch.handleEvent(eventName) end,
 				options = { noremap = true, silent = true },
 			}
 		)
@@ -61,13 +82,9 @@ Touch.options = {
 	}
 }
 
--- Touch.index = 0;
+-- Touch.index = 0
 
-Touch.logMouseClick = function(eventName)
-	-- Get the mouse position
-	local mouse_pos = vim.fn.getmousepos()
-	local x = mouse_pos.wincol
-	local y = mouse_pos.winrow
+Touch.logEvent = function(eventName,x,y)
 
 	-- Log the event name and coordinates
 	vim.o.statusline = table.concat({
