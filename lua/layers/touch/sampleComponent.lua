@@ -1,3 +1,4 @@
+Buffer = require("utils.buffer")
 
 SampleComponent = {}
 

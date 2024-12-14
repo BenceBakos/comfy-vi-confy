@@ -86,8 +86,10 @@ Touch.options = {
 
 	},
 	opt = {
+		number = false,
+		fillchars= {eob = ' '},
 		mouse = 'a',
-		mousefocus = true
+		mousefocus = true,
 	}
 }
 
@@ -114,7 +116,5 @@ Touch.autocmds = {
 	-- {events = { 'BufReadPost' }, settings ={ pattern = { '*' }, callback = function() end}}
 }
 
-
-
-
 return Touch
+
