@@ -63,10 +63,7 @@ Touch.bufferId = nil
 
 Touch.init = function()
 
-	-- create and focus buffer
-	Touch.bufferId = vim.api.nvim_create_buf(true, true)
-	vim.api.nvim_buf_set_name(Touch.bufferId, "Abz")
-	vim.api.nvim_set_current_buf(Touch.bufferId)
+	Touch.initBuffer()
 
 	for _,eventName in pairs(Touch.events) do
 		table.insert(
@@ -81,6 +78,23 @@ Touch.init = function()
 	end
 end
 
+Touch.initBuffer = function ()
+	-- create and focus buffer
+	Touch.bufferId = vim.api.nvim_create_buf(true, true)
+	vim.api.nvim_buf_set_name(Touch.bufferId, "Abz")
+	vim.api.nvim_set_current_buf(Touch.bufferId)
+
+	-- read store into buffer
+	local storeContent = File.readAll(os.getenv("HOME") ..'/.config/nvim/store.sh')
+
+	if not storeContent then
+		Log.err('Failed to load store for Touch')
+		return nil
+	end
+
+	Buffer.setContent(Touch.bufferId,0,-1,vim.split(storeContent,'\n'))
+end
+
 Touch.options = {
 	g = {
 
@@ -89,7 +103,7 @@ Touch.options = {
 		number = false,
 		fillchars= {eob = ' '},
 		mouse = 'a',
-		mousefocus = true,
+		mousefocus = false,
 	}
 }
 
