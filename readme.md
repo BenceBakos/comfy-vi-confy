@@ -60,4 +60,10 @@ I have local, and remote nodes, I can make remote nodes local
 
 I can build on these nodes, I can reference them
 
+make it blind usable
+
+set up known possibilities for each "command", then send it into a stack
+
+espeak + vibration
+
 
