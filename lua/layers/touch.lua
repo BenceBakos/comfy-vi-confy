@@ -1,70 +1,34 @@
 Terminal = require("utils.terminal")
 File = require("utils.file")
-Buffer = require("utils.buffer")
 
 Touch = {}
 
-Touch.bufferId = nil
-
 Touch.separator = "#--------"
 
-Touch.maps = {
-	-- '<ScrollWheelUp>',
-	-- '<ScrollWheelDown>',
-	{
-		mode = 'n',
-		map = '<LeftRelease>',
-		to = function()
-			local mouse = Touch.getMouse()
+Touch.storeBufferName = "Store"
+Touch.builderBufferName = "Builder"
 
-			Touch.logEvent('<LeftRelease>', mouse.x, mouse.y)
+Touch.storeBufferId = nil
+Touch.builderBufferId = nil
 
-			-- start handeling events for store, then for builder
-
-
-		end,
-		options = { noremap = false, silent = true },
-	},
-	{ mode = 'n', map = '<4-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
-	{ mode = 'n', map = '<3-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
-	{ mode = 'n', map = '<2-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
-	{ mode = 'n', map = '<LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } }
-
-}
-
-Touch.isLeftSide = function (x)
-	return x < (Buffer.getWidth() / 2)
-end
-
-Touch.isRightSide = function (x)
-	return x >= (Buffer.getWidth() / 2)
-end
-
-Touch.getMouse = function()
-	local mousePos = vim.fn.getmousepos()
-	return {
-		x = mousePos.wincol,
-		y = mousePos.winrow
-	}
-end
-
-Touch.logEvent = function(eventName, x, y)
-	-- Log the event name and coordinates
-	vim.o.statusline = table.concat({
-		' %t',
-		'%r',
-		'%m',
-		'%=',
-		'%{&filetype}',
-		eventName .. " at " .. x .. " " .. y .. " W" .. Buffer.getWidth() .. " H:" .. Buffer.getHeight(),
-	}, '')
-end
+Touch.leftReleaseHandler = {}
 
 Touch.init = function()
-	-- create and focus buffer
-	Touch.bufferId = vim.api.nvim_create_buf(true, true)
-	vim.api.nvim_buf_set_name(Touch.bufferId, "Abz")
-	vim.api.nvim_set_current_buf(Touch.bufferId)
+	Touch.initStore()
+	Touch.initBuilder()
+	Touch.initLeftReleaseHandlers()
+end
+
+Touch.initBuilder = function()
+	Touch.storeBufferId = vim.api.nvim_create_buf(true, true)
+	vim.api.nvim_buf_set_name(Touch.storeBufferId, Touch.builderBufferName)
+end
+
+Touch.initStore = function()
+	-- create and focus store buffer
+	Touch.storeBufferId = vim.api.nvim_create_buf(true, true)
+	vim.api.nvim_buf_set_name(Touch.storeBufferId, Touch.storeBufferName)
+	vim.api.nvim_set_current_buf(Touch.storeBufferId)
 
 	-- read store into buffer
 	local storeContent = File.readAll(os.getenv("HOME") .. '/.config/nvim/store.sh')
@@ -74,10 +38,86 @@ Touch.init = function()
 		return nil
 	end
 
-	Buffer.setContent(Touch.bufferId, 0, -1, vim.split(storeContent, '\n'))
+	vim.api.nvim_buf_set_lines(Touch.storeBufferId, 0, -1, false, vim.split(storeContent, '\n'))
 end
 
+Touch.initLeftReleaseHandlers = function()
+	Touch.leftReleaseHandler['<LeftRelease>'][Touch.storeBufferId] = {
+		selectStoreLine = function()
 
+		end
+		-- selectStoreSection
+		-- selectedToBuilder
+		-- selectBuilderLine
+		-- selectBuilderSection
+		-- cutBuilderSelected
+		-- copyBuilderSelected
+		-- pasteBuilderSelected
+		-- manualEdit
+		-- clearBuilder(make it a bit harder to do)
+		-- execute(validate,store,exec in new terminal session)
+		-- nextBuffer
+		-- previousBuffer
+		-- closeBuffer(only for terminals, stop execution!)
+		-- edit executed(only in terminal buffer)
+	}
+end
+
+Touch.maps = {
+	-- '<ScrollWheelUp>',
+	-- '<ScrollWheelDown>',
+	-- '<2-LeftMouse>', -- tricky, has to disable text selection in termux for it to work properly
+	{
+		mode = 'n',
+		map = '<LeftRelease>',
+		to = function()
+			local eventName = '<LeftRelease>'
+			local pointer = vim.fn.getmousepos()
+			local bufferId = vim.api.nvim_win_get_buf(pointer.winid)
+
+			Touch.logEvent(
+				eventName,
+				pointer.wincol,
+				pointer.winrow,
+				pointer.winid,
+				bufferId
+			)
+
+			for _, handler in pairs(Touch.leftReleaseHandler[eventName][bufferId]) do
+				handler(
+					pointer.wincol,
+					pointer.winrow,
+					pointer.winid,
+					bufferId)
+			end
+		end,
+		options = { noremap = false, silent = true },
+	},
+	{ mode = 'n', map = '<4-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = 'n', map = '<3-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = 'n', map = '<2-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = 'n', map = '<LeftMouse>',   to = '<Nop>', options = { noremap = false, silent = true } }
+
+}
+
+Touch.logEvent = function(eventName, x, y, winId, bufferId)
+	-- Log the event name and coordinates
+	vim.o.statusline = table.concat({
+		' %t',
+		'%r',
+		'%m',
+		'%=',
+		'%{&filetype}',
+		eventName ..
+		" at " ..
+		x ..
+		" " ..
+		y ..
+		" W" ..
+		vim.api.nvim_win_get_width(winId) ..
+		" H:" .. vim.api.nvim_win_get_height(winId) .. " Win: " .. winId .. " Buf: " .. bufferId,
+	}, '')
+end
 
 Touch.options = {
 	g = {

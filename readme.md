@@ -22,5 +22,7 @@ components are the wrong way of abstraction?(or just call them listeners, no sin
  - should be cut and paste instead of copy?
  - delete?
  - execute?
-
-
+ - Don't forget desktop
+ - Execute in terminal
+ - Handle terminals on mobile
+ - Search and exec can be blind
