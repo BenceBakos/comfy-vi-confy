@@ -5,11 +5,17 @@ Touch = {}
 
 Touch.separator = "#--------"
 
+Touch.selectedLineSignName = "selectedLineSignName"
+Touch.storeSignGroup = "storeSignGroup"
+
+Touch.selectionCounter = 0
+
 Touch.storeBufferName = "Store"
 Touch.builderBufferName = "Builder"
 
 Touch.storeBufferId = nil
 Touch.builderBufferId = nil
+
 
 Touch.leftReleaseHandler = {}
 
@@ -17,6 +23,9 @@ Touch.init = function()
 	Touch.initStore()
 	Touch.initBuilder()
 	Touch.initLeftReleaseHandlers()
+
+	-- define select sign
+	vim.fn.sign_define(Touch.selectedLineSignName, { text = '■', texthl = "", linehl = "", numhl = "" })
 end
 
 Touch.initBuilder = function()
@@ -38,13 +47,15 @@ Touch.initStore = function()
 		return nil
 	end
 
+
 	vim.api.nvim_buf_set_lines(Touch.storeBufferId, 0, -1, false, vim.split(storeContent, '\n'))
 end
 
 Touch.initLeftReleaseHandlers = function()
+	Touch.leftReleaseHandler['<LeftRelease>'] = {}
 	Touch.leftReleaseHandler['<LeftRelease>'][Touch.storeBufferId] = {
-		selectStoreLine = function()
-
+		selectStoreLine = function(col,row,winId,bufferId)
+			
 		end
 		-- selectStoreSection
 		-- selectedToBuilder
@@ -100,7 +111,8 @@ Touch.maps = {
 
 }
 
-Touch.logEvent = function(eventName, x, y, winId, bufferId)
+
+Touch.logEvent = function(eventName, col, row, winId, bufferId)
 	-- Log the event name and coordinates
 	vim.o.statusline = table.concat({
 		' %t',
@@ -110,14 +122,46 @@ Touch.logEvent = function(eventName, x, y, winId, bufferId)
 		'%{&filetype}',
 		eventName ..
 		" at " ..
-		x ..
+		col ..
 		" " ..
-		y ..
+		row ..
 		" W" ..
 		vim.api.nvim_win_get_width(winId) ..
 		" H:" .. vim.api.nvim_win_get_height(winId) .. " Win: " .. winId .. " Buf: " .. bufferId,
 	}, '')
 end
+
+Touch.insertSign = function (row)
+	Touch.selectionCounter = Touch.selectionCounter + 1
+	vim.fn.sign_place(row, Touch.storeSignGroup, Touch.selectedLineSignName, Touch.storeBufferName, {lnum = row, priority = 1})
+end
+
+Touch.removeSign = function (row)
+	Touch.selectionCounter = Touch.selectionCounter - 1
+	vim.fn.sign_unplace(Touch.storeSignGroup, { buffer = Touch.storeBufferName, id = row })
+end
+
+Touch.removeAllSign = function (bufferName)
+	Touch.selectionCounter = 0
+	vim.fn.sign_unplace(Touch.storeSignGroup, { buffer = bufferName })
+end
+
+Touch.isLeftHalf = function (bufferId,col)
+	
+end
+
+Touch.isRightHalf = function (bufferId,col)
+	
+end
+
+Touch.isStoreBuffer = function (bufferId)
+	return bufferId == Touch.storeBufferId
+end
+
+Touch.isBuilderBuffer = function (bufferId)
+	return bufferId == Touch.builderBufferId
+end
+
 
 Touch.options = {
 	g = {

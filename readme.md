@@ -26,3 +26,6 @@ components are the wrong way of abstraction?(or just call them listeners, no sin
  - Execute in terminal
  - Handle terminals on mobile
  - Search and exec can be blind
+ - commands for work are very important! store in home directory, sinc with syncthing
+
+## or just make my whole vim usable from my phone, and extremely usefull from desktop?
