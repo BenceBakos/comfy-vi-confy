@@ -6,6 +6,9 @@ Touch = {}
 Touch.leftReleaseHandler = {}
 
 Touch.init = function()
+	vim.cmd('tabedit a')
+	vim.cmd('tabedit b')
+	vim.cmd('tabedit c')
 	for eventName, handlers in pairs(Touch.handlers) do
 		table.insert(Touch.maps, {
 			mode = 'n',
@@ -13,7 +16,12 @@ Touch.init = function()
 			to = function()
 				local dimensions = Touch.getDimensions()
 
-				Touch.logEvent(eventName,dimensions.wincol,dimensions.winrow,dimensions.winid)
+				Touch.logEvent(
+					eventName,
+					dimensions.wincol,
+					dimensions.winrow,
+					dimensions.winid
+				)
 
 				for _, handler in pairs(handlers) do
 					handler(dimensions)
