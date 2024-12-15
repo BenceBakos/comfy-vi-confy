@@ -43,6 +43,5 @@ components are the wrong way of abstraction?(or just call them listeners, no sin
 
 ### Gestures
  - circle tabs with left-edge scroll
- - close buffer with top-right tap(exit process if terminal)
- - insert mode, show keyboard in terminal bottom press
+ - close buffer with top-right tap(exit process if terminal);
 
