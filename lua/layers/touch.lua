@@ -38,7 +38,7 @@ Touch.handlers = {}
 
 Touch.handlers['<LeftRelease>'] = {
 	function(dimensions)
-		if dimensions.wincol < (dimensions.winCols * 0.95) and dimensions.winrow < (dimensions.winRows * 0.05) then
+		if dimensions.wincol < (dimensions.winCols * 0.92) and dimensions.winrow < (dimensions.winRows * 0.08) then
 			vim.cmd('q!')
 		end
 	end
@@ -46,7 +46,7 @@ Touch.handlers['<LeftRelease>'] = {
 
 Touch.handlers['<ScrollWheelUp>'] = {
 	function(dimensions)
-		if dimensions.wincol < (dimensions.winCols * 0.05) then
+		if dimensions.wincol < (dimensions.winCols * 0.08) then
 			vim.cmd('tabnext')
 		end
 	end
@@ -54,7 +54,7 @@ Touch.handlers['<ScrollWheelUp>'] = {
 
 Touch.handlers['<ScrollWheelDown>'] = {
 	function(dimensions)
-		if dimensions.wincol < (dimensions.winCols * 0.05) then
+		if dimensions.wincol < (dimensions.winCols * 0.08) then
 			vim.cmd('tabprevious')
 		end
 	end
