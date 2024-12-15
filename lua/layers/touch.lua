@@ -38,7 +38,7 @@ Touch.handlers = {}
 
 Touch.handlers['<LeftRelease>'] = {
 	function(dimensions)
-		if dimensions.wincol > (dimensions.winCols * 0.90) and dimensions.winrow < (dimensions.winRows * 0.9) then
+		if dimensions.wincol > (dimensions.winCols * 0.9) and dimensions.winrow < (dimensions.winRows * 0.1) then
 			vim.cmd('q!')
 		end
 	end
