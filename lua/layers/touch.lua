@@ -146,23 +146,6 @@ Touch.removeAllSign = function (bufferName)
 	vim.fn.sign_unplace(Touch.storeSignGroup, { buffer = bufferName })
 end
 
-Touch.isLeftHalf = function (bufferId,col)
-	
-end
-
-Touch.isRightHalf = function (bufferId,col)
-	
-end
-
-Touch.isStoreBuffer = function (bufferId)
-	return bufferId == Touch.storeBufferId
-end
-
-Touch.isBuilderBuffer = function (bufferId)
-	return bufferId == Touch.builderBufferId
-end
-
-
 Touch.options = {
 	g = {
 
