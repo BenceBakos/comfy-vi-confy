@@ -25,7 +25,7 @@ Main.init({
 	'macro',
 	'theme',
 	'refactor',
-	-- 'abz',
+	'abz',
 	'touch'
 	-- where to store snippets, refactors, spells?
 	-- refactors -> treesitter based, low-code definitions

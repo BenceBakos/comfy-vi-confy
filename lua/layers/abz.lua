@@ -3,16 +3,15 @@ Keyboard = require("utils.keyborad")
 
 Abz = {}
 
-Abz.separator = "#--------"
-
-Abz.historyPrefix = "History-"
-Abz.builderPrefix = "Builder-"
-
 -- fields:
 -- - historyBufferId
 -- - builderBufferId
 -- - instaneId
 Abz.instances = {}
+
+Abz.termBufferNamePrefix = 'term://'
+Abz.lazygitBufferNamePostfix = 'lazygit'
+Abz.builderBufferName = "Builder"
 
 Abz.getHistoryPath = function()
 	if Terminal.getOs() == Terminal.TERMUX then
@@ -22,75 +21,76 @@ Abz.getHistoryPath = function()
 	return os.getenv("HOME") .. '/nvimCommandHistory/nvimCommandHistory.sh'
 end
 
+Abz.getBuilderHeight = function()
+	if Terminal.getOs() == Terminal.TERMUX then
+		return 15
+	end
+
+	return 5
+end
+
 Abz.init = function()
 end
 
-Abz.maps = {
+Base.autocmds = {
 	{
-		mode = 'n',
-		map = '<Leader>m',
-		to = function()
-			local instanceId = vim.fn.rand()
+		events = { 'TermOpen' },
+		settings = {
+			pattern = { '*' },
+			callback = function(ev)
 
-			local historyBufferId = vim.api.nvim_create_buf(true, true)
-
-			vim.api.nvim_buf_set_name(historyBufferId, Abz.historyPrefix .. instanceId)
-			vim.api.nvim_set_current_buf(historyBufferId)
-
-			-- read store into buffer
-			local history = File.readAll(Abz.getHistoryPath())
-
-			if not history then
-				Log.err('Failed to load history for Abz from path: ' .. Abz.getHistoryPath())
-				return nil
-			end
-
-			vim.api.nvim_buf_set_lines(historyBufferId, 0, -1, false, vim.split(history, '\n'))
-
-			table.insert(Abz.instances, {
-				historyBufferId = historyBufferId,
-				instanceId = instanceId
-			})
-		end,
-		options = false
-	},
-	{
-		mode = 'n',
-		map = 'c',
-		to = function()
-			local bufferId = vim.api.nvim_get_current_buf()
-
-			local activeInstance = nil
-			for _, instance in pairs(Abz.instances) do
-				if instance.historyBufferId == bufferId then
-					activeInstance = instance
-					break
+				Log.log(ev)
+				if string.match(ev.match,  Abz.lazygitBufferNamePostfix .. "$") ~= nil  then
+					return nil
 				end
-			end
 
-			if activeInstance == nil then return nil end
-
-			if vim.fn.has_key(activeInstance,'builderBufferId') == 0 then
-				activeInstance.builderBufferId = vim.api.nvim_create_buf(true,true)
+				local builderBufferId = vim.api.nvim_create_buf(false, true)
 
 				vim.cmd('split')
 
 				local windows = vim.api.nvim_list_wins()
-				local activeWindow = windows[#windows]
 
-				vim.api.nvim_win_set_buf(activeWindow,activeInstance.builderBufferId)
+				local builderWindowId = windows[#windows]
+
+				vim.api.nvim_win_set_buf(builderWindowId, builderBufferId)
+				vim.api.nvim_buf_set_name(builderBufferId,Abz.builderBufferName)
+				vim.api.nvim_win_set_height(builderWindowId, Abz.getBuilderHeight())
+			end
+		}
+	}
+}
+
+
+
+Abz.maps = {
+	{
+		mode = "n",
+		map = "o",
+		to = function()
+			local bufferName = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
+
+			if string.match(bufferName, "^" .. Abz.termBufferNamePrefix) ~= nil then
+				Keyboard.feed("<C-w>ji", 'n')
+				return nil
 			end
 
-			local content = vim.fn.getreg('+')
-			Log.log(content)
-			Log.log(content == Abz.separator)
-			-- get yanked, line, or section
-
-			-- paste yanked into split
+			Keyboard.feed("j0i<CR><ESC>ki", 'n')
+			return nil
+		end,
+		options = { noremap = false, silent = true }
+	},
+	{
+		mode = "i",
+		map = "<C-j>",
+		to = function()
+			local bufferName = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
+			if bufferName == Abz.builderBufferName then
+				-- todo: get buffer content, copy to terminal, execute, and get back into builder
+			end
 
 		end,
-		options = { noremap = true, silent = true }
-	}
+		options = { noremap = false, silent = true }
+	},
 }
 
 return Abz
