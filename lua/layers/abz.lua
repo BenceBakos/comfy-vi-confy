@@ -3,12 +3,6 @@ Keyboard = require("utils.keyborad")
 
 Abz = {}
 
--- fields:
--- - historyBufferId
--- - builderBufferId
--- - instaneId
-Abz.instances = {}
-
 Abz.termBufferNamePrefix = 'term://'
 Abz.lazygitBufferNamePostfix = 'lazygit'
 Abz.builderBufferName = "Builder"
@@ -32,35 +26,44 @@ end
 Abz.init = function()
 end
 
-Base.autocmds = {
+Abz.terminalToBuilder = {}
+
+Abz.openBuilder = function()
+	local terminalBufferId = vim.api.nvim_get_current_buf()
+
+	if string.match(vim.api.nvim_buf_get_name(terminalBufferId), Abz.lazygitBufferNamePostfix .. "$") ~= nil then
+		return nil
+	end
+
+	local builderBufferId = nil
+	if Table.hasKey(Abz.terminalToBuilder, terminalBufferId) then
+		builderBufferId = Abz.terminalToBuilder[terminalBufferId]
+	else
+		builderBufferId = vim.api.nvim_create_buf(false, true)
+		Abz.terminalToBuilder[terminalBufferId] = builderBufferId
+	end
+
+	vim.cmd('split')
+
+	local windows = vim.api.nvim_list_wins()
+
+	local builderWindowId = windows[#windows]
+
+	vim.api.nvim_win_set_buf(builderWindowId, builderBufferId)
+	vim.api.nvim_buf_set_name(builderBufferId, vim.fn.rand() .. '-' .. Abz.builderBufferName)
+	vim.api.nvim_win_set_height(builderWindowId, Abz.getBuilderHeight())
+	vim.opt_local.winfixheight = true
+end
+
+Abz.autocmds = {
 	{
 		events = { 'TermOpen' },
 		settings = {
 			pattern = { '*' },
-			callback = function(ev)
-
-				Log.log(ev)
-				if string.match(ev.match,  Abz.lazygitBufferNamePostfix .. "$") ~= nil  then
-					return nil
-				end
-
-				local builderBufferId = vim.api.nvim_create_buf(false, true)
-
-				vim.cmd('split')
-
-				local windows = vim.api.nvim_list_wins()
-
-				local builderWindowId = windows[#windows]
-
-				vim.api.nvim_win_set_buf(builderWindowId, builderBufferId)
-				vim.api.nvim_buf_set_name(builderBufferId,Abz.builderBufferName)
-				vim.api.nvim_win_set_height(builderWindowId, Abz.getBuilderHeight())
-			end
+			callback = Abz.openBuilder
 		}
 	}
 }
-
-
 
 Abz.maps = {
 	{
@@ -74,7 +77,7 @@ Abz.maps = {
 				return nil
 			end
 
-			Keyboard.feed("j0i<CR><ESC>ki", 'n')
+			Keyboard.feed("$a<CR>", 'n')
 			return nil
 		end,
 		options = { noremap = false, silent = true }
@@ -84,13 +87,41 @@ Abz.maps = {
 		map = "<C-j>",
 		to = function()
 			local bufferName = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
-			if bufferName == Abz.builderBufferName then
-				-- todo: get buffer content, copy to terminal, execute, and get back into builder
-			end
 
+			if string.match(bufferName, Abz.builderBufferName .. "$") ~= nil then
+				Keyboard.feed('<ESC>0ggvG$"cy<ESC><C-w>ki<C-c><CR><C-\\><C-n>"cpi<CR><C-\\><C-n><C-w>j<C-o>i', 'n')
+			end
 		end,
 		options = { noremap = false, silent = true }
 	},
+	{
+		mode = "n",
+		map = "<C-j>",
+		to = function()
+			-- with Abz.bufferInAnyWindow and Abz.terminalToBuilder, check if there is a builder buffer, and it's opened or not. if not, open, and return nil
+
+			local bufferName = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
+
+			if string.match(bufferName, Abz.builderBufferName .. "$") ~= nil then
+				Keyboard.feed('0ggvG$"cy<ESC><C-w>ki<C-c><CR><C-\\><C-n>"cpi<CR><C-\\><C-n><C-w>j<C-o>', 'n')
+			end
+		end,
+		options = { noremap = false, silent = true }
+	}
 }
+
+Abz.bufferInAnyWindow = function(bufferId)
+	local windows = vim.api.nvim_list_wins()
+
+	for _, win in ipairs(windows) do
+		local buf = vim.api.nvim_win_get_buf(win)
+
+		if buf == bufferId then
+			return true
+		end
+	end
+
+	return false
+end
 
 return Abz
