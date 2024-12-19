@@ -3,7 +3,7 @@ Keyboard = require("utils.keyborad")
 
 Abz = {}
 
-Abz.executeBuilderCommand = '0ggvG$"cy<ESC><C-w>ki<C-k><CR><C-\\><C-n>"cpi<CR><C-\\><C-n><C-w>j'
+Abz.executeBuilderCommand = '0ggvG$"cy<ESC><C-w>ki<C-k><C-\\><C-n>"cpi<CR><C-\\><C-n><C-w>j'
 
 Abz.termBufferNamePrefix = 'term://'
 Abz.lazygitBufferNamePostfix = 'lazygit'
