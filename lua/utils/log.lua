@@ -31,6 +31,10 @@ end
 Log.log = function (msg)
 	if type(msg) == "table" then msg = Log.tableToString(msg) end
 
+	if type(msg) == "boolean" then
+		msg = tostring(msg)
+	end
+
 	local f = io.open(os.getenv("HOME") .. "/nvim.error", "a")
 	if msg and f then
 		io.output(f)
