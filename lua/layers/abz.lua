@@ -3,6 +3,8 @@ Keyboard = require("utils.keyborad")
 
 Abz = {}
 
+Abz.executeBuilderCommand = '0ggvG$"cy<ESC><C-w>ki<C-k><CR><C-\\><C-n>"cpi<CR><C-\\><C-n><C-w>j'
+
 Abz.termBufferNamePrefix = 'term://'
 Abz.lazygitBufferNamePostfix = 'lazygit'
 Abz.builderBufferName = "Builder"
@@ -83,9 +85,16 @@ Abz.maps = {
 			local bufferName = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
 
 			if string.match(bufferName, Abz.builderBufferName .. "$") ~= nil then
-				-- execute builder content
-				Keyboard.feed('<ESC>0ggvG$"cy<ESC><C-w>ki<C-c><CR><C-\\><C-n>"cpi<CR><C-\\><C-n><C-w>ji', 'n')
+				Keyboard.feed('<ESC>'..Abz.executeBuilderCommand, 'n')
 			end
+		end,
+		options = { noremap = false, silent = true }
+	},
+	{
+		mode = "t",
+		map = "<C-j>",
+		to = function()
+			Keyboard.feed('<C-\\><C-n><c-w>j'..Abz.executeBuilderCommand..'<c-w>ki', 'n')
 		end,
 		options = { noremap = false, silent = true }
 	},
@@ -96,7 +105,8 @@ Abz.maps = {
 			local bufferId = vim.api.nvim_get_current_buf()
 			local bufferName = vim.api.nvim_buf_get_name(bufferId)
 
-			if not Abz.bufferInAnyWindow(Abz.terminalToBuilder[bufferId]) then
+			-- no builder buffer, open one
+			if string.match(bufferName, "^" .. Abz.termBufferNamePrefix) ~= nil and not Abz.bufferInAnyWindow(Abz.terminalToBuilder[bufferId]) then
 				local terminalBufferId = vim.api.nvim_get_current_buf()
 
 				if string.match(vim.api.nvim_buf_get_name(terminalBufferId), Abz.lazygitBufferNamePostfix .. "$") ~= nil then
@@ -119,9 +129,13 @@ Abz.maps = {
 				return nil
 			end
 
+			--there is a builder buffer, execute its content
+			if string.match(bufferName, "^" .. Abz.termBufferNamePrefix) ~= nil and Abz.bufferInAnyWindow(Abz.terminalToBuilder[bufferId]) then
+				Keyboard.feed('<c-w>j'..Abz.executeBuilderCommand..'<c-w>k', 'n')
+			end
+
 			if string.match(bufferName, Abz.builderBufferName .. "$") ~= nil then
-				-- execute builder content
-				Keyboard.feed('0ggvG$"cy<ESC><C-w>ki<C-c><CR><C-\\><C-n>"cpi<CR><C-\\><C-n><C-w>j', 'n')
+				Keyboard.feed(Abz.executeBuilderCommand, 'n')
 			end
 		end,
 		options = { noremap = false, silent = true }
