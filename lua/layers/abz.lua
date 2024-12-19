@@ -41,16 +41,15 @@ Abz.openBuilder = function()
 	else
 		builderBufferId = vim.api.nvim_create_buf(false, true)
 		Abz.terminalToBuilder[terminalBufferId] = builderBufferId
+		vim.api.nvim_buf_set_name(builderBufferId, vim.fn.rand() .. '-' .. Abz.builderBufferName)
 	end
 
-	vim.cmd('split')
+	vim.api.nvim_command('split')
 
 	local windows = vim.api.nvim_list_wins()
-
 	local builderWindowId = windows[#windows]
 
 	vim.api.nvim_win_set_buf(builderWindowId, builderBufferId)
-	vim.api.nvim_buf_set_name(builderBufferId, vim.fn.rand() .. '-' .. Abz.builderBufferName)
 	vim.api.nvim_win_set_height(builderWindowId, Abz.getBuilderHeight())
 	vim.opt_local.winfixheight = true
 end
@@ -98,9 +97,14 @@ Abz.maps = {
 		mode = "n",
 		map = "<C-j>",
 		to = function()
-			-- with Abz.bufferInAnyWindow and Abz.terminalToBuilder, check if there is a builder buffer, and it's opened or not. if not, open, and return nil
+			local bufferId = vim.api.nvim_get_current_buf()
+			local bufferName = vim.api.nvim_buf_get_name(bufferId)
 
-			local bufferName = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
+			if Table.hasKey(Abz.terminalToBuilder,bufferId) and not Abz.bufferInAnyWindow(Abz.terminalToBuilder[bufferId]) then
+				Abz.openBuilder()
+				Keyboard.feed('<C-w>ji','n')
+				return nil
+			end
 
 			if string.match(bufferName, Abz.builderBufferName .. "$") ~= nil then
 				Keyboard.feed('0ggvG$"cy<ESC><C-w>ki<C-c><CR><C-\\><C-n>"cpi<CR><C-\\><C-n><C-w>j<C-o>', 'n')
