@@ -1,5 +1,6 @@
 Terminal = require("utils.terminal")
 Package = require("utils.package")
+-- :InspectTree
 
 Treesitter = {}
 
