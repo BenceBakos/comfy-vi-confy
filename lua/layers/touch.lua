@@ -95,7 +95,7 @@ Touch.options = {
 
 	},
 	opt = {
-		number = false,
+		-- number = false,
 		fillchars = { eob = ' ' },
 		mouse = 'a',
 		mousefocus = false,

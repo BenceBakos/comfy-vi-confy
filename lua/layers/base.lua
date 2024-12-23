@@ -99,6 +99,15 @@ Base.autocmds = {
 				vim.cmd('stopinsert')
 			end
 		}
+	},
+	{
+		events = { 'TermOpen' },
+		settings = {
+			pattern = { '*' },
+			callback = function()
+				vim.opt_local.wrap = true
+			end
+		}
 	}
 }
 
