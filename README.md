@@ -58,7 +58,7 @@
  - name(expression with arguments replaced with type names, or just single variation with uuid )
  - shape(from treesitter, nullable)
  - context(context.name)
- - toContext(context.name,nullable)
+ - toContext(context.name,nullable) -> filled when action switches context
  - usageCount
  - arguments
      - position(order)
@@ -99,6 +99,8 @@
  - show action output history, maybe Ill use terminal buffer
 
 todo:
+ - function/macro
+    - 
  - Maybe built in logical action
  - Actions interacting with nvim api?
 
