@@ -29,7 +29,7 @@ Abz.maps = {}
 -- - Switch
 -- - String
 -- iterate each type in order, execute test method
--- 
+--
 -- end
 
 -- Abz.addToGraph = function (currentNode,expression)

@@ -2,6 +2,10 @@
 
 ## Abz
 
+### Buffer
+ - session per buffer
+ - buffer name is last executed command+uuid of the session
+
 ### Methods
 
  - explainAction(action)
@@ -11,7 +15,7 @@
      - returns action table
  - matchExpression(expression,context)
      - when no parser for context, try exact match, action with singler variation
-     - when created, explainAction
+     - when not found, and just created, explainAction
      - find action by context and shape(if no shape, then exact string match by variation), or create one(no persistence)
  - expressionToAction(expression,context): 
      - analyseExpression(expression,context) -> persist returned action
@@ -27,19 +31,43 @@
  - updateContext(name,parent,entryCheckAction,exitAction, parser)
      - if currently in this context, exit(with new action)
      - if parser changed, re-parse all related actions
- - getSuggestions(expression,action,argumentPosition)
+ - getArgumentSuggestions(expression,action,argumentPosition)
      - type's listingAction, when not null
      - from variation, where variation starts like expression
+ - getArgumentSuggestionsFromOutputhistory(expression,action,argumentPosition)
+     - from outputHistory, order by: type, history order
+ - getActionSuggestions(expression, context)
+     - mathExpression(expression,context)
+     - usageCount ordered action.nextActionHistory first, then usegeCount ordered context actions
+ - storeActionOutputHistory(output,context, action)
+     - store in history array with context(truncate if too large), action, type
+     - store without prompt(context.clearPromptPreffixAction)
+     - store to action, if smaller than n, keep outputHistory unique
+ - executeAction(expression, context)
+     - mathExpression(expression,context)
+     - sendToShell
+     - storeActionOutput()
+     - store if does not exists, and execution was successfull
+ - nullifyAction(action)
+     - nullify usageCount
+     - nullify usageCount in other actions nextActionHistory
+ - closeSession(sessionUuid)
+     - kill process
 
 ### Action
  - name(expression with arguments replaced with type names, or just single variation with uuid )
  - shape(from treesitter, nullable)
  - context(context.name)
  - toContext(context.name,nullable)
+ - usageCount
  - arguments
      - position(order)
      - type(IP,domain...)
  - variations(expression string list)
+ - nextActionHistory
+     - action.name
+     - usageCount
+ - outputHistory(string array of outputs)
 
 ### Context
  - name(unique string)
@@ -47,6 +75,7 @@
  - entryCheckAction(action.name)
  - exitAction(action.name)
  - parser(nullable, tresitter parser name)
+ - clearPromptPreffixAction(action.name)
 
 ### Type
  - name(unique string)
@@ -66,8 +95,34 @@
     - Switch
     - Text
 
-read it until you find every gap, missing peace
- - graph? Macros? what strucktre actions are related?
+## GUI
+ - show action output history, maybe Ill use terminal buffer
+
+todo:
+ - Maybe built in logical action
+ - Actions interacting with nvim api?
+
+ -  Macros? what strucktre actions are related?
+     - Start from current context, or any of it's parent context
+     - update macro in nullifyAction
+
  - gui/interface
  - Persistent input on gui might be stupid
+ - execution, shell process creation and such
  - Helpers into utils(aboid making new module)
+
+
+## Snippets
+
+eval string
+```lua
+local function eval_string(code)
+    local func, err = load(code)
+    if not func then
+        print("Error loading code: " .. err)
+        return nil
+    end
+    return func() -- Call the compiled function
+end
+
+```
