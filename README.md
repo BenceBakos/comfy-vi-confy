@@ -10,7 +10,7 @@
 
  - explainAction(action)
      - get parser from context, get shape, define arguments
-     - get context, and parent context, filter types by context, use only types with null-context or matching context
+     - get context, and parent context, filter types by context, use only types with null-context or matching context, or lua context
      - when no parser, nullify shape, arguments
      - returns action table
  - matchExpression(expression,context)
@@ -34,25 +34,38 @@
  - getArgumentSuggestions(expression,action,argumentPosition)
      - type's listingAction, when not null
      - from variation, where variation starts like expression
- - getArgumentSuggestionsFromOutputhistory(expression,action,argumentPosition)
-     - from outputHistory, order by: type, history order
+ - getArgumentSuggestionsFromHistory(expression,action,argumentPosition)
+     - from history, order by: type, history order
  - getActionSuggestions(expression, context)
      - mathExpression(expression,context)
      - usageCount ordered action.nextActionHistory first, then usegeCount ordered context actions
- - storeActionOutputHistory(output,context, action)
+     - add lua actions as well
+ - storeActionHistory(output,context, action)
      - store in history array with context(truncate if too large), action, type
      - store without prompt(context.clearPromptPreffixAction)
-     - store to action, if smaller than n, keep outputHistory unique
+     - store to action, if smaller than n, keep history unique
  - executeAction(expression, context)
      - mathExpression(expression,context)
      - sendToShell
-     - storeActionOutput()
+     - storeActionHistory()
      - store if does not exists, and execution was successfull
  - nullifyAction(action)
      - nullify usageCount
      - nullify usageCount in other actions nextActionHistory
  - closeSession(sessionUuid)
      - kill process
+ - createMacro(name,context, macroItems)
+ - executeMacro(macro.name, context, arguments)
+     - check context is valid
+     - arguments: argument path in macroItems -> value
+     - fill arguments into actions while executing
+     - executeAction for each, or executeMacro
+
+### HistoryItem
+ - actionName
+ - contextName
+ - output
+ - type
 
 ### Action
  - name(expression with arguments replaced with type names, or just single variation with uuid )
@@ -68,6 +81,16 @@
      - action.name
      - usageCount
  - outputHistory(string array of outputs)
+
+### Macro
+ - name
+ - context
+ - macroItems
+
+### MacroItem
+ - actionName
+ - macroName
+ - arguments
 
 ### Context
  - name(unique string)
@@ -99,15 +122,6 @@
  - show action output history, maybe Ill use terminal buffer
 
 todo:
- - function/macro
-    - 
- - Maybe built in logical action
- - Actions interacting with nvim api?
-
- -  Macros? what strucktre actions are related?
-     - Start from current context, or any of it's parent context
-     - update macro in nullifyAction
-
  - gui/interface
  - Persistent input on gui might be stupid
  - execution, shell process creation and such
@@ -127,4 +141,4 @@ local function eval_string(code)
     return func() -- Call the compiled function
 end
 
-```
+``, from any source`
