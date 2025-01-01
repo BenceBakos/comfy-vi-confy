@@ -11,14 +11,14 @@ Terminal.TERMUX = 'termux'
 
 Terminal.run = function(command)
 	if not os.execute(command) then
-		Log.log("Command failed, run manually: "..command)
+		Log.log("Command failed, run manually: " .. command)
 		return
 	end
 end
 
-Terminal.runIn = function(command,cwd)
-	Terminal.run('mkdir -p '..cwd)
-	return Terminal.run('cd '..cwd..' && '..command)
+Terminal.runIn = function(command, cwd)
+	Terminal.run('mkdir -p ' .. cwd)
+	return Terminal.run('cd ' .. cwd .. ' && ' .. command)
 end
 
 Terminal.runSync = function(command)
@@ -30,16 +30,16 @@ Terminal.runSync = function(command)
 end
 
 Terminal.getBinaryPath = function(binary)
-	return Terminal.runSync('command -v '..binary)
+	return Terminal.runSync('command -v ' .. binary)
 end
 
 Terminal.binaryExists = function(binary)
 	return Terminal.getBinaryPath(binary) ~= ''
 end
 
-Terminal.runSyncIn = function(command,cwd)
-	Terminal.run('mkdir -p '..cwd)
-	return Terminal.run('cd '..cwd..' && '..command)
+Terminal.runSyncIn = function(command, cwd)
+	Terminal.run('mkdir -p ' .. cwd)
+	return Terminal.run('cd ' .. cwd .. ' && ' .. command)
 end
 
 Terminal.getOs = function()
@@ -54,7 +54,46 @@ Terminal.getOs = function()
 	return Terminal.DEBIAN
 end
 
-Terminal.install = function(package,os)
+
+Terminal.startProcess = function(callback)
+	local handle
+	local stdin = vim.loop.new_pipe(false) -- Create a pipe for stdin
+	local stdout = vim.loop.new_pipe(false) -- Create a pipe for stdout
+	local stderr = vim.loop.new_pipe(false) -- Create a pipe for stderr
+
+	handle = vim.loop.spawn("sh", {
+		stdio = { stdin, stdout, stderr }, -- Use the stdin pipe
+	}, function(code)
+		stdin:close()
+		stdout:close()
+		stderr:close()
+		handle:close()
+		Log.err('Spawning sh process failed with code ' .. code)
+	end)
+
+	stdout:read_start(callback)
+
+	return {
+		handle = handle,
+		stdin = stdin,
+		stdout = stdout,
+		stderr = stderr,
+	}
 end
+
+Terminal.sendCommandToProcess = function(process, expression)
+	local success, err = process.stdin:write(expression)
+	if not success then
+		Log.err("Error writing to stdin: " .. err)
+	end
+end
+
+Terminal.closeProcess = function(process)
+	process.stdin:close()
+	process.stdout:close()
+	process.stderr:close()
+	process.handle:close()
+end
+
 
 return Terminal

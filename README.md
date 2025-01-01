@@ -211,3 +211,90 @@ Docker ps
 
 ## Control
 
+
+ - table editor
+ - executor(bash or lua)
+ - make all this touch friendly
+ - executor does it's thing for values
+ - combine values in some way?
+ - describe automation in seid table as well
+
+
+show that table
+
+
+
+---
+
+start, interact, close background shell
+
+```lua
+	local function start_shell(callback)
+		local handle
+		local stdin = vim.loop.new_pipe(false) -- Create a pipe for stdin
+		local stdout = vim.loop.new_pipe(false) -- Create a pipe for stdout
+		local stderr = vim.loop.new_pipe(false) -- Create a pipe for stderr
+
+		handle = vim.loop.spawn("sh", {
+			stdio = { stdin, stdout, stderr }, -- Use the stdin pipe
+		}, function(code)
+			stdin:close()
+			stdout:close()
+			stderr:close()
+			handle:close()
+			if callback then
+				callback(code)
+			end
+		end)
+
+		stdout:read_start(function(err, data)
+			if err then
+				print("Error reading stdout: " .. err)
+				return
+			end
+			if data then
+				Log.log("Output: " .. data)
+			end
+		end)
+
+		stderr:read_start(function(err, data)
+			if err then
+				print("Error reading stderr: " .. err)
+				return
+			end
+			if data then
+				print("Error: " .. data)
+			end
+		end)
+
+		return handle, stdin, stdout, stderr -- Return stdin instead of handle
+	end
+
+	local function send_command(stdin, command, callback)
+		if stdin then
+			vim.loop.write(stdin, command .. "\n", function(err)
+				if err then
+					print("Error sending command: " .. err)
+				end
+				if callback then
+					callback()
+				end
+			end)
+		end
+	end
+
+	-- Start the shell process
+	local handle, stdin, stdout, stderr = start_shell(function()
+		print("Shell process exited.")
+	end)
+
+	-- Send commands in sequence
+	send_command(stdin, "ls -la", function()
+		send_command(stdin, "cd ..", function()
+			send_command(stdin, "ls -la", function()
+				print("All commands executed.")
+			end)
+		end)
+	end)
+
+```
