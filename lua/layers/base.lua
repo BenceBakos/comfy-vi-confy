@@ -201,7 +201,7 @@ Base.mouseMaps = {}
 Base.mouseMaps['<LeftRelease>'] = {
 	function(dimensions)
 		if dimensions.wincol > (dimensions.winCols * 0.9) and dimensions.winrow < (dimensions.winRows * 0.1) then
-			print(Tui.prompt('Hallo?'))
+			Log.log(Tui.prompt('Hallo?'))
 			-- vim.cmd('q!')
 		end
 	end
