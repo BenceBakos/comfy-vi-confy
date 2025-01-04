@@ -1,4 +1,5 @@
 Terminal = require("utils.terminal")
+Tui = require("utils.tui")
 
 Base = {}
 
@@ -200,7 +201,8 @@ Base.mouseMaps = {}
 Base.mouseMaps['<LeftRelease>'] = {
 	function(dimensions)
 		if dimensions.wincol > (dimensions.winCols * 0.9) and dimensions.winrow < (dimensions.winRows * 0.1) then
-			vim.cmd('q!')
+			print(Tui.prompt('Hallo?'))
+			-- vim.cmd('q!')
 		end
 	end
 }

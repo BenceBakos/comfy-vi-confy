@@ -54,6 +54,10 @@ Terminal.getOs = function()
 	return Terminal.DEBIAN
 end
 
+Terminal.isTermux = function()
+	return Terminal.getOs() == Terminal.TERMUX
+end
+
 
 Terminal.startProcess = function(callback)
 	local handle

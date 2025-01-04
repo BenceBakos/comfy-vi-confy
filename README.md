@@ -1,11 +1,9 @@
 # Comfy vi
 
 ## Abz
- - per buffer workflow
- - when on phone, open new abz buffer by default
 
 ### Todo
- - start implementing interface
+ - when on phone, open new abz buffer by default with commands
 
 ### Methods
  - getArgumentsForFunction(name, module)
