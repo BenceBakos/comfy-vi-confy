@@ -223,78 +223,101 @@ Docker ps
 show that table
 
 
+---
+
+table
+channels
+pipes
+ - stdin
+ - stdout
+ - stderr
+ - lua in/out
 
 ---
 
-start, interact, close background shell
+Persistency
 
-```lua
-	local function start_shell(callback)
-		local handle
-		local stdin = vim.loop.new_pipe(false) -- Create a pipe for stdin
-		local stdout = vim.loop.new_pipe(false) -- Create a pipe for stdout
-		local stderr = vim.loop.new_pipe(false) -- Create a pipe for stderr
+Controll
 
-		handle = vim.loop.spawn("sh", {
-			stdio = { stdin, stdout, stderr }, -- Use the stdin pipe
-		}, function(code)
-			stdin:close()
-			stdout:close()
-			stderr:close()
-			handle:close()
-			if callback then
-				callback(code)
-			end
-		end)
+IO
 
-		stdout:read_start(function(err, data)
-			if err then
-				print("Error reading stdout: " .. err)
-				return
-			end
-			if data then
-				Log.log("Output: " .. data)
-			end
-		end)
+--- 
 
-		stderr:read_start(function(err, data)
-			if err then
-				print("Error reading stderr: " .. err)
-				return
-			end
-			if data then
-				print("Error: " .. data)
-			end
-		end)
+ - per buffer workflow
+ - when on phone, open new abz buffer by default
 
-		return handle, stdin, stdout, stderr -- Return stdin instead of handle
-	end
+## Methods
+ - getArgumentsForFunction(name, module)
+     - from debug, get arguments
+ - getValueForConstant(name,module)
+     - require and get value of constant
+ - select
+     - selector method used kinda everywhere
+     - multi level display
+ - input(prompt)
+     - display imput field, or termux input on touch
 
-	local function send_command(stdin, command, callback)
-		if stdin then
-			vim.loop.write(stdin, command .. "\n", function(err)
-				if err then
-					print("Error sending command: " .. err)
-				end
-				if callback then
-					callback()
-				end
-			end)
-		end
-	end
+## Data
+ - functions
+     - name(key)
+     - module(path form package.loaded,nil when complex)
+     - getArguments() returns arguments when complex
+     - description
+     - arguments
+        - not nil when complex
+        - ordered string list
+     - body
+        - not nil when complex
+        - describes functions calling each other
+ - constants
+     - name(module+name -> key)
+     - module(path form package.loaded,nil when custom)
+     - description
+     - getValue() returns value when custom
+     - value(not nil when custom)
 
-	-- Start the shell process
-	local handle, stdin, stdout, stderr = start_shell(function()
-		print("Shell process exited.")
-	end)
+ - selectHistory
+     - last selected items
+     - functions
+     - modules
 
-	-- Send commands in sequence
-	send_command(stdin, "ls -la", function()
-		send_command(stdin, "cd ..", function()
-			send_command(stdin, "ls -la", function()
-				print("All commands executed.")
-			end)
-		end)
-	end)
+## Interface
 
-```
+ - employFunction
+     - select module -> choose
+     - select function, if table, select functions in table(multi level select)(argumnets as well, disable already employed itmes) -> choose
+         - preview: open file and go to exact pos
+     - persist functions
+
+ - employConstant
+     - select module
+     - select constant from module, if table, choose table, or select costant in that(multi level select)(name, value, disable already employed items) -> choose
+         - preview: open file and go to exact pos
+     - persist constants
+
+ - build
+     - select function
+     - execute action if complete
+     - add descripiton action
+     - store action
+     - display description for functions
+     - select argument 
+         - set as argument for later choose
+         - from clipboard 
+         - select function
+     - delete function action
+     - undo action
+     - redo action
+     - copy function action
+    
+ - displayConstant
+     - list constants -> choose one
+     - display in new buffer(use Log.log logic to display)
+
+ - addConstant
+     - prompt for name
+     - prompt for value
+     - prompt for description
+     - persist
+
+
