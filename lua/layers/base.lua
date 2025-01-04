@@ -31,6 +31,9 @@ Base.options = {
 		maplocalleader = " ",
 	},
 	opt = {
+		fillchars = { eob = ' ' },
+		mouse = 'a',
+		mousefocus = false,
 		-- persistent undo
 		undofile = true,
 		-- system clipboard
@@ -51,8 +54,6 @@ Base.options = {
 		shiftwidth = 4,
 		softtabstop = -1,
 		tabpagemax = 2,
-		-- disable mouse
-		mouse = "",
 		-- no need to scroll till end/top of screen to move buffer content
 		scrolloff = 8,
 		sidescrolloff = 8,
@@ -186,6 +187,40 @@ Base.maps = {
 		end,
 		options = false
 	},
+
+	-- these cause more harm than good, disabled for now
+	{ mode = 'n', map = '<4-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = 'n', map = '<3-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = 'n', map = '<2-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = 'n', map = '<LeftMouse>',   to = '<Nop>', options = { noremap = false, silent = true } }
 }
+
+Base.mouseMaps = {}
+
+Base.mouseMaps['<LeftRelease>'] = {
+	function(dimensions)
+		if dimensions.wincol > (dimensions.winCols * 0.9) and dimensions.winrow < (dimensions.winRows * 0.1) then
+			vim.cmd('q!')
+		end
+	end
+}
+
+Base.mouseMaps['<ScrollWheelUp>'] = {
+	function(dimensions)
+		if dimensions.wincol < (dimensions.winCols * 0.1) then
+			vim.cmd('tabnext')
+		end
+	end
+}
+
+Base.mouseMaps['<ScrollWheelDown>'] = {
+	function(dimensions)
+		if dimensions.wincol < (dimensions.winCols * 0.1) then
+			vim.cmd('tabprevious')
+		end
+	end
+}
+
+
 
 return Base

@@ -78,6 +78,29 @@ Main.sections = {
 			end
 		end
 	},
+	{
+		path = 'mouseMaps',
+		init = function(key, value)
+			Keyboard.mapFunction('n', key, function()
+				local dimensions = Main.getDimensions()
+
+				Main.logEvent(
+					key,
+					dimensions.wincol,
+					dimensions.winrow,
+					dimensions.winid
+				)
+
+				for _, handler in pairs(value) do
+					handler(dimensions)
+				end
+			end, {
+				mode = 'n',
+				map = key,
+				to = { noremap = false, silent = true },
+			})
+		end
+	},
 }
 
 Main.init = function(layers)
@@ -90,7 +113,7 @@ Main.init = function(layers)
 	for _, layerName in pairs(layers) do
 		local layer = require('layers.' .. layerName)
 
-		if Table.hasKey(layer, 'packages') and not (Table.hasKey(layer,'excludeOs') and Table.hasValue(layer.excludeOs,OS))then
+		if Table.hasKey(layer, 'packages') and not (Table.hasKey(layer, 'excludeOs') and Table.hasValue(layer.excludeOs, OS)) then
 			for _, packageName in pairs(layer.packages) do
 				local folderName = vim.split(packageName, '/')[2]
 				if not Package.isInstalled(folderName) then
@@ -106,7 +129,7 @@ Main.init = function(layers)
 	for _, layerName in pairs(layers) do
 		local layer = require('layers.' .. layerName)
 
-		if  not (Table.hasKey(layer,'excludeOs') and Table.hasValue(layer.excludeOs,OS)) then
+		if not (Table.hasKey(layer, 'excludeOs') and Table.hasValue(layer.excludeOs, OS)) then
 			for _, section in ipairs(Main.sections) do
 				Main.initSection(layer, section.path, section.init)
 			end
@@ -138,5 +161,36 @@ Main.initSection = function(layer, path, init)
 		return true
 	end
 end
+
+
+Main.getDimensions = function()
+	local pointer = vim.fn.getmousepos()
+
+	return Table.merge(pointer, {
+		winRows = vim.api.nvim_win_get_height(pointer.winid),
+		winCols = vim.api.nvim_win_get_width(pointer.winid),
+	})
+end
+
+Main.logEvent = function(eventName, col, row, winId)
+	-- Log the event name and coordinates
+	vim.o.statusline = table.concat({
+		' %t',
+		'%r',
+		'%m',
+		'%=',
+		'%{&filetype}',
+		eventName ..
+		" at " ..
+		col ..
+		" " ..
+		row ..
+		" W" ..
+		vim.api.nvim_win_get_width(winId) ..
+		" H:" .. vim.api.nvim_win_get_height(winId),
+	}, '')
+end
+
+
 
 return Main

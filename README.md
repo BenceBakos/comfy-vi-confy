@@ -1,28 +1,34 @@
 # Comfy vi
 
 ## Abz
-
  - per buffer workflow
  - when on phone, open new abz buffer by default
+
+### Todo
+ - start implementing interface
 
 ### Methods
  - getArgumentsForFunction(name, module)
      - from debug, get arguments
+
  - getValueForConstant(name,module)
      - require and get value of constant
+
  - select
      - selector method used kinda everywhere
      - multi level display
-     - tag selector
+     - tag selector to filter
+     - upadte select history
+
  - input(prompt)
      - display imput field, or termux input on touch
+
  - getTags
 
 ### Data
  - functions
      - name(key)
      - module(path form package.loaded,nil when complex)
-     - getArguments() returns arguments when complex
      - description
      - tags(string array)
      - arguments
@@ -31,18 +37,19 @@
      - body
         - not nil when complex
         - describes functions calling each other
+
  - constants
      - name(module+name -> key)
      - module(path form package.loaded,nil when custom)
      - description
      - tags(string array)
-     - getValue() returns value when custom
      - value(not nil when custom)
 
  - selectHistory
      - last selected items
      - functions
      - modules
+
 
 ### Interface
 
@@ -70,6 +77,10 @@
          - set as argument for later choose
          - from clipboard 
          - select function
+         - select select constant
+     - sequence
+         - select function or copy from clipboard
+         - move up/down
      - delete function action
      - undo action
      - redo action
@@ -86,3 +97,9 @@
      - persist
 
 
+
+### Possible 2.0
+ - module documentation
+ - handle table editing, displaying
+ - buzz for interactions on phone, text to speech
+ - function for context, like visual selected text, buffer(set argument as argument from context)
