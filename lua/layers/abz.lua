@@ -37,29 +37,29 @@ Abz.selectHistory = {
 }
 
 Abz.init = function()
-	if File.fileExists(File.getPersistnecyPath()..Abz.CONSTANTS_PATH) then
-		Abz.constants = File.loadTable(File.getPersistnecyPath()..Abz.CONSTANTS_PATH)
+	if File.fileExists(File.getPersistnecyPath() .. Abz.CONSTANTS_PATH) then
+		Abz.constants = File.loadTable(File.getPersistnecyPath() .. Abz.CONSTANTS_PATH)
 	end
 
-	if File.fileExists(File.getPersistnecyPath()..Abz.FUNCTIONS_PATH) then
-		Abz.functions = File.loadTable(File.getPersistnecyPath()..Abz.FUNCTIONS_PATH)
+	if File.fileExists(File.getPersistnecyPath() .. Abz.FUNCTIONS_PATH) then
+		Abz.functions = File.loadTable(File.getPersistnecyPath() .. Abz.FUNCTIONS_PATH)
 	end
 
-	if File.fileExists(File.getPersistnecyPath()..Abz.SELECT_HISTORY_PATH) then
-		Abz.selectHistory = File.loadTable(File.getPersistnecyPath()..Abz.SELECT_HISTORY_PATH)
+	if File.fileExists(File.getPersistnecyPath() .. Abz.SELECT_HISTORY_PATH) then
+		Abz.selectHistory = File.loadTable(File.getPersistnecyPath() .. Abz.SELECT_HISTORY_PATH)
 	end
+
 end
 
 Abz.addConstant = function()
-
 	local value = Tui.prompt('Const Value: ')
 	while not value do
-		value = Tui.prompt('Const Value ('..value..' taken or nil): ')
+		value = Tui.prompt('Const Value (' .. value .. ' taken or nil): ')
 	end
 
 	local name = Tui.prompt('Const Name: ')
 	while not name or Table.hasKey(Abz.constants, name) do
-		name = Tui.prompt('Const Name ('..name..' taken or nil): ')
+		name = Tui.prompt('Const Name (' .. name .. ' taken or nil): ')
 	end
 
 	local description = Tui.prompt('Const Description: ')
@@ -70,7 +70,7 @@ Abz.addConstant = function()
 		value = value
 	}
 
-	File.storeTable(Abz.constants,File.getPersistnecyPath()..Abz.CONSTANTS_PATH)
+	File.storeTable(Abz.constants, File.getPersistnecyPath() .. Abz.CONSTANTS_PATH)
 end
 
 Abz.autocmds = {
@@ -80,7 +80,5 @@ Abz.autocmds = {
 Abz.commands = {
 	AddConstant = ":lua require('layers.abz').addConstant()",
 }
-
-Abz.maps = {}
 
 return Abz

@@ -12,23 +12,21 @@
  - getValueForConstant(name,module)
      - require and get value of constant
 
- - select todo 3
+ - select
      - selector method used kinda everywhere
-     - multi level display
-     - tag selector to filter
+         - multi level display
+         - name, details(keep it multiline even if just a name)
+         - disabled items
      - upadte select history
 
  - input(prompt);
      - display imput field, or termux input on touch;
-
- - getTags
 
 ### Data
  - functions
      - name(key)
      - module(path form package.loaded,nil when complex)
      - description
-     - tags(string array)
      - arguments
         - not nil when complex
         - ordered string list
@@ -40,7 +38,6 @@
      - name(module+name -> key)
      - module(path form package.loaded,nil when custom)
      - description
-     - tags(string array)
      - value(not nil when custom)
 
  - selectHistory
@@ -67,15 +64,13 @@
      - select function
      - execute action if complete
      - add descripiton action
-     - add tag actiona(from getTags)
-     - new tag action(create one with input)
      - persist action
-     - display description,tags for functions
+     - display description, for functions
      - select argument 
          - set as argument for later choose
          - from clipboard 
          - select function
-         - select select constant
+         - select constant
      - sequence
          - select function or copy from clipboard
          - move up/down
@@ -88,11 +83,10 @@
      - select constants
      - display in new buffer(use Log.log logic to display)
 
- - addConstant todo 2
+ - addConstant
      - prompt for name
      - prompt for value
      - prompt for description
-     - multiselect tags todo 7
      - persist;
 
 
@@ -102,3 +96,4 @@
  - handle table editing, displaying
  - buzz for interactions on phone, text to speech
  - function for context, like visual selected text, buffer(set argument as argument from context)
+ - tags?

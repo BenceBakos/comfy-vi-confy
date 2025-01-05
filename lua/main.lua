@@ -7,6 +7,12 @@ Package = require("utils.package")
 
 Main = {}
 
+Main.mouseMaps = {}
+Main.mouseMaps['<LeftRelease>'] = {}
+Main.mouseMaps['<ScrollWheelUp>'] = {}
+Main.mouseMaps['<ScrollWheelDown>'] = {}
+
+
 Main.sections = {
 	{
 		path = 'excludeOs',
@@ -81,24 +87,10 @@ Main.sections = {
 	{
 		path = 'mouseMaps',
 		init = function(key, value)
-			Keyboard.mapFunction('n', key, function()
-				local dimensions = Main.getDimensions()
-
-				Main.logEvent(
-					key,
-					dimensions.wincol,
-					dimensions.winrow,
-					dimensions.winid
-				)
-
-				for _, handler in pairs(value) do
-					handler(dimensions)
-				end
-			end, {
-				mode = 'n',
-				map = key,
-				to = { noremap = false, silent = true },
-			})
+			Main.mouseMaps[key] = Table.appendTables(
+				Main.mouseMaps[key],
+				value
+			)
 		end
 	},
 }
@@ -134,6 +126,28 @@ Main.init = function(layers)
 				Main.initSection(layer, section.path, section.init)
 			end
 		end
+	end
+
+	-- INIT MOUSE EVENTS
+	for eventName, handlers in pairs(Main.mouseMaps) do
+		Keyboard.mapFunction('n', eventName, function()
+			local dimensions = Main.getDimensions()
+
+			Main.logEvent(
+				eventName,
+				dimensions.wincol,
+				dimensions.winrow,
+				dimensions.winid
+			)
+
+			for _, handler in pairs(handlers) do
+				handler(dimensions)
+			end
+		end, {
+			mode = 'n',
+			map = eventName,
+			to = { noremap = true, silent = true },
+		})
 	end
 end
 
