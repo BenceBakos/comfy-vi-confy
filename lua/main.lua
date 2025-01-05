@@ -129,25 +129,41 @@ Main.init = function(layers)
 	end
 
 	-- INIT MOUSE EVENTS
-	for eventName, handlers in pairs(Main.mouseMaps) do
-		Keyboard.mapFunction('n', eventName, function()
-			local dimensions = Main.getDimensions()
+	Main.initMouseEvents(Main.mouseMaps)
+end
 
-			Main.logEvent(
-				eventName,
-				dimensions.wincol,
-				dimensions.winrow,
-				dimensions.winid
-			)
+Main.handleMouseEvent = function(eventName, handlers)
+	local dimensions = Main.getDimensions()
 
-			for _, handler in pairs(handlers) do
-				handler(dimensions)
-			end
-		end, {
+	Main.logEvent(
+		eventName,
+		dimensions.wincol,
+		dimensions.winrow,
+		dimensions.winid
+	)
+
+	for _, handler in pairs(handlers) do
+		handler(dimensions)
+	end
+end
+
+Main.initMouseEvents = function(mouseMaps, buffer)
+	for eventName, handlers in pairs(mouseMaps) do
+		local opts = {
 			mode = 'n',
 			map = eventName,
 			to = { noremap = true, silent = true },
-		})
+		}
+
+		if buffer ~= nil then
+			Keyboard.mapFunctionBuffer(buffer,'n', eventName, function()
+				Main.handleMouseEvent(eventName,handlers)
+			end, opts)
+		else
+			Keyboard.mapFunction('n', eventName, function()
+				Main.handleMouseEvent(eventName,handlers)
+			end, opts)
+		end
 	end
 end
 

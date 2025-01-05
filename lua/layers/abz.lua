@@ -49,6 +49,15 @@ Abz.init = function()
 		Abz.selectHistory = File.loadTable(File.getPersistnecyPath() .. Abz.SELECT_HISTORY_PATH)
 	end
 
+	local mm = {}
+
+	mm['<LeftRelease>'] = {
+		function()
+			print('ola')
+		end
+	}
+
+	Tui.mapFunctionsToBuffer(1, mm)
 end
 
 Abz.addConstant = function()
