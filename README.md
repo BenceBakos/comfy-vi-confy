@@ -12,14 +12,14 @@
  - getValueForConstant(name,module)
      - require and get value of constant
 
- - select
+ - select todo 3
      - selector method used kinda everywhere
      - multi level display
      - tag selector to filter
      - upadte select history
 
- - input(prompt)
-     - display imput field, or termux input on touch
+ - input(prompt);
+     - display imput field, or termux input on touch;
 
  - getTags
 
@@ -88,11 +88,12 @@
      - select constants
      - display in new buffer(use Log.log logic to display)
 
- - addConstant
+ - addConstant todo 2
      - prompt for name
      - prompt for value
      - prompt for description
-     - persist
+     - multiselect tags todo 7
+     - persist;
 
 
 
