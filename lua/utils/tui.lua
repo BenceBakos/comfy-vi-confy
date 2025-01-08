@@ -25,6 +25,8 @@ Tui.tableBrowser = function(elements, isFloating, actions)
 	local buffer = vim.api.nvim_create_buf(false, true)
 	local win = nil
 
+	vim.api.nvim_buf_set_lines(buffer,0,-1,false,{'test'})
+
 	vim.bo[buffer].readonly = true
 
 	vim.api.nvim_buf_set_name(buffer,'Selector-'..buffer)
@@ -37,10 +39,10 @@ Tui.tableBrowser = function(elements, isFloating, actions)
 			height = vim.o.lines - 22,
 			row = 1,
 			col = 1,
-			style = 'minimal',
 			border = 'rounded', -- You can use 'none', 'single', 'double', 'rounded', 'solid', 'shadow'
 		})
-		vim.api.nvim_set_current_win(win) --TODO: did not work
+
+		vim.api.nvim_win_set_cursor(win,{1,1})
 	else
 		vim.cmd('tabnew')
 		vim.api.nvim_set_current_buf(buffer)

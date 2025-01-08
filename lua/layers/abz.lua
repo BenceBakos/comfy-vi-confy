@@ -49,7 +49,6 @@ Abz.init = function()
 		Abz.selectHistory = File.loadTable(File.getPersistnecyPath() .. Abz.SELECT_HISTORY_PATH)
 	end
 
-	Tui.tableBrowser({},true,{})
 end
 
 Abz.addConstant = function()
@@ -73,6 +72,17 @@ Abz.addConstant = function()
 
 	File.storeTable(Abz.constants, File.getPersistnecyPath() .. Abz.CONSTANTS_PATH)
 end
+
+Abz.maps = {
+	{
+		mode = 'n',
+		map = 'ű',
+		to = function()
+			Tui.tableBrowser({}, true, {})
+		end,
+		options = false
+	},
+}
 
 Abz.autocmds = {
 
