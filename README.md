@@ -89,6 +89,20 @@
      - prompt for description
      - persist;
 
+### Render
+
+ - container(list)
+     - height
+     - children(anything but container)
+
+ - table
+     - recursive list of actions, 
+
+ - verticalContanier
+
+ - action
+
+ - content
 
 
 ### Possible 2.0
@@ -97,3 +111,40 @@
  - buzz for interactions on phone, text to speech
  - function for context, like visual selected text, buffer(set argument as argument from context)
  - tags?
+
+coladd
+line 
+
+---
+
+ - Scroll frequency(fire for eveey third or forth event)
+ - Generelize oil like tui for trees like table, fs. Now I fan use it fo build comnands from history and such
+ - shared storage
+
+### Cells
+
+Cursor
+Enter
+
+Line
+Edit line
+
+Tabs
+New tab(discovery window)
+
+Windows
+Close buffer
+
+Indents
+Backspace
+
+Change history
+Save
+
+Command history(show in statusline)
+Execute selected command
+
+Move inline
+Visual select on/off
+
+

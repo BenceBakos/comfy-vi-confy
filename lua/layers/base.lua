@@ -196,32 +196,5 @@ Base.maps = {
 	{ mode = 'n', map = '<LeftMouse>',   to = '<Nop>', options = { noremap = false, silent = true } }
 }
 
-Base.mouseMaps = {}
-
-Base.mouseMaps['<LeftRelease>'] = {
-	function(dimensions)
-		if dimensions.wincol > (dimensions.winCols * 0.9) and dimensions.winrow < (dimensions.winRows * 0.1) then
-			vim.cmd('q!')
-		end
-	end
-}
-
-Base.mouseMaps['<ScrollWheelUp>'] = {
-	function(dimensions)
-		if dimensions.wincol < (dimensions.winCols * 0.1) then
-			vim.cmd('tabnext')
-		end
-	end
-}
-
-Base.mouseMaps['<ScrollWheelDown>'] = {
-	function(dimensions)
-		if dimensions.wincol < (dimensions.winCols * 0.1) then
-			vim.cmd('tabprevious')
-		end
-	end
-}
-
-
 
 return Base

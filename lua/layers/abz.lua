@@ -48,7 +48,6 @@ Abz.init = function()
 	if File.fileExists(File.getPersistnecyPath() .. Abz.SELECT_HISTORY_PATH) then
 		Abz.selectHistory = File.loadTable(File.getPersistnecyPath() .. Abz.SELECT_HISTORY_PATH)
 	end
-
 end
 
 Abz.addConstant = function()
@@ -78,7 +77,42 @@ Abz.maps = {
 		mode = 'n',
 		map = 'ű',
 		to = function()
-			Tui.tableBrowser({}, true, {})
+			Tui.view9cell(true,{
+				["11"] = {
+					['<LeftRelease>'] = function (content,cell,eventName)
+						Log.log(content)
+						Log.log(cell)
+						Log.log(eventName)
+						Log.log('---')
+						return nil
+					end,
+					['<ScrollWheelUp>'] = function (content,cell,eventName)
+						Log.log(content)
+						Log.log(cell)
+						Log.log(eventName)
+						Log.log('---')
+						table.insert(content,'fuck mee')
+						return content
+					end
+				},
+				["32"] = {
+					['<LeftRelease>'] = function (content,cell,eventName)
+						Log.log(content)
+						Log.log(cell)
+						Log.log(eventName)
+						Log.log('---')
+					end,
+					['<ScrollWheelDown'] = function (content,cell,eventName)
+						Log.log(content)
+						Log.log(cell)
+						Log.log(eventName)
+						Log.log('---')
+					end
+				},
+			},{
+				'my lines',
+				'flies'
+				})
 		end,
 		options = false
 	},

@@ -143,7 +143,7 @@ Main.handleMouseEvent = function(eventName, handlers)
 	)
 
 	for _, handler in pairs(handlers) do
-		handler(dimensions)
+		handler(dimensions,eventName)
 	end
 end
 

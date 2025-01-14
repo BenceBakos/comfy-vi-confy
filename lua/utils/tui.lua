@@ -21,18 +21,14 @@ Tui.prompt = function(label)
 	return vim.fn.input(label)
 end
 
-Tui.tableBrowser = function(elements, isFloating, actions)
+Tui.view9cell = function(isFloating, handlers, content)
 	local buffer = vim.api.nvim_create_buf(false, true)
 	local win = nil
 
-	vim.api.nvim_buf_set_lines(buffer,0,-1,false,{'test'})
-
-	vim.bo[buffer].readonly = true
-
-	vim.api.nvim_buf_set_name(buffer,'Selector-'..buffer)
+	vim.bo[buffer].filetype = 'markdown'
+	vim.api.nvim_buf_set_name(buffer, 'Selector-' .. buffer)
 
 	if isFloating then
-
 		win = vim.api.nvim_open_win(buffer, true, {
 			relative = 'editor',
 			width = vim.o.columns - 2,
@@ -42,19 +38,17 @@ Tui.tableBrowser = function(elements, isFloating, actions)
 			border = 'rounded', -- You can use 'none', 'single', 'double', 'rounded', 'solid', 'shadow'
 		})
 
-		vim.api.nvim_win_set_cursor(win,{1,1})
+		vim.api.nvim_win_set_cursor(win, { 1, 1 })
 	else
 		vim.cmd('tabnew')
 		vim.api.nvim_set_current_buf(buffer)
 	end
 
+	vim.api.nvim_buf_set_lines(buffer, 0, -1, false, content)
 
-	-- - **make this whatever way possible**, and then figure how to make it more generic
-	--     - selector method used kinda everywhere
-	--     - multi level display
-	--     - name, details(keep it multiline even if just a name)
-	--     - disabled items
-	-- - upadte select history
+	local bufferMouseMaps = {}
+
+	vim.bo[buffer].readonly = true
 end
 
 Tui.mapFunctionsToBuffer = function(buffer, bufferMouseMaps)
