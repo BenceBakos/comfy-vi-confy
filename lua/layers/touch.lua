@@ -2,6 +2,18 @@ Terminal = require("utils.terminal")
 
 Touch = {}
 
+Touch.excludeOs = {
+	-- Terminal.ARCH,
+	-- Terminal.DEBIAN,
+}
+
+Touch.normalFeedCallback = function(keys)
+	return function()
+		Log.log(keys)
+		vim.api.nvim_input(keys)
+	end
+end
+
 -- row /cols
 Touch.handlers = {
 	{
@@ -56,17 +68,14 @@ Touch.handlers = {
 		},
 		{
 			-- bottom right
-			['<LeftRelease>'] = function() Log.log('release 33') end,
-			['<ScrollWheelUp>'] = function() Log.log('up 33') end,
-			['<ScrollWheelDown>'] = function() Log.log(' down 33') end,
+			['<LeftRelease>'] = Touch.normalFeedCallback('<CR>'),
+			['<ScrollWheelUp>'] = Touch.normalFeedCallback('k'),
+			['<ScrollWheelDown>'] = Touch.normalFeedCallback('j'),
 		},
 	}
 }
 
-Touch.excludeOs = {
-	-- Terminal.ARCH,
-	-- Terminal.DEBIAN,
-}
+
 
 Touch.init = function()
 
@@ -93,8 +102,10 @@ Touch.scrollDownTimeStamp = 0
 Touch.scrollDownCounter = 0
 
 Touch.mouseMaps = {
+
 	['<ScrollWheelUp>'] = { function(dimensions, eventName)
 		if os.clock() > Touch.scrollUpTimeStamp + Touch.frequencyTimeout then
+			Touch.scrollUpTimeStamp = os.clock()
 			Touch.scrollUpCounter = 0
 		end
 
@@ -104,10 +115,12 @@ Touch.mouseMaps = {
 			Touch.scrollUpCounter = 0
 			Touch.eventHandler(dimensions, eventName)
 		end
-
 	end },
+
 	['<ScrollWheelDown>'] = { function(dimensions, eventName)
 		if os.clock() > Touch.scrollDownTimeStamp + Touch.frequencyTimeout then
+			Touch.scrollDownTimeStamp = os.clock()
+
 			Touch.scrollDownCounter = 0
 		end
 
@@ -117,9 +130,9 @@ Touch.mouseMaps = {
 			Touch.scrollDownCounter = 0
 			Touch.eventHandler(dimensions, eventName)
 		end
-
 	end },
 	['<LeftRelease>'] = { Touch.eventHandler }
+
 }
 
 Touch.hwae = {

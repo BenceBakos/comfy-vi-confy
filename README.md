@@ -117,7 +117,7 @@ line
 
 ---
 
- - Scroll frequency(fire for eveey third or forth event)
+ - Scroll frequency(fire for eveey third or forth event);
  - Generelize oil like tui for trees like table, fs. Now I fan use it fo build comnands from history and such
  - shared storage
 
