@@ -7,6 +7,12 @@ Touch.excludeOs = {
 	-- Terminal.DEBIAN,
 }
 
+Touch.init = function()
+	vim.opt.guicursor = "n-v-c:block-Cursor"
+	vim.cmd [[highlight Cursor guifg=#FFFFFF guibg=#FF0000]]
+end
+
+
 Touch.normalFeedCallback = function(keys)
 	return function()
 		vim.api.nvim_input(keys)
@@ -83,9 +89,6 @@ Touch.handlers = {
 
 
 
-Touch.init = function()
-	vim.cmd [[highlight Cursor guifg=#FFFFFF guibg=#FF0000]]
-end
 
 Touch.getCellHandlers = function(dimensions)
 	local row = math.ceil((dimensions.winrow / (dimensions.winRows / 3)))
