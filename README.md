@@ -123,28 +123,28 @@ line
 
 ### Cells
 
-Cursor
-Enter
+Cursor;
+Enter;
 
-Line
+Line;
 Edit line
 
-Tabs
+Tabs;
 New tab(discovery window)
 
-Windows
-Close buffer
+Windows;
+Close buffer;
 
-Indents
-Backspace
+Indents;
+Backspace;
 
-Change history
-Save
+Change history;
+Save;
 
 Command history(show in statusline)
 Execute selected command
 
-Move inline
-Visual select on/off
+Move inline;
+Visual select on/off;
 
 

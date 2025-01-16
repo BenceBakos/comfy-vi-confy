@@ -9,7 +9,6 @@ Touch.excludeOs = {
 
 Touch.normalFeedCallback = function(keys)
 	return function()
-		Log.log(keys)
 		vim.api.nvim_input(keys)
 	end
 end
@@ -19,58 +18,65 @@ Touch.handlers = {
 	{
 		{
 			-- top left
-			['<LeftRelease>'] = function() Log.log('release 11') end,
+			['<LeftRelease>'] = function() Log.log('release 11') end, --command history, execute
 			['<ScrollWheelUp>'] = function() Log.log('up 11') end,
 			['<ScrollWheelDown>'] = function() Log.log(' down 11') end,
 		},
 		{
-			['<LeftRelease>'] = function() Log.log('release 12') end,
-			['<ScrollWheelUp>'] = function() Log.log('up 12') end,
-			['<ScrollWheelDown>'] = function() Log.log(' down 12') end,
+			['<LeftRelease>'] = Touch.normalFeedCallback(':q<CR>'),
+			['<ScrollWheelUp>'] = Touch.normalFeedCallback('<C-w>p'),
+			['<ScrollWheelDown>'] = Touch.normalFeedCallback('<C-w>w'),
 		},
 		{
 			-- top right
-			['<LeftRelease>'] = function() Log.log('release 13') end,
-			['<ScrollWheelUp>'] = function() Log.log('up 13') end,
-			['<ScrollWheelDown>'] = function() Log.log(' down 13') end,
+			['<LeftRelease>'] = Touch.normalFeedCallback('tt<CR>'), --todo populate default buffer/ call discover
+			['<ScrollWheelUp>'] = Touch.normalFeedCallback('tk'),
+			['<ScrollWheelDown>'] = Touch.normalFeedCallback('tj'),
 		},
 	},
 	{
 		{
 			-- middle left
-			['<LeftRelease>'] = function() Log.log('release 21') end,
-			['<ScrollWheelUp>'] = function() Log.log('up 21') end,
-			['<ScrollWheelDown>'] = function() Log.log(' down 21') end,
+			['<LeftRelease>'] = Touch.normalFeedCallback(':w<CR>'),
+			['<ScrollWheelUp>'] = Touch.normalFeedCallback('<C-r>'),
+			['<ScrollWheelDown>'] = Touch.normalFeedCallback('u'),
 		},
 		{
-			['<LeftRelease>'] = function() Log.log('release 22') end,
+			['<LeftRelease>'] = function() Log.log('p') end, --clipboard history, paste, clipboard-dev-connect
 			['<ScrollWheelUp>'] = function() Log.log('up 12') end,
 			['<ScrollWheelDown>'] = function() Log.log(' down 22') end,
 		},
 		{
 			-- middle right
-			['<LeftRelease>'] = function() Log.log('release 23') end,
-			['<ScrollWheelUp>'] = function() Log.log('up 23') end,
-			['<ScrollWheelDown>'] = function() Log.log(' down 23') end,
+			['<LeftRelease>'] = Touch.normalFeedCallback('<BR>'),
+			['<ScrollWheelUp>'] = Touch.normalFeedCallback('>>'),
+			['<ScrollWheelDown>'] = Touch.normalFeedCallback('<<'),
 		},
 	},
 	{
 		{
 			-- bottom left
-			['<LeftRelease>'] = function() Log.log('release 31') end,
-			['<ScrollWheelUp>'] = function() Log.log('up 31') end,
-			['<ScrollWheelDown>'] = function() Log.log(' down 31') end,
-		},
-		{
-			['<LeftRelease>'] = function() Log.log('release 32') end,
-			['<ScrollWheelUp>'] = function() Log.log('up 32') end,
-			['<ScrollWheelDown>'] = function() Log.log(' down 32') end,
+			['<LeftRelease>'] = function()
+				if vim.api.nvim_get_mode().mode == 'v' then
+					Touch.normalFeedCallback('y')
+				end
+				if vim.api.nvim_get_mode().mode == 'n' then
+					Touch.normalFeedCallback('yy')
+				end
+			end,
+			['<ScrollWheelUp>'] = Touch.normalFeedCallback('ddkp'),
+			['<ScrollWheelDown>'] = Touch.normalFeedCallback('ddp'),
 		},
 		{
 			-- bottom right
 			['<LeftRelease>'] = Touch.normalFeedCallback('<CR>'),
 			['<ScrollWheelUp>'] = Touch.normalFeedCallback('k'),
 			['<ScrollWheelDown>'] = Touch.normalFeedCallback('j'),
+		},
+		{
+			['<LeftRelease>'] = Touch.normalFeedCallback('v'),
+			['<ScrollWheelUp>'] = Touch.normalFeedCallback('l'),
+			['<ScrollWheelDown>'] = Touch.normalFeedCallback('h'),
 		},
 	}
 }
@@ -92,7 +98,7 @@ Touch.eventHandler = function(dimensions, eventName)
 	Touch.getCellHandlers(dimensions)[eventName]();
 end
 
-Touch.frequency = 6
+Touch.frequency = 4
 Touch.frequencyTimeout = 0.3
 
 Touch.scrollUpTimeStamp = 0
@@ -134,14 +140,5 @@ Touch.mouseMaps = {
 	['<LeftRelease>'] = { Touch.eventHandler }
 
 }
-
-Touch.hwae = {
-	function(dimensions)
-		if dimensions.wincol > (dimensions.winCols * 0.9) and dimensions.winrow < (dimensions.winRows * 0.1) then
-			vim.cmd('q!')
-		end
-	end,
-}
-
 
 return Touch
