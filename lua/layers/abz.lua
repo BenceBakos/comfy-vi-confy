@@ -77,7 +77,7 @@ Abz.maps = {
 		mode = 'n',
 		map = 'ű',
 		to = function()
-			Tui.view9cell(true,{
+			Tui.view(true,{
 				["11"] = {
 					['<LeftRelease>'] = function (content,cell,eventName)
 						Log.log(content)

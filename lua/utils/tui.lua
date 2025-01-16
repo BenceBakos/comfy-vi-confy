@@ -21,7 +21,7 @@ Tui.prompt = function(label)
 	return vim.fn.input(label)
 end
 
-Tui.view9cell = function(isFloating, handlers, content)
+Tui.view = function(isFloating, handlers, content)
 	local buffer = vim.api.nvim_create_buf(false, true)
 	local win = nil
 
@@ -61,6 +61,21 @@ Tui.mapFunctionsToBuffer = function(buffer, bufferMouseMaps)
 	end
 
 	Main.initMouseEvents(bufferMouseMaps, buffer)
+end
+
+Tui.statusLineParams = {
+}
+
+Tui.updadteStatusLine = function(params)
+	Tui.statusLineParams = Table.merge(Tui.statusLineParams,params)
+
+	vim.o.statusline = table.concat({
+		' %t',
+		'%r',
+		'%m',
+		'%=',
+		'%{&filetype}',
+	}, '')
 end
 
 return Tui

@@ -204,21 +204,21 @@ end
 
 Main.logEvent = function(eventName, col, row, winId)
 	-- Log the event name and coordinates
-	vim.o.statusline = table.concat({
-		' %t',
-		'%r',
-		'%m',
-		'%=',
-		'%{&filetype}',
-		eventName ..
-		" at " ..
-		col ..
-		" " ..
-		row ..
-		" W" ..
-		vim.api.nvim_win_get_width(winId) ..
-		" H:" .. vim.api.nvim_win_get_height(winId),
-	}, '')
+	-- vim.o.statusline = table.concat({ -- use Tui.updadteStatusLine instead
+	-- 	' %t',
+	-- 	'%r',
+	-- 	'%m',
+	-- 	'%=',
+	-- 	'%{&filetype}',
+	-- 	eventName ..
+	-- 	" at " ..
+	-- 	col ..
+	-- 	" " ..
+	-- 	row ..
+	-- 	" W" ..
+	-- 	vim.api.nvim_win_get_width(winId) ..
+	-- 	" H:" .. vim.api.nvim_win_get_height(winId),
+	-- }, '')
 end
 
 

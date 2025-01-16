@@ -84,7 +84,7 @@ Touch.handlers = {
 
 
 Touch.init = function()
-
+	vim.cmd [[highlight Cursor guifg=#FFFFFF guibg=#FF0000]]
 end
 
 Touch.getCellHandlers = function(dimensions)
