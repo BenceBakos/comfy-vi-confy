@@ -30,8 +30,8 @@ Touch.handlers = {
 		},
 		{
 			['<LeftRelease>'] = Touch.feedCallback(':q<CR>'),
-			['<ScrollWheelUp>'] = Log.log('up 12'),
-			['<ScrollWheelDown>'] = Log.log('down 12'),
+			['<ScrollWheelUp>'] = function () Log.log('up 12') end,
+			['<ScrollWheelDown>'] = function () Log.log('down 12')end,
 		},
 		{
 			-- top right
@@ -103,7 +103,7 @@ Touch.eventHandler = function(dimensions, eventName)
 	Touch.getCellHandlers(dimensions)[eventName]();
 end
 
-Touch.frequency = 2
+Touch.frequency = 3
 Touch.frequencyTimeout = 0.3
 
 Touch.scrollUpTimeStamp = 0
