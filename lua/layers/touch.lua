@@ -13,7 +13,7 @@ Touch.init = function()
 end
 
 
-Touch.normalFeedCallback = function(keys)
+Touch.feedCallback = function(keys)
 	return function()
 		vim.api.nvim_input(keys)
 	end
@@ -29,34 +29,36 @@ Touch.handlers = {
 			['<ScrollWheelDown>'] = function() Log.log(' down 11') end,
 		},
 		{
-			['<LeftRelease>'] = Touch.normalFeedCallback(':q<CR>'),
-			['<ScrollWheelUp>'] = Touch.normalFeedCallback('<C-w>p'),
-			['<ScrollWheelDown>'] = Touch.normalFeedCallback('<C-w>w'),
+			['<LeftRelease>'] = Touch.feedCallback(':q<CR>'),
+			['<ScrollWheelUp>'] = Touch.feedCallback('<C-w>p'),
+			['<ScrollWheelDown>'] = Touch.feedCallback('<C-w>w'),
 		},
 		{
 			-- top right
-			['<LeftRelease>'] = Touch.normalFeedCallback('tt<CR>'), --todo populate default buffer/ call discover
-			['<ScrollWheelUp>'] = Touch.normalFeedCallback('tk'),
-			['<ScrollWheelDown>'] = Touch.normalFeedCallback('tj'),
+			['<LeftRelease>'] = Touch.feedCallback('tt<CR>'), --todo populate default buffer/ call discover
+			['<ScrollWheelUp>'] = Touch.feedCallback('tk'),
+			['<ScrollWheelDown>'] = Touch.feedCallback('tj'),
 		},
 	},
 	{
 		{
 			-- middle left
-			['<LeftRelease>'] = Touch.normalFeedCallback(':w<CR>'),
-			['<ScrollWheelUp>'] = Touch.normalFeedCallback('<C-r>'),
-			['<ScrollWheelDown>'] = Touch.normalFeedCallback('u'),
+			['<LeftRelease>'] = Touch.feedCallback(':w<CR>'),
+			['<ScrollWheelUp>'] = Touch.feedCallback('<C-r>'),
+			['<ScrollWheelDown>'] = Touch.feedCallback('u'),
 		},
 		{
-			['<LeftRelease>'] = function() Log.log('p') end, --clipboard history, paste, clipboard-dev-connect
+			['<LeftRelease>'] = Touch.feedCallback('p'),
 			['<ScrollWheelUp>'] = function() Log.log('up 12') end,
 			['<ScrollWheelDown>'] = function() Log.log(' down 22') end,
 		},
 		{
 			-- middle right
-			['<LeftRelease>'] = Touch.normalFeedCallback('<BR>'),
-			['<ScrollWheelUp>'] = Touch.normalFeedCallback('>>'),
-			['<ScrollWheelDown>'] = Touch.normalFeedCallback('<<'),
+			['<LeftRelease>'] = Touch.feedCallback('<BS>'),
+			['<ScrollWheelUp>'] = Touch.feedCallback('>>'),
+			['<ScrollWheelDown>'] = function ()
+				vim.api.nvim_feedkeys('<<', 'n', true)
+			end,
 		},
 	},
 	{
@@ -64,25 +66,25 @@ Touch.handlers = {
 			-- bottom left
 			['<LeftRelease>'] = function()
 				if vim.api.nvim_get_mode().mode == 'v' then
-					Touch.normalFeedCallback('y')
+					vim.api.nvim_feedkeys('y', 'n', true)
 				end
 				if vim.api.nvim_get_mode().mode == 'n' then
-					Touch.normalFeedCallback('yy')
+					vim.api.nvim_feedkeys('yy', 'n', true)
 				end
 			end,
-			['<ScrollWheelUp>'] = Touch.normalFeedCallback(':m .-2<CR>=='),
-			['<ScrollWheelDown>'] = Touch.normalFeedCallback(':m .+1<CR>=='),
+			['<ScrollWheelUp>'] = Touch.feedCallback(':m .-2<CR>=='),
+			['<ScrollWheelDown>'] = Touch.feedCallback(':m .+1<CR>=='),
 		},
 		{
-			['<LeftRelease>'] = Touch.normalFeedCallback('v'),
-			['<ScrollWheelUp>'] = Touch.normalFeedCallback('l'),
-			['<ScrollWheelDown>'] = Touch.normalFeedCallback('h'),
+			['<LeftRelease>'] = Touch.feedCallback('v'),
+			['<ScrollWheelUp>'] = Touch.feedCallback('l'),
+			['<ScrollWheelDown>'] = Touch.feedCallback('h'),
 		},
 		{
 			-- bottom right
-			['<LeftRelease>'] = Touch.normalFeedCallback('<CR>'),
-			['<ScrollWheelUp>'] = Touch.normalFeedCallback('j'),
-			['<ScrollWheelDown>'] = Touch.normalFeedCallback('k'),
+			['<LeftRelease>'] = Touch.feedCallback('<CR>'),
+			['<ScrollWheelUp>'] = Touch.feedCallback('j'),
+			['<ScrollWheelDown>'] = Touch.feedCallback('k'),
 		},
 	}
 }
@@ -101,7 +103,7 @@ Touch.eventHandler = function(dimensions, eventName)
 	Touch.getCellHandlers(dimensions)[eventName]();
 end
 
-Touch.frequency = 4
+Touch.frequency = 2
 Touch.frequencyTimeout = 0.3
 
 Touch.scrollUpTimeStamp = 0

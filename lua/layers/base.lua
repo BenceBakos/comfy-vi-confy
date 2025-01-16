@@ -190,10 +190,13 @@ Base.maps = {
 	},
 
 	-- these cause more harm than good, disabled for now
-	{ mode = 'n', map = '<4-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
-	{ mode = 'n', map = '<3-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
-	{ mode = 'n', map = '<2-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
-	{ mode = 'n', map = '<LeftMouse>',   to = '<Nop>', options = { noremap = false, silent = true } }
+	{ mode = MODES, map = '<4-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = MODES, map = '<3-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = MODES, map = '<2-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = MODES, map = '<LeftMouse>',   to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = MODES, map = '<LeftRelease>',   to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = MODES, map = '<ScrollWheelUp>',   to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = MODES, map = '<ScrollWheelDown>',   to = '<Nop>', options = { noremap = false, silent = true } },
 }
 
 

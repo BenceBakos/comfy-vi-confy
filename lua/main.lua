@@ -143,25 +143,25 @@ Main.handleMouseEvent = function(eventName, handlers)
 	)
 
 	for _, handler in pairs(handlers) do
-		handler(dimensions,eventName)
+		handler(dimensions, eventName)
 	end
 end
 
 Main.initMouseEvents = function(mouseMaps, buffer)
 	for eventName, handlers in pairs(mouseMaps) do
 		local opts = {
-			mode = 'n',
+			mode = MODES,
 			map = eventName,
 			to = { noremap = true, silent = true },
 		}
 
 		if buffer ~= nil then
-			Keyboard.mapFunctionBuffer(buffer,'n', eventName, function()
-				Main.handleMouseEvent(eventName,handlers)
+			Keyboard.mapFunctionBuffer(buffer, MODES, eventName, function()
+				Main.handleMouseEvent(eventName, handlers)
 			end, opts)
 		else
-			Keyboard.mapFunction('n', eventName, function()
-				Main.handleMouseEvent(eventName,handlers)
+			Keyboard.mapFunction(MODES, eventName, function()
+				Main.handleMouseEvent(eventName, handlers)
 			end, opts)
 		end
 	end
