@@ -70,19 +70,19 @@ Touch.handlers = {
 					Touch.normalFeedCallback('yy')
 				end
 			end,
-			['<ScrollWheelUp>'] = Touch.normalFeedCallback('ddkp'),
-			['<ScrollWheelDown>'] = Touch.normalFeedCallback('ddp'),
-		},
-		{
-			-- bottom right
-			['<LeftRelease>'] = Touch.normalFeedCallback('<CR>'),
-			['<ScrollWheelUp>'] = Touch.normalFeedCallback('k'),
-			['<ScrollWheelDown>'] = Touch.normalFeedCallback('j'),
+			['<ScrollWheelUp>'] = Touch.normalFeedCallback(':m .-2<CR>=='),
+			['<ScrollWheelDown>'] = Touch.normalFeedCallback(':m .+1<CR>=='),
 		},
 		{
 			['<LeftRelease>'] = Touch.normalFeedCallback('v'),
 			['<ScrollWheelUp>'] = Touch.normalFeedCallback('l'),
 			['<ScrollWheelDown>'] = Touch.normalFeedCallback('h'),
+		},
+		{
+			-- bottom right
+			['<LeftRelease>'] = Touch.normalFeedCallback('<CR>'),
+			['<ScrollWheelUp>'] = Touch.normalFeedCallback('j'),
+			['<ScrollWheelDown>'] = Touch.normalFeedCallback('k'),
 		},
 	}
 }
