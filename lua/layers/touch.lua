@@ -30,14 +30,14 @@ Touch.handlers = {
 		},
 		{
 			['<LeftRelease>'] = Touch.feedCallback(':q<CR>'),
-			['<ScrollWheelUp>'] = Touch.feedCallback('<C-w>p'),
-			['<ScrollWheelDown>'] = Touch.feedCallback('<C-w>w'),
+			['<ScrollWheelUp>'] = Log.log('up 12'),
+			['<ScrollWheelDown>'] = Log.log('down 12'),
 		},
 		{
 			-- top right
 			['<LeftRelease>'] = Touch.feedCallback('tt<CR>'), --todo populate default buffer/ call discover
 			['<ScrollWheelUp>'] = Touch.feedCallback('tk'),
-			['<ScrollWheelDown>'] = Touch.feedCallback('tj'),
+			['<ScrollWheelDown>'] = Touch.feedCallback('<C-w>w'),
 		},
 	},
 	{
