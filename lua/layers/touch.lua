@@ -30,14 +30,14 @@ Touch.handlers = {
 		},
 		{
 			['<LeftRelease>'] = Touch.feedCallback(':q<CR>'),
-			['<ScrollWheelUp>'] = function () Log.log('up 12') end,
-			['<ScrollWheelDown>'] = function () Log.log('down 12')end,
+			['<ScrollWheelUp>'] = Touch.feedCallback('<C-w>p'),
+			['<ScrollWheelDown>'] = Touch.feedCallback('<C-w>w'),
 		},
 		{
 			-- top right
 			['<LeftRelease>'] = Touch.feedCallback('tt<CR>'), --todo populate default buffer/ call discover
 			['<ScrollWheelUp>'] = Touch.feedCallback('tk'),
-			['<ScrollWheelDown>'] = Touch.feedCallback('<C-w>w'),
+			['<ScrollWheelDown>'] = Touch.feedCallback('tj'),
 		},
 	},
 	{
@@ -93,6 +93,7 @@ Touch.handlers = {
 
 
 Touch.getCellHandlers = function(dimensions)
+	Log.log(dimensions)
 	local row = math.ceil((dimensions.winrow / (dimensions.winRows / 3)))
 	local col = math.ceil((dimensions.wincol / (dimensions.winCols / 3)))
 	return Touch.handlers[row][col]
@@ -103,7 +104,7 @@ Touch.eventHandler = function(dimensions, eventName)
 	Touch.getCellHandlers(dimensions)[eventName]();
 end
 
-Touch.frequency = 3
+Touch.frequency = 2
 Touch.frequencyTimeout = 0.3
 
 Touch.scrollUpTimeStamp = 0
