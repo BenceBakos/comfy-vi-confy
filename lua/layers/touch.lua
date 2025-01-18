@@ -89,13 +89,10 @@ Touch.handlers = {
 	}
 }
 
-
-
-
 Touch.getCellHandlers = function(dimensions)
 	Log.log(dimensions)
-	local row = math.ceil((dimensions.winrow / (dimensions.winRows / 3)))
-	local col = math.ceil((dimensions.wincol / (dimensions.winCols / 3)))
+	local row = math.ceil((dimensions.screenrow / (vim.o.lines / 3)))
+	local col = math.ceil((dimensions.screencol / (vim.o.columns / 3)))
 	return Touch.handlers[row][col]
 end
 
