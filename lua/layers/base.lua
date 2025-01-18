@@ -34,7 +34,7 @@ Base.options = {
 	opt = {
 		fillchars = { eob = ' ' },
 		mouse = 'a',
-		mousefocus = false,
+		mousefocus = true,
 		-- persistent undo
 		undofile = true,
 		undolevels = 2000,
@@ -194,6 +194,11 @@ Base.maps = {
 	{ mode = MODES, map = '<4-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
 	{ mode = MODES, map = '<3-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
 	{ mode = MODES, map = '<2-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = MODES, map = '<LeftMouse>',   to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = MODES, map = '<LeftRelease>',   to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = MODES, map = '<ScrollWheelUp>',   to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = MODES, map = '<ScrollWheelDown>',   to = '<Nop>', options = { noremap = false, silent = true } },
+
 }
 
 

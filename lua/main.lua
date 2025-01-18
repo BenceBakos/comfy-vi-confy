@@ -152,7 +152,7 @@ Main.initMouseEvents = function(mouseMaps, buffer)
 		local opts = {
 			mode = MODES,
 			map = eventName,
-			to = { noremap = true, silent = true },
+			to = { noremap = false, silent = true },
 		}
 
 		if buffer ~= nil then
