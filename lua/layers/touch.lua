@@ -54,8 +54,8 @@ Touch.handlers = {
 		},
 		{
 			['<LeftRelease>'] = Touch.feedCallback('v'),
-			['<ScrollWheelUp>'] = function() Log.log('up 12') end,
-			['<ScrollWheelDown>'] = function() Log.log(' down 22') end,
+			['<ScrollWheelUp>'] = Touch.feedCallback('e'),
+			['<ScrollWheelDown>'] = Touch.feedCallback('b'),
 		},
 		{
 			-- middle right
