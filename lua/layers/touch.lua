@@ -7,6 +7,11 @@ Touch.excludeOs = {
 	-- Terminal.DEBIAN,
 }
 
+Touch.maps = {
+	{ mode = 'n', map = 'k', to = 'kzz', options = { noremap = false } },
+	{ mode = 'n', map = 'j', to = 'jzz', options = { noremap = false } },
+}
+
 Touch.init = function()
 	vim.opt.guicursor = "n-v-c:block-Cursor"
 	vim.cmd [[highlight Cursor guifg=#FFFFFF guibg=#FF0000]]
@@ -48,7 +53,7 @@ Touch.handlers = {
 			['<ScrollWheelDown>'] = Touch.feedCallback('u'),
 		},
 		{
-			['<LeftRelease>'] = Touch.feedCallback('p'),
+			['<LeftRelease>'] = function() Log.log('press 12') end,
 			['<ScrollWheelUp>'] = function() Log.log('up 12') end,
 			['<ScrollWheelDown>'] = function() Log.log(' down 22') end,
 		},
@@ -56,7 +61,7 @@ Touch.handlers = {
 			-- middle right
 			['<LeftRelease>'] = Touch.feedCallback('<BS>'),
 			['<ScrollWheelUp>'] = Touch.feedCallback('>>'),
-			['<ScrollWheelDown>'] = function ()
+			['<ScrollWheelDown>'] = function()
 				vim.api.nvim_feedkeys('<<', 'n', true)
 			end,
 		},
@@ -76,7 +81,7 @@ Touch.handlers = {
 			['<ScrollWheelDown>'] = Touch.feedCallback(':m .+1<CR>=='),
 		},
 		{
-			['<LeftRelease>'] = Touch.feedCallback('v'),
+			['<LeftRelease>'] = Touch.feedCallback('p'),
 			['<ScrollWheelUp>'] = Touch.feedCallback('l'),
 			['<ScrollWheelDown>'] = Touch.feedCallback('h'),
 		},
@@ -90,7 +95,6 @@ Touch.handlers = {
 }
 
 Touch.getCellHandlers = function(dimensions)
-	Log.log(dimensions)
 	local row = math.ceil((dimensions.screenrow / (vim.o.lines / 3)))
 	local col = math.ceil((dimensions.screencol / (vim.o.columns / 3)))
 	return Touch.handlers[row][col]
