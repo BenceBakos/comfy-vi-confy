@@ -49,13 +49,16 @@ Tui.table = function(getChildrenCallback)
 		Tui.writeToReadonlyBuffer(buffer, Tui.renderTable(newItems))
 	end)
 
-	Keyboard.mapFunctionBuffer(buffer, 'n', '<BS>', function()
+	local handleBack = function()
 		if #path > 0 then
 			table.remove(path)
 		end
 
 		Tui.writeToReadonlyBuffer(buffer, Tui.renderTable(getChildrenCallback(path)))
-	end)
+	end
+
+	Keyboard.mapFunctionBuffer(buffer, 'n', '<BS>', handleBack)
+	Keyboard.mapFunctionBuffer(buffer, 'n', '-', handleBack)
 end
 
 Tui.renderTable = function(t)

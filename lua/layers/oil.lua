@@ -30,6 +30,7 @@ end
 
 Oil.maps = {
 	{ mode = "n", map = "-",  to = ":Oil<CR>" },
+	{ mode = "n", map = "<BS>",  to = ":Oil<CR>" },
 	{ mode = "n", map = "t-", to = ":vsplit<CR>:Oil<CR>" }
 }
 
