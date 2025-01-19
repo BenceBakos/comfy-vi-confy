@@ -34,7 +34,6 @@ Tui.table = function(getChildrenCallback)
 
 	Keyboard.mapFunctionBuffer(buffer, 'n', '<CR>', function()
 
-		Log.log(path)
 		table.insert(
 			path,
 			string.match(vim.fn.getline(vim.fn.line('.')), "([^:]+)")
@@ -63,10 +62,18 @@ Tui.renderTable = function(t)
 	local lines = {}
 
 	for key, value in pairs(t) do
-		table.insert(lines,key..': '..string.gsub(Log.serializeValue(value),'\r\n',' '))
+		table.insert(lines,key..': '..string.gsub(Tui.serializeValue(value),'\r\n',' '))
 	end
 
 	return lines
+end
+
+Tui.serializeValue = function(v)
+	if type(v) == "table" then v = vim.fn.json_encode(v) end
+
+	if type(v) == "boolean" then v = tostring(v) end
+
+	return v
 end
 
 Tui.writeToReadonlyBuffer = function(buffer, content)
