@@ -5,71 +5,8 @@ Tui = require("utils.tui")
 
 Abz = {}
 
-Abz.CONSTANTS_PATH = 'constants.json'
-Abz.FUNCTIONS_PATH = 'functions.json'
-Abz.SELECT_HISTORY_PATH = 'selectHistory.json'
-
--- name(key)
--- module(path form package.loaded,nil when complex)
--- description
--- tags(string array)
--- arguments
---    not nil when complex
---    ordered string list
--- body
---    not nil when complex
---    describes functions calling each other
---
-Abz.functions = {}
-
--- name(module+name -> key)
--- module(path form package.loaded,nil when custom)
--- description
--- tags(string array)
--- value(not nil when custom)
---
-Abz.constants = {}
-
-Abz.selectHistory = {
-	modules = {}, -- map it, order
-	functions = {},
-	constants = {},
-}
-
 Abz.init = function()
-	if File.fileExists(File.getPersistnecyPath() .. Abz.CONSTANTS_PATH) then
-		Abz.constants = File.loadTable(File.getPersistnecyPath() .. Abz.CONSTANTS_PATH)
-	end
 
-	if File.fileExists(File.getPersistnecyPath() .. Abz.FUNCTIONS_PATH) then
-		Abz.functions = File.loadTable(File.getPersistnecyPath() .. Abz.FUNCTIONS_PATH)
-	end
-
-	if File.fileExists(File.getPersistnecyPath() .. Abz.SELECT_HISTORY_PATH) then
-		Abz.selectHistory = File.loadTable(File.getPersistnecyPath() .. Abz.SELECT_HISTORY_PATH)
-	end
-end
-
-Abz.addConstant = function()
-	local value = Tui.prompt('Const Value: ')
-	while not value do
-		value = Tui.prompt('Const Value (' .. value .. ' taken or nil): ')
-	end
-
-	local name = Tui.prompt('Const Name: ')
-	while not name or Table.hasKey(Abz.constants, name) do
-		name = Tui.prompt('Const Name (' .. name .. ' taken or nil): ')
-	end
-
-	local description = Tui.prompt('Const Description: ')
-
-	Abz.constants[name] = {
-		name = name,
-		description = description,
-		value = value
-	}
-
-	File.storeTable(Abz.constants, File.getPersistnecyPath() .. Abz.CONSTANTS_PATH)
 end
 
 Abz.maps = {
@@ -77,45 +14,20 @@ Abz.maps = {
 		mode = 'n',
 		map = 'ű',
 		to = function()
-			Tui.view(true,{
-				["11"] = {
-					['<LeftRelease>'] = function (content,cell,eventName)
-						Log.log(content)
-						Log.log(cell)
-						Log.log(eventName)
-						Log.log('---')
-						return nil
-					end,
-					['<ScrollWheelUp>'] = function (content,cell,eventName)
-						Log.log(content)
-						Log.log(cell)
-						Log.log(eventName)
-						Log.log('---')
-						table.insert(content,'fuck mee')
-						return content
-					end
-				},
-				["32"] = {
-					['<LeftRelease>'] = function (content,cell,eventName)
-						Log.log(content)
-						Log.log(cell)
-						Log.log(eventName)
-						Log.log('---')
-					end,
-					['<ScrollWheelDown'] = function (content,cell,eventName)
-						Log.log(content)
-						Log.log(cell)
-						Log.log(eventName)
-						Log.log('---')
-					end
-				},
-			},{
-				'my lines',
-				'flies'
-				})
+			Tui.table(function(path)
+				if #path == 0 then return Abz.exampleTable end
+
+				local value = Table.traversePath(Abz.exampleTable, path)
+
+				if type(value) == 'string' then
+					return nil
+				end
+
+				return value
+			end)
 		end,
 		options = false
-	},
+	}
 }
 
 Abz.autocmds = {
@@ -123,7 +35,59 @@ Abz.autocmds = {
 }
 
 Abz.commands = {
-	AddConstant = ":lua require('layers.abz').addConstant()",
+}
+
+Abz.exampleTable = {
+	home = {
+		user1 = {
+			documents = {
+				resume = "resume.pdf",
+				cover_letter = "cover_letter.docx",
+				notes = {
+					meeting_notes = "meeting_notes.txt",
+					project_notes = "project_notes.txt"
+				}
+			},
+			downloads = {
+				file1 = "file1.zip",
+				file2 = "file2.iso"
+			},
+			pictures = {
+				vacation = {
+					photo1 = "beach.png",
+					photo2 = "mountain.png"
+				},
+				profile_picture = "profile.jpg"
+			}
+		},
+		user2 = {
+			documents = {
+				report = "report.docx",
+				thesis = "thesis.pdf"
+			},
+			music = {
+				song1 = "song1.mp3",
+				song2 = "song2.mp3"
+			}
+		}
+	},
+	var = {
+		log = {
+			system_log = "syslog.log",
+			error_log = "error.log"
+		},
+		tmp = {
+			temp_file1 = "temp1.tmp",
+			temp_file2 = "temp2.tmp"
+		}
+	},
+	etc = {
+		config = {
+			nginx = "nginx.conf",
+			php = "php.ini"
+		},
+		hosts = "hosts"
+	}
 }
 
 return Abz

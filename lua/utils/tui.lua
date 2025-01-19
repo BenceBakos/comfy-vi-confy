@@ -21,33 +21,57 @@ Tui.prompt = function(label)
 	return vim.fn.input(label)
 end
 
-Tui.view = function(isFloating, handlers, content)
+Tui.table = function(getChildrenCallback)
 	local buffer = vim.api.nvim_create_buf(false, true)
-	local win = nil
 
-	vim.bo[buffer].filetype = 'markdown'
-	vim.api.nvim_buf_set_name(buffer, 'Selector-' .. buffer)
+	vim.cmd('tabnew')
+	vim.api.nvim_set_current_buf(buffer)
+	vim.api.nvim_buf_set_name(buffer, 'Table-' .. buffer)
 
-	if isFloating then
-		win = vim.api.nvim_open_win(buffer, true, {
-			relative = 'editor',
-			width = vim.o.columns - 2,
-			height = vim.o.lines - 22,
-			row = 1,
-			col = 1,
-			border = 'rounded', -- You can use 'none', 'single', 'double', 'rounded', 'solid', 'shadow'
-		})
+	local path = {}
 
-		vim.api.nvim_win_set_cursor(win, { 1, 1 })
-	else
-		vim.cmd('tabnew')
-		vim.api.nvim_set_current_buf(buffer)
+	Tui.writeToReadonlyBuffer(buffer, Tui.renderTable(getChildrenCallback(path)))
+
+	Keyboard.mapFunctionBuffer(buffer, 'n', '<CR>', function()
+
+		Log.log(path)
+		table.insert(
+			path,
+			string.match(vim.fn.getline(vim.fn.line('.')), "([^:]+)")
+		)
+
+		local newItems = getChildrenCallback(path)
+
+		if not newItems then
+			table.remove(path)
+			return
+		end
+
+		Tui.writeToReadonlyBuffer(buffer, Tui.renderTable(newItems))
+	end)
+
+	Keyboard.mapFunctionBuffer(buffer, 'n', '<BS>', function()
+		if #path > 0 then
+			table.remove(path)
+		end
+
+		Tui.writeToReadonlyBuffer(buffer, Tui.renderTable(getChildrenCallback(path)))
+	end)
+end
+
+Tui.renderTable = function(t)
+	local lines = {}
+
+	for key, value in pairs(t) do
+		table.insert(lines,key..': '..string.gsub(Log.serializeValue(value),'\r\n',' '))
 	end
 
+	return lines
+end
+
+Tui.writeToReadonlyBuffer = function(buffer, content)
+	vim.bo[buffer].readonly = false
 	vim.api.nvim_buf_set_lines(buffer, 0, -1, false, content)
-
-	local bufferMouseMaps = {}
-
 	vim.bo[buffer].readonly = true
 end
 
@@ -67,7 +91,7 @@ Tui.statusLineParams = {
 }
 
 Tui.updadteStatusLine = function(params)
-	Tui.statusLineParams = Table.merge(Tui.statusLineParams,params)
+	Tui.statusLineParams = Table.merge(Tui.statusLineParams, params)
 
 	vim.o.statusline = table.concat({
 		' %t',

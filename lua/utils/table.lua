@@ -62,4 +62,24 @@ Table.appendTables = function(table1, table2)
 	return newTable
 end
 
+Table.traversePath = function(data, path)
+	local current = data
+	for _, key in ipairs(path) do
+		if type(current) == "table" and current[key] ~= nil then
+			current = current[key]
+		else
+			return nil
+		end
+	end
+	return current
+end
+
+Table.getKeys = function(t)
+	local keys = {}
+	for key, _ in pairs(t) do
+		table.insert(keys, key)
+	end
+	return keys
+end
+
 return Table
