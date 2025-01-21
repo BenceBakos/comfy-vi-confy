@@ -23,7 +23,7 @@ Abz.commands = {
 Abz.homeScreen = function()
 	local FILES_KEY = 'Files'
 	Tui.table({
-		FILES_KEY
+		FILES_KEY = FILES_KEY
 	}, function()
 		Log.log('lol')
 	end)

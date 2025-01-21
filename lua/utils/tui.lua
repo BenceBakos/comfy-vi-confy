@@ -25,13 +25,19 @@ Tui.table = function(t, leafCallback)
 	Tui.tree(function(path, moveKey)
 		if moveKey then table.insert(path, moveKey) end
 
-		if #path == 0 then return t end
+		if not moveKey and #path == 0 and type(t) == 'string' then
+			if leafCallback then
+				leafCallback(t)
+			end
+			return t
+		end
 
 		if not moveKey and #path ~= 0 then table.remove(path) end
 
+		if #path == 0 then return t end
+
 		local value = Table.traversePath(t, path)
 
-		Log.log(value)
 		if type(value) == 'string' then
 			if leafCallback then
 				leafCallback(value)
