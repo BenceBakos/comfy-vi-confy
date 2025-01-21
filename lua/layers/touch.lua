@@ -46,6 +46,15 @@ Touch.handlers = {
 		},
 	},
 	{
+
+		{
+			-- middle right
+			['<LeftRelease>'] = Touch.feedCallback('<BS>'),
+			['<ScrollWheelUp>'] = Touch.feedCallback('>>'),
+			['<ScrollWheelDown>'] = function()
+				vim.api.nvim_feedkeys('<<', 'n', true)
+			end,
+		},
 		{
 			-- middle left
 			['<LeftRelease>'] = Touch.feedCallback(':w<CR>'),
@@ -56,14 +65,6 @@ Touch.handlers = {
 			['<LeftRelease>'] = Touch.feedCallback('v'),
 			['<ScrollWheelUp>'] = Touch.feedCallback('e'),
 			['<ScrollWheelDown>'] = Touch.feedCallback('b'),
-		},
-		{
-			-- middle right
-			['<LeftRelease>'] = Touch.feedCallback('<BS>'),
-			['<ScrollWheelUp>'] = Touch.feedCallback('>>'),
-			['<ScrollWheelDown>'] = function()
-				vim.api.nvim_feedkeys('<<', 'n', true)
-			end,
 		},
 	},
 	{
