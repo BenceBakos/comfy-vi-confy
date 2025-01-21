@@ -21,11 +21,11 @@ Abz.commands = {
 }
 
 Abz.homeScreen = function()
-	local FILES_KEY = 'Files'
+	local FILES = 'FILES'
 	Tui.table({
-		FILES_KEY = FILES_KEY
+		FILES = FILES
 	}, function()
-		Log.log('lol')
+		vim.api.nvim_command('Oil')
 	end)
 end
 
