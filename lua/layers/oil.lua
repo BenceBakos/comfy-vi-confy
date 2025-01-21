@@ -4,10 +4,6 @@ Keyboard = require("utils.keyborad")
 
 Oil = {}
 
-Oil.excludeOs = {
-	Terminal.TERMUX
-}
-
 Oil.packages = {
 	'stevearc/oil.nvim'
 }
@@ -26,6 +22,7 @@ Oil.init = function()
 			{ "mtime", "desc" },
 		},
 	})
+
 end
 
 Oil.maps = {

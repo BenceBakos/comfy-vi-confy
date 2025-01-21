@@ -21,7 +21,29 @@ Tui.prompt = function(label)
 	return vim.fn.input(label)
 end
 
-Tui.table = function(getChildrenCallback)
+Tui.table = function(t, leafCallback)
+	Tui.tree(function(path, moveKey)
+		if moveKey then table.insert(path, moveKey) end
+
+		if #path == 0 then return t end
+
+		if not moveKey and #path ~= 0 then table.remove(path) end
+
+		local value = Table.traversePath(t, path)
+
+		Log.log(value)
+		if type(value) == 'string' then
+			if leafCallback then
+				leafCallback(value)
+			end
+			return nil
+		end
+
+		return value
+	end)
+end
+
+Tui.tree = function(getChildrenCallback)
 	local buffer = vim.api.nvim_create_buf(false, true)
 
 	vim.cmd('tabnew')
@@ -30,16 +52,10 @@ Tui.table = function(getChildrenCallback)
 
 	local path = {}
 
-	Tui.writeToReadonlyBuffer(buffer, Tui.renderTable(getChildrenCallback(path)))
+	Tui.writeToReadonlyBuffer(buffer, Tui.renderTable(getChildrenCallback(path, nil)))
 
 	Keyboard.mapFunctionBuffer(buffer, 'n', '<CR>', function()
-
-		table.insert(
-			path,
-			string.match(vim.fn.getline(vim.fn.line('.')), "([^:]+)")
-		)
-
-		local newItems = getChildrenCallback(path)
+		local newItems = getChildrenCallback(path, string.match(vim.fn.getline(vim.fn.line('.')), "([^:]+)"))
 
 		if not newItems then
 			table.remove(path)
@@ -50,11 +66,7 @@ Tui.table = function(getChildrenCallback)
 	end)
 
 	local handleBack = function()
-		if #path > 0 then
-			table.remove(path)
-		end
-
-		Tui.writeToReadonlyBuffer(buffer, Tui.renderTable(getChildrenCallback(path)))
+		Tui.writeToReadonlyBuffer(buffer, Tui.renderTable(getChildrenCallback(path, nil)))
 	end
 
 	Keyboard.mapFunctionBuffer(buffer, 'n', '<BS>', handleBack)
@@ -65,7 +77,7 @@ Tui.renderTable = function(t)
 	local lines = {}
 
 	for key, value in pairs(t) do
-		table.insert(lines,key..': '..string.gsub(Tui.serializeValue(value),'\r\n',' '))
+		table.insert(lines, key .. ': ' .. string.gsub(Tui.serializeValue(value), '\r\n', ' '))
 	end
 
 	return lines

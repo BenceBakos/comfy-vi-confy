@@ -40,7 +40,7 @@ Touch.handlers = {
 		},
 		{
 			-- top right
-			['<LeftRelease>'] = Touch.feedCallback('tt<CR>'), --todo populate default buffer/ call discover
+			['<LeftRelease>'] = Touch.feedCallback(':HomeScreen<CR>'), --todo populate default buffer/ call discover
 			['<ScrollWheelUp>'] = Touch.feedCallback('tk'),
 			['<ScrollWheelDown>'] = Touch.feedCallback('tj'),
 		},
