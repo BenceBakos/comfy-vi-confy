@@ -38,10 +38,10 @@ end
 
 File.getPersistnecyPath = function()
 	if Terminal.getOs() == Terminal.TERMUX then
-		return os.getenv("HOME") .. '/storage/shared/nvimCommandHistory/'
+		return os.getenv("HOME") .. '/storage/shared/nvim/'
 	end
 
-	return os.getenv("HOME") .. '/nvimCommandHistory/'
+	return os.getenv("HOME") .. '/nvim/'
 end
 
 File.storeTable = function(table, path)

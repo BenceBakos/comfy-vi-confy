@@ -150,11 +150,11 @@ Visual select on/off;
 
 
 Todo:
- - set up shared storage(find possible solution instead of syncthing)
- - interactions for table view
-     - `<CR>` for leaf items
- - new buffer: table view with interactions
-     - open oil
+ - set up shared storage(find possible solution instead of syncthing);
+ - interactions for table view;
+     - `<CR>` for leaf items;
+ - new buffer: table view with interactions;
+     - open oil;
      - open shared storage in oil
  - magic(command builder, OR lua builder)
      - interactions for displayed json
