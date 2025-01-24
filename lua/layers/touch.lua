@@ -7,6 +7,13 @@ Touch.excludeOs = {
 	-- Terminal.DEBIAN,
 }
 
+Base.options = {
+	opt = {
+		colorcolumn = tostring(math.floor((vim.o.columns / 3)))
+	}
+}
+
+
 Touch.maps = {
 	{ mode = 'n', map = 'k', to = 'kzz', options = { noremap = false } },
 	{ mode = 'n', map = 'j', to = 'jzz', options = { noremap = false } },
