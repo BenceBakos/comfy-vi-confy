@@ -24,9 +24,12 @@ Abz.commands = {
 Abz.homeScreen = function()
 	local FILES = 'FILES'
 	local SHARED = 'SHARED'
+	local PROJECT = 'PROJECT'
+
 	Tui.table({
 		FILES = FILES,
-		SHARED = SHARED
+		SHARED = SHARED,
+		PROJECT = PROJECT
 	}, function(value)
 		if value == FILES then
 			vim.api.nvim_command('Oil')
@@ -34,6 +37,10 @@ Abz.homeScreen = function()
 
 		if value == SHARED then
 			vim.api.nvim_command('Oil '..File.getPersistnecyPath())
+		end
+
+		if value == PROJECT then
+			vim.api.nvim_command('Oil .')
 		end
 	end)
 end

@@ -160,3 +160,12 @@ Todo:
      - interactions for displayed json
      - magic
      - magic magic magic
+
+
+Startup buffer should be HomeScreen
+Only 6 cells + color column at it's edge(neglect edit interactions)
+Filetype specific interactions for text
+Increase frequency
+Go to normal mode when in insert, and screen pressed
+
+Terminal
