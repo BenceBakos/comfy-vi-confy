@@ -28,37 +28,23 @@ end
 Touch.handlers = {
 	{
 		{
-			-- top left
-			['<LeftRelease>'] = function() Log.log('release 11') end, --command history, execute
-			['<ScrollWheelUp>'] = function() Log.log('up 11') end,
-			['<ScrollWheelDown>'] = function() Log.log(' down 11') end,
-		},
-		{
-			['<LeftRelease>'] = Touch.feedCallback(':q<CR>'),
-			['<ScrollWheelUp>'] = Touch.feedCallback('<C-w>p'),
-			['<ScrollWheelDown>'] = Touch.feedCallback('<C-w>w'),
-		},
-		{
 			-- top right
 			['<LeftRelease>'] = Touch.feedCallback(':HomeScreen<CR>'), --todo populate default buffer/ call discover
 			['<ScrollWheelUp>'] = Touch.feedCallback('tk'),
 			['<ScrollWheelDown>'] = Touch.feedCallback('tj'),
 		},
+		{
+			-- bottom right
+			['<LeftRelease>'] = Touch.feedCallback('<CR>'),
+			['<ScrollWheelUp>'] = Touch.feedCallback('j'),
+			['<ScrollWheelDown>'] = Touch.feedCallback('k'),
+		},
 	},
 	{
 		{
-			-- middle left
-			['<LeftRelease>'] = Touch.feedCallback(':w<CR>'),
-			['<ScrollWheelUp>'] = Touch.feedCallback('<C-r>'),
-			['<ScrollWheelDown>'] = Touch.feedCallback('u'),
-		},
-		{
-			-- middle right
-			['<LeftRelease>'] = Touch.feedCallback('p'),
-			['<ScrollWheelUp>'] = Touch.feedCallback('>>'),
-			['<ScrollWheelDown>'] = function()
-				vim.api.nvim_feedkeys('<<', 'n', true)
-			end,
+			['<LeftRelease>'] = Touch.feedCallback(':q<CR>'),
+			['<ScrollWheelUp>'] = Touch.feedCallback('<C-w>p'),
+			['<ScrollWheelDown>'] = Touch.feedCallback('<C-w>w'),
 		},
 		{
 			['<LeftRelease>'] = Touch.feedCallback('<BS>'),
@@ -68,22 +54,10 @@ Touch.handlers = {
 	},
 	{
 		{
-			-- bottom left
-			['<LeftRelease>'] = function()
-				if vim.api.nvim_get_mode().mode == 'v' then
-					vim.api.nvim_feedkeys('y', 'n', true)
-				end
-				if vim.api.nvim_get_mode().mode == 'n' then
-					vim.api.nvim_feedkeys('yy', 'n', true)
-				end
-			end,
-			['<ScrollWheelUp>'] = Touch.feedCallback(':m .-2<CR>=='),
-			['<ScrollWheelDown>'] = Touch.feedCallback(':m .+1<CR>=='),
-		},
-		{
-			['<LeftRelease>'] = Touch.feedCallback('v'),
-			['<ScrollWheelUp>'] = Touch.feedCallback('e'),
-			['<ScrollWheelDown>'] = Touch.feedCallback('b'),
+			-- top right
+			['<LeftRelease>'] = Touch.feedCallback(':HomeScreen<CR>'), --todo populate default buffer/ call discover
+			['<ScrollWheelUp>'] = Touch.feedCallback('tk'),
+			['<ScrollWheelDown>'] = Touch.feedCallback('tj'),
 		},
 		{
 			-- bottom right
@@ -96,13 +70,17 @@ Touch.handlers = {
 
 Touch.getCellHandlers = function(dimensions)
 	local row = math.ceil((dimensions.screenrow / (vim.o.lines / 3)))
-	local col = math.ceil((dimensions.screencol / (vim.o.columns / 3)))
+	local col = math.ceil((dimensions.screencol / (vim.o.columns / 3))) - 1
+
+	if col == 0 then return end
+
 	return Touch.handlers[row][col]
 end
 
 
 Touch.eventHandler = function(dimensions, eventName)
-	Touch.getCellHandlers(dimensions)[eventName]();
+	local handlers = Touch.getCellHandlers(dimensions)
+	if handlers then handlers[eventName]() end
 end
 
 Touch.frequency = 2
