@@ -21,7 +21,7 @@ Tui.prompt = function(label)
 	return vim.fn.input(label)
 end
 
-Tui.table = function(t, leafCallback)
+Tui.table = function(t, leafCallback, openInCurrent)
 	Tui.tree(function(path, moveKey)
 		if moveKey then table.insert(path, moveKey) end
 
@@ -46,13 +46,15 @@ Tui.table = function(t, leafCallback)
 		end
 
 		return value
-	end)
+	end, openInCurrent)
 end
 
-Tui.tree = function(getChildrenCallback)
+Tui.tree = function(getChildrenCallback, openInCurrent)
 	local buffer = vim.api.nvim_create_buf(false, true)
 
-	vim.cmd('tabnew')
+	if not openInCurrent then
+		vim.cmd('tabnew')
+	end
 	vim.api.nvim_set_current_buf(buffer)
 	vim.api.nvim_buf_set_name(buffer, 'Table-' .. buffer)
 
