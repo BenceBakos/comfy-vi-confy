@@ -6,6 +6,12 @@ File = require("utils.file")
 
 Abz = {}
 
+Abz.excludeOs = {
+	Terminal.ARCH,
+	Terminal.DEBIAN,
+}
+
+
 Abz.init = function()
 end
 

@@ -3,8 +3,8 @@ Terminal = require("utils.terminal")
 Touch = {}
 
 Touch.excludeOs = {
-	-- Terminal.ARCH,
-	-- Terminal.DEBIAN,
+	Terminal.ARCH,
+	Terminal.DEBIAN,
 }
 
 Base.options = {
