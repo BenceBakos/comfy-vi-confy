@@ -25,6 +25,7 @@ Main.init({
 	'macro',
 	'theme',
 	'refactor',
+	'ai',
 	-- 'abz',
 	-- 'touch',
 	-- where to store snippets, refactors, spells?
