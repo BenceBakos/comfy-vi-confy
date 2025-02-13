@@ -9,7 +9,6 @@ Ai.excludeOs = {
 }
 
 Ai.packages = {
-	'MeanderingProgrammer/render-markdown.nvim',
 	'stevearc/dressing.nvim',
 	'MunifTanjim/nui.nvim',
 	'echasnovski/mini.icons',
@@ -37,10 +36,6 @@ Ai.init = function()
 	if not copilot then return false end
 	copilot.setup({})
 
-	local renderMarkdown = Package.want('render-markdown')
-	if not renderMarkdown then return false end
-	renderMarkdown.setup({})
-
 	local avanteLib = Package.want('avante_lib')
 	if not avanteLib then return false end
 	Log.log(avanteLib)
@@ -51,7 +46,7 @@ Ai.init = function()
 	if not avante then return false end
 	avante.setup({
 		provider = 'copilot',
-		auto_suggestions_provider = "claude",
+		auto_suggestions_provider = "copilot",
 		claude = {
 			endpoint = "https://api.anthropic.com",
 			model = "claude-3-5-sonnet-20241022",

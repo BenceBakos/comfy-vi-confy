@@ -75,6 +75,7 @@ Lsp.init = function()
 			{ name = 'path',     keyword_length = 2 },
 			{ name = 'buffer',   keyword_length = 1 },
 			{ name = 'luasnip',  keyword_length = 2 },
+			{ name = 'avante',  keyword_length = 2 },
 		},
 		mapping = {
 			['<CR>'] = Cmp.mapping.confirm({
