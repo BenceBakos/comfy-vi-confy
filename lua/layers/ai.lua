@@ -58,7 +58,7 @@ Ai.init = function()
 			throttle = 600,
 		},
 		behaviour = {
-			auto_suggestions = true, -- Experimental stage
+			-- auto_suggestions = true, -- Experimental stage
 		}
 	})
 end
