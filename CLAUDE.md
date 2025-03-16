@@ -1,7 +1,7 @@
 # Neovim Configuration Guidelines
 
 ## Build/Test Commands
-- Install packages: `nvim -c "lua Package.install({'owner/repo'})"` 
+- Note: Packages are installed automatically when referenced in configuration
 - Check for binary: `lua Terminal.binaryExists('executable')`
 - Run OS check: `lua print(Terminal.getOs())`
 - Log information: `lua Log.log("message")`
