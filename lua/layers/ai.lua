@@ -73,6 +73,12 @@ Ai.init = function()
 	})
 end
 
+Base.options = {
+	g = {
+		codecompanion_auto_tool_mode = false
+	}
+}
+
 Ai.maps = {
 	{ mode = { "n" }, map = "gh", to = function() require("codecompanion").actions() end },
 	{ mode = { "n" }, map = "<Leader>aa", to = function() require("codecompanion").toggle() end },
