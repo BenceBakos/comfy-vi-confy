@@ -73,9 +73,9 @@ Ai.init = function()
 	})
 end
 
-Base.options = {
+Ai.options = {
 	g = {
-		codecompanion_auto_tool_mode = false
+		codecompanion_auto_tool_mode = true
 	}
 }
 
