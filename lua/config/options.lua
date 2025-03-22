@@ -3,3 +3,47 @@
 
 local opt = vim.opt
 
+-- Constants
+local INDENTATION = 2
+local MAX_LINE_LENGTH = 100
+
+-- Notes path - accessible to other modules
+vim.g.notes_path = vim.env.NOTES_PATH or vim.fn.expand('~/notes')
+
+-- Basic options
+opt.shiftwidth = INDENTATION
+opt.tabstop = INDENTATION
+opt.expandtab = true
+opt.smartindent = true
+
+-- UI options
+opt.number = true
+opt.relativenumber = true
+opt.signcolumn = "yes"
+opt.cursorline = true
+opt.wrap = false
+opt.termguicolors = true
+
+-- Search options
+opt.ignorecase = true
+opt.smartcase = true
+opt.hlsearch = true
+opt.incsearch = true
+
+-- Performance options
+opt.lazyredraw = true
+opt.updatetime = 250
+opt.timeoutlen = 300
+
+-- File handling
+opt.backup = false
+opt.swapfile = false
+opt.undofile = true
+opt.fileencoding = "utf-8"
+
+-- Set path to notes directory for Telescope
+if vim.fn.isdirectory(vim.g.notes_path) == 0 then
+  -- Create notes directory if it doesn't exist
+  vim.fn.mkdir(vim.g.notes_path, "p")
+end
+

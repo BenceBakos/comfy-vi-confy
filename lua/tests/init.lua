@@ -1,45 +1,65 @@
 -- Main test module that collects and runs all tests
+local test_helpers = require('utils.test_helpers')
 
--- Basic test definitions
+---@class TestSuite
 local M = {}
 
+-- Import unit tests
+local telescope_tests = require('tests.units.telescope_spec')
+
 -- Test that lazy.nvim is loaded correctly
-M.test_lazy_nvim = function()
+---@return nil
+function M.test_lazy_nvim()
   -- Check if lazy.nvim is loaded
   local status = pcall(require, 'lazy')
-  assert(status, "lazy.nvim should be loaded")
+  test_helpers.assert(status, "lazy.nvim is loaded")
   
   -- Get the count of loaded plugins
   local plugin_count = #require('lazy').plugins()
-  assert(plugin_count > 1, "At least 2 plugins should be loaded")
-  
-  print("✅ lazy.nvim is correctly loaded with " .. plugin_count .. " plugins")
+  test_helpers.assert(plugin_count > 1, "At least 2 plugins are loaded")
 end
 
--- Test that we can create a buffer and write text to it
-M.test_buffer = function()
+-- Test that we can create a buffer and manipulate it
+---@return nil
+function M.test_buffer()
   -- Create new buffer
   vim.cmd('enew')
   
-  -- Write some text to it
-  vim.api.nvim_buf_set_lines(0, 0, 0, false, {"Hello, Neovim!"})
+  -- Directly set line content instead of simulating keypresses
+  vim.api.nvim_buf_set_lines(0, 0, 1, false, {"Hello, Neovim!"})
   
   -- Check that the text is in the buffer
   local line = vim.fn.getline(1)
-  assert(line == "Hello, Neovim!", "Text should be written to buffer")
+  test_helpers.assert(line == "Hello, Neovim!", "Buffer manipulation works correctly")
+end
+
+-- Run core functionality tests
+---@return nil
+function M.run_core_tests()
+  print("\n=== Running Core Tests ===")
   
-  print("✅ Buffer operations working correctly")
+  test_helpers.run_test("lazy.nvim setup", M.test_lazy_nvim)
+  test_helpers.run_test("buffer operations", M.test_buffer)
+end
+
+-- Run plugin-specific tests
+---@return nil
+function M.run_plugin_tests()
+  print("\n=== Running Plugin Tests ===")
+  
+  -- Telescope tests
+  test_helpers.run_test("telescope installation", telescope_tests.test_telescope_installed)
+  test_helpers.run_test("telescope keybindings", telescope_tests.test_telescope_keybindings)
+  test_helpers.run_test("telescope configuration", telescope_tests.test_telescope_configuration)
 end
 
 -- Run all tests
-M.run_tests = function()
-  print("Running Neovim configuration tests...\n")
+---@return nil
+function M.run_tests()
+  print("Running Neovim configuration tests...")
   
-  print("Testing lazy.nvim setup:")
-  M.test_lazy_nvim()
-  
-  print("\nTesting buffer operations:")
-  M.test_buffer()
+  M.run_core_tests()
+  M.run_plugin_tests()
   
   print("\n✅ All tests completed successfully")
 end

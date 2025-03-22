@@ -18,23 +18,23 @@ return {
     "echasnovski/mini.nvim",
     version = false,
   },
-
-  -- Test configuration
-  {
-    "echasnovski/mini.test",
-    dependencies = { "echasnovski/mini.nvim" },
-    config = function()
-      require("mini.test").setup()
-    end,
-  },
   
-  -- Add your other plugins here
-  -- Example:
-  -- {
-  --   "nvim-treesitter/nvim-treesitter",
-  --   build = ":TSUpdate",
-  --   config = function()
-  --     require("config.plugins.treesitter")
-  --   end,
-  -- },
+  -- Telescope for fuzzy finding
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- Required dependency
+    },
+    config = function()
+      local telescope_config = require("config.plugins.telescope")
+      telescope_config.setup()
+    end,
+    keys = {
+      {
+        vim.g.key_telescope_find_files,
+        function() require("telescope.builtin").find_files() end,
+        desc = "Find files in project and notes",
+      },
+    },
+  },
 }

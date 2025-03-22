@@ -74,3 +74,14 @@ Or run a specific test:
 - Set up Tokyo Night theme as the default colorscheme
 - Configured sensible defaults and basic key mappings
 - Organized a clean, maintainable codebase structure for future expansion
+
+### Phase 2: Telescope Integration (2025-03-21)
+
+- Added Telescope for fuzzy file finding with `<Leader>c` keybinding
+- Integrated notes directory with Telescope search
+- Configured custom navigation with `<C-j>` and `<C-k>` keybindings
+- Improved architecture with separate utility modules:
+  - Added `utils/feed_keys.lua` for simulating user keypresses
+  - Added `utils/test_helpers.lua` for standardized test assertions
+- Enhanced testing framework with plugin-specific unit tests
+- Added configuration constants for keys and paths
