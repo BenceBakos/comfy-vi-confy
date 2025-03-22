@@ -17,7 +17,7 @@ require('tests').run_plugin_tests()
 -- Run specific tests
 require('tests').test_lazy_nvim()
 require('tests').test_buffer()
-require('tests').test_codecompanion()
+require('tests').test_treesitter()
 
 -- Run plugin-specific tests
 local telescope_tests = require('tests.units.telescope_spec')
@@ -25,11 +25,11 @@ telescope_tests.test_telescope_installed()
 telescope_tests.test_telescope_keybindings()
 telescope_tests.test_telescope_configuration()
 
-local codecompanion_tests = require('tests.units.codecompanion_spec')
-codecompanion_tests.test_codecompanion_installed()
-codecompanion_tests.test_codecompanion_keybindings()
-codecompanion_tests.test_codecompanion_configuration()
-codecompanion_tests.test_codecompanion_tdd_workflow()
+local treesitter_tests = require('tests.units.treesitter_spec')
+treesitter_tests.test_treesitter_installed()
+treesitter_tests.test_treesitter_configuration()
+treesitter_tests.test_treesj_installed()
+treesitter_tests.test_treesj_keybinding()
 ```
 
 ## Configuration Structure
@@ -38,10 +38,12 @@ codecompanion_tests.test_codecompanion_tdd_workflow()
 - `lua/config/`: Core configuration modules
   - `options.lua`: Neovim options and settings with option-related constants
   - `keymaps.lua`: Keyboard mappings with key mapping constants
+  - `env.lua`: Environment variable loading and management
   - `plugins/`: Plugin configurations
-    - `init.lua`: Main plugin specification file
-    - `telescope.lua`: Telescope configuration
-    - `codecompanion.lua`: CodeCompanion AI assistant configuration
+    - `init.lua`: Core plugin specification file
+    - `telescope.lua`: Telescope configuration and specs
+    - `treesitter.lua`: Treesitter configuration and specs
+    - `utils.lua`: Utility plugins and shared dependencies
 - `lua/utils/`: Utility functions with single responsibility
   - `feed_keys.lua`: Utilities for simulating user keypresses
   - `test_helpers.lua`: Helper functions for testing
@@ -49,7 +51,7 @@ codecompanion_tests.test_codecompanion_tdd_workflow()
   - `init.lua`: Main test runner
   - `units/`: Unit tests for each feature
     - `telescope_spec.lua`: Tests for telescope functionality
-    - `codecompanion_spec.lua`: Tests for CodeCompanion functionality
+    - `treesitter_spec.lua`: Tests for Treesitter and TreeSJ functionality
 
 ## Code Style Preferences
 
@@ -74,38 +76,52 @@ codecompanion_tests.test_codecompanion_tdd_workflow()
 :Lazy update
 ```
 
-## CodeCompanion Usage
+## Treesitter and Split/Join Usage
 
-CodeCompanion provides AI-assisted coding with Claude in Neovim.
+Treesitter provides advanced syntax highlighting and code manipulation capabilities.
 
 ```lua
--- Open CodeCompanion prompt
--- Default keybinding: <space>aa
+-- Treesitter commands
+:TSInstall <language>           -- Install a specific language parser
+:TSUpdate                       -- Update all installed parsers
+:TSInstallInfo                  -- Show installation status of parsers
+:TSCheck                        -- Diagnose treesitter installation issues
 
--- CodeCompanion commands
-:CodeCompanion toggle           -- Toggle the CodeCompanion prompt
-:CodeCompanion context add      -- Add current buffer to context
-:CodeCompanion workflow tdd     -- Use the TDD workflow
+-- Incremental selection
+gm                              -- Expand selection to next node
+gM                              -- Shrink selection to previous node
+
+-- Split/Join commands
+gs                              -- Toggle code block between split/join
+                               -- Works on any content with braces {}, brackets [], or parentheses ()
+                               -- For lines without these characters, performs line join (J)
 ```
 
-### TDD Workflow
+## Development Process
 
-The TDD workflow follows these steps:
-1. Write tests based on specifications
-2. Verify tests are complete and accurate
-3. Implement features to make tests pass
-4. Refactor code while maintaining passing tests
-5. Iterate until all specifications are met
+The development process follows these principles:
 
-When using the TDD workflow:
-- Provide clear specifications for what you want to build
-- CodeCompanion will write tests and implementation code
-- It will automatically make changes to files when requested
-- Explanations will be kept brief and focused
+1. **Test-Driven Development**:
+   - Write tests before implementing features
+   - Ensure tests clearly define expected behavior
+   - Implement minimal code to make tests pass
+   - Refactor while maintaining passing tests
 
-## Phases
+2. **Modular Design**:
+   - Each plugin has its own configuration file
+   - Each feature is isolated with well-defined responsibilities 
+   - Core functionality is separate from plugin-specific code
+   - Utilities are reusable across different parts of the configuration
 
-### Phase 1: Basic Setup (2025-03-19)
+3. **Progressive Enhancement**:
+   - Basic functionality works without dependencies
+   - Features fail gracefully when dependencies are missing
+   - Clear error messages help diagnose issues
+   - Diagnostic commands help troubleshoot problems
+
+## Release History
+
+### v1.0: Basic Setup (2025-03-19)
 
 - Implemented modular configuration with lazy.nvim for plugin management
 - Created basic configuration structure with separate modules for options, keymaps, and plugins
@@ -116,7 +132,7 @@ When using the TDD workflow:
 - Configured sensible defaults and basic key mappings
 - Organized a clean, maintainable codebase structure for future expansion
 
-### Phase 2: Telescope Integration (2025-03-21)
+### v1.1: Telescope Integration (2025-03-21)
 
 - Added improved architecture with `/lua/utils` for reusable functions
 - Added configuration globals in appropriate modules for constants
@@ -130,25 +146,35 @@ When using the TDD workflow:
   - Structured tests with proper assertions
   - Test helpers for consistent testing
 
-### Phase 3: CodeCompanion Integration (2025-03-22)
+### v1.2: Treesitter and Split/Join Integration (2025-03-22)
 
-- Added CodeCompanion.nvim for AI-assisted coding with Claude
-- Configured with the following features:
-  - `<space>aa` keybinding to open the prompt
-  - Automatic buffer context integration
-  - Automatic file modifications without confirmation
-  - Concise explanations after changes
-  - Custom TDD workflow for test-driven development
-- Added comprehensive tests for CodeCompanion:
-  - Verification of proper installation
-  - Key binding tests
-  - Configuration validation
-  - TDD workflow verification
-- Updated documentation with CodeCompanion usage instructions
+- Added Treesitter for enhanced syntax highlighting and code manipulation:
+  - Focused on essential parsers for better reliability
+  - Incremental selection with `gm` and `gM` keymaps
+  - Added robust error handling and diagnostics
+- Implemented split/join functionality with native Vim operations:
+  - `gs` keybinding for universal bracket splitting and joining
+  - Works independently of Treesitter parsers for maximum reliability
+  - Pure Vim implementation guarantees compatibility with all file types
+- Added comprehensive tests for these features:
+  - Verification of proper installation and fallback behavior
+  - Multiple test cases covering different content types
+  - Regression tests for error conditions
+- Added diagnostic command `:TSCheck` to troubleshoot installation issues
 
-### Future Phases (Planned)
+### v2.0: Refactored Architecture (2025-03-22)
 
-- Phase 4: Add LSP support and completion
-- Phase 5: Add additional file navigation and search tools 
-- Phase 6: Add Git integration
-- Phase 7: Add debugging support
+- Complete refactoring of the codebase for improved extensibility
+- Each plugin now has its own dedicated configuration file
+- Simplified architecture with better separation of concerns
+- Improved plugin isolation for easier debugging and maintenance
+- Enhanced modularity to make adding new features easier
+- Added utils.lua for shared utility plugins and dependencies
+- Streamlined importing system using lazy.nvim's import feature
+
+### Future Development (Planned)
+
+- LSP support and completion
+- Additional file navigation and search tools
+- Git integration
+- Debugging support

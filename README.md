@@ -1,21 +1,23 @@
 # Neovim Configuration
 
-A modular, maintainable Neovim configuration focused on productivity and testability.
+A modular, extensible Neovim configuration focused on simplicity and maintainability.
 
 ## Features
 
-- Plugin management with [lazy.nvim](https://github.com/folke/lazy.nvim)
-- Built-in testing using [mini.test](https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-test.md)
-- Organized configuration structure
-- Fuzzy file finding with [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
-- AI-assisted coding with [codecompanion.nvim](https://github.com/olimorris/codecompanion.nvim)
+- **Modular Architecture**: Each plugin has its own configuration file
+- **Test-Driven Development**: Comprehensive test suite for all features
+- **Simple and Extensible**: Easy to add new plugins and features
+- **Tokyo Night Theme**: Beautiful, modern color scheme
+- **Fuzzy Finding**: Telescope integration with project and notes search
+- **Enhanced Syntax**: Treesitter integration for better code highlighting
+- **Split/Join**: Universal bracket splitting and joining with `gs`
 
 ## Getting Started
 
 ### Prerequisites
 
 - Neovim 0.8.0+
-- For CodeCompanion: An Anthropic API key for Claude access
+- Git (for plugin management)
 
 ### Installation
 
@@ -29,10 +31,9 @@ A modular, maintainable Neovim configuration focused on productivity and testabi
    git clone https://github.com/yourusername/nvim-config.git ~/.config/nvim
    ```
 
-3. Set up environment variables for CodeCompanion:
+3. (Optional) Create a `.env` file for environment variables:
    ```sh
-   # Add to your .bashrc or .zshrc
-   export ANTHROPIC_API_KEY="your_api_key_here"
+   echo "NOTES_PATH=$HOME/notes" > ~/.config/nvim/.env
    ```
 
 4. Start Neovim
@@ -50,10 +51,12 @@ A modular, maintainable Neovim configuration focused on productivity and testabi
 │   ├── config/              # Configuration modules
 │   │   ├── options.lua      # Neovim options
 │   │   ├── keymaps.lua      # Key mappings
+│   │   ├── env.lua          # Environment variable loading
 │   │   └── plugins/         # Plugin configurations
-│   │       ├── init.lua     # Plugin specifications
-│   │       ├── telescope.lua # Telescope configuration
-│   │       └── codecompanion.lua # CodeCompanion configuration
+│   │       ├── init.lua     # Core plugin specs
+│   │       ├── telescope.lua # Telescope plugin specs
+│   │       ├── treesitter.lua # Treesitter plugin specs
+│   │       └── utils.lua    # Utility plugin specs
 │   ├── utils/               # Utility functions
 │   │   ├── feed_keys.lua    # Key simulation utilities
 │   │   └── test_helpers.lua # Test helper functions
@@ -61,7 +64,7 @@ A modular, maintainable Neovim configuration focused on productivity and testabi
 │       ├── init.lua         # Test module with test functions
 │       └── units/           # Unit tests
 │           ├── telescope_spec.lua # Telescope tests
-│           └── codecompanion_spec.lua # CodeCompanion tests
+│           └── treesitter_spec.lua # Treesitter tests
 ```
 
 ## Key Features
@@ -71,28 +74,21 @@ A modular, maintainable Neovim configuration focused on productivity and testabi
 Fuzzy finding with Telescope:
 - Press `<Leader>c` to find files
 - Navigate with `<C-j>` and `<C-k>`
+- Integrates with notes directory (set via `NOTES_PATH`)
 
-### CodeCompanion
+### Treesitter
 
-AI-assisted coding with Claude:
-- Press `<space>aa` to open the CodeCompanion prompt
-- Current buffer is automatically used as context
-- File changes are applied automatically when requested
-- Brief explanations are provided for changes
+Enhanced syntax highlighting and code manipulation:
+- Focused on essential parsers for better reliability
+- Incremental selection with `gm` and `gM` keymaps
+- Diagnostic command `:TSCheck` for troubleshooting
 
-#### TDD Workflow
+### Split/Join
 
-CodeCompanion includes a TDD workflow to help with test-driven development:
-1. Provide specifications for what you want to build
-2. CodeCompanion writes tests based on the specifications
-3. It confirms the tests are good before implementation
-4. It implements the features to make tests pass
-5. It can refactor and iterate as needed
-
-To use the TDD workflow:
-```
-:CodeCompanion workflow tdd
-```
+Universal code block formatting:
+- Press `gs` to toggle between split and join formats
+- Works on any content with braces `{}`, brackets `[]`, or parentheses `()`
+- For lines without these characters, performs line join (like Vim's `J`)
 
 ## Running Tests
 
@@ -106,49 +102,64 @@ Or run specific tests:
 
 ```lua
 -- Core tests
-:lua require('tests').test_lazy_nvim()
-:lua require('tests').test_buffer()
+:lua require('tests').run_core_tests()
 
 -- Plugin tests
-:lua require('tests').test_codecompanion()
+:lua require('tests').run_plugin_tests()
+
+-- Specific feature tests
+:lua require('tests').test_treesitter()
 ```
 
-## Release Notes
+## Extending
 
-### Phase 1: Basic Setup (2025-03-19)
+To add a new plugin:
 
-- Implemented modular configuration with lazy.nvim for plugin management
-- Created basic configuration structure with separate modules for options, keymaps, and plugins
-- Added testing functionality with simple test suite for verifying:
-  - Proper lazy.nvim setup and plugin loading
-  - Basic buffer operations
-- Set up Tokyo Night theme as the default colorscheme
-- Configured sensible defaults and basic key mappings
-- Organized a clean, maintainable codebase structure for future expansion
+1. Create a new file in `lua/config/plugins/` (e.g., `lsp.lua`)
+2. Return a table with the plugin specification following this pattern:
 
-### Phase 2: Telescope Integration (2025-03-21)
+```lua
+return {
+  {
+    "plugin-author/plugin-name",
+    dependencies = {
+      -- Any dependencies
+    },
+    config = function()
+      -- Configuration code
+    end,
+    keys = {
+      -- Any keybindings
+    },
+  }
+}
+```
 
-- Added Telescope for fuzzy file finding with `<Leader>c` keybinding
-- Integrated notes directory with Telescope search
-- Configured custom navigation with `<C-j>` and `<C-k>` keybindings
-- Improved architecture with separate utility modules:
-  - Added `utils/feed_keys.lua` for simulating user keypresses
-  - Added `utils/test_helpers.lua` for standardized test assertions
-- Enhanced testing framework with plugin-specific unit tests
-- Added configuration constants for keys and paths
+The plugin will be automatically loaded thanks to lazy.nvim's import feature.
 
-### Phase 3: CodeCompanion Integration (2025-03-22)
+## Release History
 
-- Added CodeCompanion.nvim for AI-assisted coding with Claude
-- Configured with the following features:
-  - `<space>aa` keybinding to open the prompt
-  - Automatic buffer context integration
-  - Automatic file modifications without confirmation
-  - Concise explanations after changes
-- Added custom TDD workflow for test-driven development
-- Implemented comprehensive tests for the CodeCompanion feature:
-  - Installation verification
-  - Keybinding tests
-  - Configuration validation
-  - TDD workflow verification
-- Updated documentation with usage instructions
+### v1.0: Basic Setup (2025-03-19)
+
+- Initial modular configuration with lazy.nvim
+- Basic configuration structure and Tokyo Night theme
+- Simple test suite for core functionality
+
+### v1.1: Telescope Integration (2025-03-21)
+
+- Added Telescope for fuzzy file finding
+- Improved architecture with utility functions
+- Enhanced testing framework
+
+### v1.2: Treesitter and Split/Join (2025-03-22)
+
+- Added Treesitter for better syntax highlighting
+- Implemented split/join functionality with `gs`
+- Added comprehensive tests for these features
+
+### v2.0: Refactored Architecture (2025-03-22)
+
+- Simplified and streamlined codebase
+- Each plugin now has its own dedicated configuration file
+- Improved modularity and extensibility
+- Better separation of concerns for easier maintenance

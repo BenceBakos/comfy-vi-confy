@@ -6,7 +6,7 @@ local M = {}
 
 -- Import unit tests
 local telescope_tests = require('tests.units.telescope_spec')
-local codecompanion_tests = require('tests.units.codecompanion_spec')
+local treesitter_tests = require('tests.units.treesitter_spec')
 
 -- Test that lazy.nvim is loaded correctly
 ---@return nil
@@ -53,11 +53,13 @@ function M.run_plugin_tests()
   test_helpers.run_test("telescope keybindings", telescope_tests.test_telescope_keybindings)
   test_helpers.run_test("telescope configuration", telescope_tests.test_telescope_configuration)
   
-  -- CodeCompanion tests
-  test_helpers.run_test("codecompanion installation", codecompanion_tests.test_codecompanion_installed)
-  test_helpers.run_test("codecompanion keybindings", codecompanion_tests.test_codecompanion_keybindings)
-  test_helpers.run_test("codecompanion configuration", codecompanion_tests.test_codecompanion_configuration)
-  test_helpers.run_test("codecompanion TDD workflow", codecompanion_tests.test_codecompanion_tdd_workflow)
+  -- Treesitter tests
+  test_helpers.run_test("treesitter installation", treesitter_tests.test_treesitter_installed)
+  test_helpers.run_test("treesitter configuration", treesitter_tests.test_treesitter_configuration)
+  test_helpers.run_test("treesj installation", treesitter_tests.test_treesj_installed)
+  test_helpers.run_test("split/join functionality", treesitter_tests.test_split_join_functionality)
+  test_helpers.run_test("empty brackets handling", treesitter_tests.test_empty_brackets)
+  test_helpers.run_test("join operation", treesitter_tests.test_join_operation)
 end
 
 -- Run all tests
@@ -71,15 +73,17 @@ function M.run_tests()
   print("\n✅ All tests completed successfully")
 end
 
--- Run CodeCompanion tests only
+-- Run Treesitter tests only
 ---@return nil
-function M.test_codecompanion()
-  print("\n=== Running CodeCompanion Tests ===")
+function M.test_treesitter()
+  print("\n=== Running Treesitter and Split/Join Tests ===")
   
-  test_helpers.run_test("codecompanion installation", codecompanion_tests.test_codecompanion_installed)
-  test_helpers.run_test("codecompanion keybindings", codecompanion_tests.test_codecompanion_keybindings)
-  test_helpers.run_test("codecompanion configuration", codecompanion_tests.test_codecompanion_configuration)
-  test_helpers.run_test("codecompanion TDD workflow", codecompanion_tests.test_codecompanion_tdd_workflow)
+  test_helpers.run_test("treesitter installation", treesitter_tests.test_treesitter_installed)
+  test_helpers.run_test("treesitter configuration", treesitter_tests.test_treesitter_configuration)
+  test_helpers.run_test("treesj installation", treesitter_tests.test_treesj_installed)
+  test_helpers.run_test("split/join functionality", treesitter_tests.test_split_join_functionality)
+  test_helpers.run_test("empty brackets handling", treesitter_tests.test_empty_brackets)
+  test_helpers.run_test("join operation", treesitter_tests.test_join_operation)
 end
 
 return M
