@@ -7,6 +7,7 @@ local M = {}
 -- Import unit tests
 local telescope_tests = require('tests.units.telescope_spec')
 local treesitter_tests = require('tests.units.treesitter_spec')
+local feature_tests = require('tests.units.feature_tests')
 
 -- Test that lazy.nvim is loaded correctly
 ---@return nil
@@ -60,6 +61,16 @@ function M.run_plugin_tests()
   test_helpers.run_test("split/join functionality", treesitter_tests.test_split_join_functionality)
   test_helpers.run_test("empty brackets handling", treesitter_tests.test_empty_brackets)
   test_helpers.run_test("join operation", treesitter_tests.test_join_operation)
+  
+  -- Added feature tests
+  print("\n=== Running Feature Tests ===")
+  test_helpers.run_test("command aliases", feature_tests.test_command_aliases)
+  test_helpers.run_test("keymaps", feature_tests.test_keymaps)
+  test_helpers.run_test("auto pair function", feature_tests.test_auto_pair_function)
+  test_helpers.run_test("oil plugin", feature_tests.test_oil_plugin)
+  test_helpers.run_test("comment plugin", feature_tests.test_comment_plugin)
+  test_helpers.run_test("hop plugin", feature_tests.test_hop_plugin)
+  test_helpers.run_test("lsp config", feature_tests.test_lsp_config)
 end
 
 -- Run all tests
@@ -84,6 +95,20 @@ function M.test_treesitter()
   test_helpers.run_test("split/join functionality", treesitter_tests.test_split_join_functionality)
   test_helpers.run_test("empty brackets handling", treesitter_tests.test_empty_brackets)
   test_helpers.run_test("join operation", treesitter_tests.test_join_operation)
+end
+
+-- Run Feature tests only
+---@return nil
+function M.test_features()
+  print("\n=== Running Feature Tests ===")
+  
+  test_helpers.run_test("command aliases", feature_tests.test_command_aliases)
+  test_helpers.run_test("keymaps", feature_tests.test_keymaps)
+  test_helpers.run_test("auto pair function", feature_tests.test_auto_pair_function)
+  test_helpers.run_test("oil plugin", feature_tests.test_oil_plugin)
+  test_helpers.run_test("comment plugin", feature_tests.test_comment_plugin)
+  test_helpers.run_test("hop plugin", feature_tests.test_hop_plugin)
+  test_helpers.run_test("lsp config", feature_tests.test_lsp_config)
 end
 
 return M

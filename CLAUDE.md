@@ -4,6 +4,66 @@ This file serves as a memory aid for Claude to better assist with this Neovim co
 
 ## Commands
 
+### Common Commands
+
+```lua
+-- Tab Management
+th                              -- Go to first tab
+tj                              -- Go to next tab
+tk                              -- Go to previous tab
+tl                              -- Go to last tab
+té                              -- Create vertical split
+tt                              -- Create new tab
+td                              -- Close current tab
+ti                              -- Open terminal in new tab
+to                              -- Open terminal in vertical split
+tu                              -- New tab with file explorer
+tá                              -- Vertical split with file explorer
+
+-- File Navigation
+-                               -- Open parent directory with Explorer/Oil
+<BS>                            -- Open parent directory with Oil
+tg                              -- Open lazygit in tab (if available)
+gé                              -- Open lazygit in split (if available)
+
+-- Common Commands
+Cgpath                          -- Copy full path to clipboard
+Cpath                           -- Copy relative path to clipboard
+E, W, Wq, WQ                    -- Aliases for e, w, wq, wq
+gs                              -- Toggle split/join for code blocks
+ó                               -- Quit current window (:q)
+ö                               -- Clear search highlighting
+
+-- Window Navigation
+<Leader>h                       -- Move to left window
+<Leader>j                       -- Move to bottom window
+<Leader>k                       -- Move to top window
+<Leader>l or <Leader>é          -- Move to right window
+
+-- Special QWERTZ Mappings
+é                               -- Go to end of line ($)
+ú                               -- Next quickfix item
+Ú                               -- Previous quickfix item
+```
+
+### LSP Commands
+
+```lua
+K                               -- Show hover documentation
+gd                              -- Go to definition
+gD                              -- Go to declaration
+gi                              -- Go to implementation
+gt                              -- Go to type definition
+gr                              -- Find references
+gk                              -- Show signature help
+grn                             -- Rename symbol
+ga                              -- Code action
+gof                             -- Show diagnostics
+gm                              -- Go to previous diagnostic
+gM                              -- Go to next diagnostic
+gF                              -- Format document
+```
+
 ### Testing
 
 ```lua
@@ -38,7 +98,6 @@ treesitter_tests.test_treesj_keybinding()
 - `lua/config/`: Core configuration modules
   - `options.lua`: Neovim options and settings with option-related constants
   - `keymaps.lua`: Keyboard mappings with key mapping constants
-  - `env.lua`: Environment variable loading and management
   - `plugins/`: Plugin configurations
     - `init.lua`: Core plugin specification file
     - `telescope.lua`: Telescope configuration and specs
@@ -119,6 +178,27 @@ The development process follows these principles:
    - Clear error messages help diagnose issues
    - Diagnostic commands help troubleshoot problems
 
+## Plugins
+
+### Editor Enhancement Plugins
+- **oil.nvim**: File navigation in buffer
+- **Comment.nvim**: Smart commenting
+- **hop.nvim**: Quick navigation with EasyMotion-like behavior
+- **git-blame.nvim**: Git blame integration
+
+### LSP and Completion Plugins
+- **nvim-lspconfig**: Configure LSP servers
+- **mason.nvim**: Automatically install LSP servers
+- **mason-lspconfig.nvim**: Connect Mason with LSP config
+- **mason-null-ls.nvim**: Connect Mason with Null-LS
+- **null-ls.nvim**: Linting, formatting, diagnostics
+- **nvim-cmp**: Completion engine
+- **cmp-nvim-lsp**: LSP completion source
+- **cmp-buffer**: Buffer words completion source
+- **cmp-path**: Path completion source
+- **cmp-luasnip**: Snippet completion source
+- **LuaSnip**: Snippet engine
+
 ## Release History
 
 ### v1.0: Basic Setup (2025-03-19)
@@ -172,9 +252,25 @@ The development process follows these principles:
 - Added utils.lua for shared utility plugins and dependencies
 - Streamlined importing system using lazy.nvim's import feature
 
+### v3.0: Enhanced Functionality (2025-03-23)
+
+- Added comprehensive keymaps for improved efficiency
+- Implemented oil.nvim for better file navigation
+- Added Comment.nvim for smart code commenting
+- Added hop.nvim for quick cursor movement
+- Added git-blame.nvim for Git information
+- Implemented LSP support for many languages:
+  - Lua, PHP (using Phpactor), JavaScript, TypeScript, Python, Bash, Nix, YAML, HTML, CSS, XML, and more
+  - Configured PHP with phpactor instead of intelephense for better feature support
+- Added code completion with nvim-cmp
+- Integrated Mason for automatic LSP server installation
+- Added null-ls for formatting, linting, and diagnostics
+- Implemented comprehensive testing for all features
+- Added features for QWERTZ keyboard layouts
+
 ### Future Development (Planned)
 
-- LSP support and completion
-- Additional file navigation and search tools
-- Git integration
 - Debugging support
+- Improved Git integration with Fugitive or Neogit
+- DAP integration for debugging
+- Project-specific configurations

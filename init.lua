@@ -16,8 +16,25 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Load environment variables from .env file
-require("config.env").load_env()
+-- Set up global configuration
+
+-- Remap caps lock to escape if setxkbmap is available
+local function has_setxkbmap()
+  local handle = io.popen("command -v setxkbmap")
+  if handle then
+    local result = handle:read("*a")
+    handle:close()
+    return #result > 0
+  end
+  return false
+end
+
+if has_setxkbmap() then
+  -- Don't break if command fails
+  pcall(function()
+    vim.fn.system("setxkbmap -option caps:escape")
+  end)
+end
 
 -- Load config modules
 require("config.options")

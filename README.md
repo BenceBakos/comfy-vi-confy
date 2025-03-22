@@ -11,6 +11,15 @@ A modular, extensible Neovim configuration focused on simplicity and maintainabi
 - **Fuzzy Finding**: Telescope integration with project and notes search
 - **Enhanced Syntax**: Treesitter integration for better code highlighting
 - **Split/Join**: Universal bracket splitting and joining with `gs`
+- **File Navigation**: Oil.nvim integration for buffer-based file navigation
+- **Smart Comments**: Comment.nvim for intelligent code commenting
+- **Quick Navigation**: Hop.nvim for EasyMotion-like cursor movement
+- **Git Integration**: Git blame information and lazygit support
+- **LSP Support**: Language server protocol for many languages with fallback options
+- **PHP Development**: Support for both Phpactor and Intelephense with auto fallback
+- **Code Completion**: Advanced completion engine with nvim-cmp
+- **Auto LSP Installation**: Mason.nvim for automated LSP and tool management
+- **Code Formatting**: Null-LS for automatic formatting with php-cs-fixer and phpstan
 
 ## Getting Started
 
@@ -18,6 +27,9 @@ A modular, extensible Neovim configuration focused on simplicity and maintainabi
 
 - Neovim 0.8.0+
 - Git (for plugin management)
+- Node.js (for certain LSP servers)
+- Python 3 (for certain formatters)
+- A Nerd Font (for icons, recommended but optional)
 
 ### Installation
 
@@ -31,16 +43,25 @@ A modular, extensible Neovim configuration focused on simplicity and maintainabi
    git clone https://github.com/yourusername/nvim-config.git ~/.config/nvim
    ```
 
-3. (Optional) Create a `.env` file for environment variables:
+3. (Optional) Set up your notes directory in your shell environment:
    ```sh
-   echo "NOTES_PATH=$HOME/notes" > ~/.config/nvim/.env
+   export NOTES_PATH="$HOME/notes"
    ```
 
-4. Start Neovim
+4. (Optional) If you use a QWERTZ keyboard layout and want to remap Caps Lock:
+   ```sh
+   setxkbmap -option caps:escape
+   ```
+
+5. Start Neovim
    ```sh
    nvim
    ```
    The configuration will automatically bootstrap lazy.nvim and install all plugins.
+
+6. Wait for all LSP servers to be installed on first launch
+   LSP servers, formatters, and linters will be automatically installed by Mason.
+   This may take a few minutes on first launch.
 
 ## Structure
 
@@ -49,13 +70,17 @@ A modular, extensible Neovim configuration focused on simplicity and maintainabi
 ├── init.lua                 # Main entry point
 ├── lua/
 │   ├── config/              # Configuration modules
-│   │   ├── options.lua      # Neovim options
+│   │   ├── options.lua      # Neovim options and settings
 │   │   ├── keymaps.lua      # Key mappings
-│   │   ├── env.lua          # Environment variable loading
 │   │   └── plugins/         # Plugin configurations
 │   │       ├── init.lua     # Core plugin specs
 │   │       ├── telescope.lua # Telescope plugin specs
 │   │       ├── treesitter.lua # Treesitter plugin specs
+│   │       ├── lsp.lua      # LSP configuration
+│   │       ├── oil.lua      # Oil.nvim configuration
+│   │       ├── comment.lua  # Comment.nvim configuration
+│   │       ├── hop.lua      # Hop.nvim configuration
+│   │       ├── git-blame.lua # Git blame configuration
 │   │       └── utils.lua    # Utility plugin specs
 │   ├── utils/               # Utility functions
 │   │   ├── feed_keys.lua    # Key simulation utilities
@@ -64,7 +89,8 @@ A modular, extensible Neovim configuration focused on simplicity and maintainabi
 │       ├── init.lua         # Test module with test functions
 │       └── units/           # Unit tests
 │           ├── telescope_spec.lua # Telescope tests
-│           └── treesitter_spec.lua # Treesitter tests
+│           ├── treesitter_spec.lua # Treesitter tests
+│           └── feature_tests.lua # Tests for added features
 ```
 
 ## Key Features
@@ -90,6 +116,34 @@ Universal code block formatting:
 - Works on any content with braces `{}`, brackets `[]`, or parentheses `()`
 - For lines without these characters, performs line join (like Vim's `J`)
 
+### File Navigation with Oil.nvim
+
+- Press `-` or `<BS>` to open parent directory in buffer
+- Navigate with normal Vim movements
+- Displays hidden files by default
+- Sorts files by modification time (newest first)
+
+### Improved Code Commenting
+
+Comment.nvim provides smart commenting for any language:
+- Uses treesitter for accurate comment detection
+- Toggle comments with `gcc` (current line) and `gc` (motion/selection)
+- Handles multi-line comments appropriately
+
+### Fast Navigation with Hop
+
+- Press `<Leader><Leader>` to activate Hop word mode
+- Type a few characters to jump to any word in visible buffers
+- Works in normal and visual modes
+
+### LSP Integration
+
+Full Language Server Protocol support:
+- Automatically installs language servers with Mason
+- Provides intelligent code completion
+- Offers code navigation, diagnostics, and refactoring
+- Supports formatting and linting with null-ls
+
 ## Running Tests
 
 From within Neovim, you can run all tests with:
@@ -109,7 +163,46 @@ Or run specific tests:
 
 -- Specific feature tests
 :lua require('tests').test_treesitter()
+:lua require('tests').test_features()
 ```
+
+## Dependencies
+
+This configuration relies on the following plugins:
+
+### Core
+- [lazy.nvim](https://github.com/folke/lazy.nvim): Plugin manager
+- [tokyonight.nvim](https://github.com/folke/tokyonight.nvim): Theme
+- [mini.nvim](https://github.com/echasnovski/mini.nvim): Collection of small independent plugins
+- [plenary.nvim](https://github.com/nvim-lua/plenary.nvim): Lua utility functions
+
+### File Navigation and UI
+- [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim): Fuzzy finder
+- [stevearc/oil.nvim](https://github.com/stevearc/oil.nvim): File explorer in buffer
+- [nvim-tree/nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons): Icons for UI elements
+
+### Editor Enhancements
+- [numToStr/Comment.nvim](https://github.com/numToStr/Comment.nvim): Smart commenting
+- [smoka7/hop.nvim](https://github.com/smoka7/hop.nvim): EasyMotion-like navigation
+- [f-person/git-blame.nvim](https://github.com/f-person/git-blame.nvim): Git blame information
+
+### Syntax and Parsing
+- [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter): Advanced syntax highlighting
+- [Wansmer/treesj](https://github.com/Wansmer/treesj): Split/join code blocks
+
+### LSP and Completion
+- [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig): LSP configuration
+- [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim): Package manager
+- [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim): Mason integration with LSP
+- [jose-elias-alvarez/null-ls.nvim](https://github.com/jose-elias-alvarez/null-ls.nvim): Formatting and linting
+- [jay-babu/mason-null-ls.nvim](https://github.com/jay-babu/mason-null-ls.nvim): Mason integration with null-ls
+- [hrsh7th/nvim-cmp](https://github.com/hrsh7th/nvim-cmp): Completion engine
+- [hrsh7th/cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp): LSP source for nvim-cmp
+- [hrsh7th/cmp-buffer](https://github.com/hrsh7th/cmp-buffer): Buffer words source for nvim-cmp
+- [hrsh7th/cmp-path](https://github.com/hrsh7th/cmp-path): Path source for nvim-cmp
+- [L3MON4D3/LuaSnip](https://github.com/L3MON4D3/LuaSnip): Snippet engine
+- [saadparwaiz1/cmp_luasnip](https://github.com/saadparwaiz1/cmp_luasnip): Snippets source for nvim-cmp
+- [j-hui/fidget.nvim](https://github.com/j-hui/fidget.nvim): LSP progress display
 
 ## Extending
 

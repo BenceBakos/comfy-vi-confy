@@ -10,11 +10,20 @@ local MAX_LINE_LENGTH = 100
 -- Notes path - accessible to other modules
 vim.g.notes_path = vim.env.NOTES_PATH or vim.fn.expand('~/notes')
 
+--disable git blame by default
+vim.g.gitblame_enabled = 0
+
+-- Create notes directory if it doesn't exist
+if vim.fn.isdirectory(vim.g.notes_path) == 0 then
+  vim.fn.mkdir(vim.g.notes_path, "p")
+end
+
 -- Basic options
 opt.shiftwidth = INDENTATION
 opt.tabstop = INDENTATION
 opt.expandtab = true
 opt.smartindent = true
+opt.clipboard = "unnamedplus"
 
 -- UI options
 opt.number = true
@@ -41,9 +50,4 @@ opt.swapfile = false
 opt.undofile = true
 opt.fileencoding = "utf-8"
 
--- Set path to notes directory for Telescope
-if vim.fn.isdirectory(vim.g.notes_path) == 0 then
-  -- Create notes directory if it doesn't exist
-  vim.fn.mkdir(vim.g.notes_path, "p")
-end
 
