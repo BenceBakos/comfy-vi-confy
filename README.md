@@ -1,5 +1,63 @@
 # Comfy vi
 
+## Testing
+
+This Neovim configuration includes a comprehensive test suite to verify that all layers are functioning correctly. The tests use a simple, lightweight testing framework built specifically for this configuration.
+
+### Running Tests
+
+You can run the tests in two ways:
+
+1. From within Neovim by running the custom command:
+   ```
+   :Test
+   ```
+
+2. From the command line in headless mode:
+   ```
+   nvim --headless -c "luafile test_run.lua"
+   ```
+
+### Test Output
+
+Test results are displayed in the Neovim window or console (when run in headless mode). The summary shows:
+- Number of tests passed
+- Number of tests failed
+- Number of tests skipped
+- Detailed information about any failures
+
+### Adding Tests
+
+To add tests for a new layer or feature, modify the `lua/tests/run.lua` file:
+
+1. Add a new test function for your layer or feature
+2. Use the SimpleTest API to define your tests:
+
+```lua
+-- Example test function
+Runner.test_my_layer = function()
+  SimpleTest.run("my_layer_test", function()
+    local MyLayer = require('layers.my_layer')
+    SimpleTest.assertNotNil(MyLayer)
+    SimpleTest.assertNotNil(MyLayer.init)
+    SimpleTest.assert(some_condition, "Error message if condition fails")
+    return true
+  end)
+end
+```
+
+3. Add your test function to the `run_all` function:
+
+```lua
+Runner.run_all = function()
+  -- ...existing test calls...
+  Runner.test_my_layer()
+  -- ...
+end
+```
+
+The tests will be discovered and run when you execute the `:Test` command.
+
 ## Abz
 
 ### Todo

@@ -40,7 +40,7 @@ Ai.init = function()
 	if not codecompanion then return false end
 	codecompanion.setup({
 		allday = { -- CodeCompanion AI
-			model = "claude-3-5-sonnet",
+			model = "claude-3-7-sonnet",
 			temperature = 0,
 			streaming = true,
 			show_prompt = false, -- Hide the prompt sent to the AI
