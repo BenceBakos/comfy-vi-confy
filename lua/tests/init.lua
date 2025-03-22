@@ -6,6 +6,7 @@ local M = {}
 
 -- Import unit tests
 local telescope_tests = require('tests.units.telescope_spec')
+local codecompanion_tests = require('tests.units.codecompanion_spec')
 
 -- Test that lazy.nvim is loaded correctly
 ---@return nil
@@ -51,6 +52,12 @@ function M.run_plugin_tests()
   test_helpers.run_test("telescope installation", telescope_tests.test_telescope_installed)
   test_helpers.run_test("telescope keybindings", telescope_tests.test_telescope_keybindings)
   test_helpers.run_test("telescope configuration", telescope_tests.test_telescope_configuration)
+  
+  -- CodeCompanion tests
+  test_helpers.run_test("codecompanion installation", codecompanion_tests.test_codecompanion_installed)
+  test_helpers.run_test("codecompanion keybindings", codecompanion_tests.test_codecompanion_keybindings)
+  test_helpers.run_test("codecompanion configuration", codecompanion_tests.test_codecompanion_configuration)
+  test_helpers.run_test("codecompanion TDD workflow", codecompanion_tests.test_codecompanion_tdd_workflow)
 end
 
 -- Run all tests
@@ -62,6 +69,17 @@ function M.run_tests()
   M.run_plugin_tests()
   
   print("\n✅ All tests completed successfully")
+end
+
+-- Run CodeCompanion tests only
+---@return nil
+function M.test_codecompanion()
+  print("\n=== Running CodeCompanion Tests ===")
+  
+  test_helpers.run_test("codecompanion installation", codecompanion_tests.test_codecompanion_installed)
+  test_helpers.run_test("codecompanion keybindings", codecompanion_tests.test_codecompanion_keybindings)
+  test_helpers.run_test("codecompanion configuration", codecompanion_tests.test_codecompanion_configuration)
+  test_helpers.run_test("codecompanion TDD workflow", codecompanion_tests.test_codecompanion_tdd_workflow)
 end
 
 return M

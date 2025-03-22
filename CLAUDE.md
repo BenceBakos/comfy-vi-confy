@@ -17,12 +17,19 @@ require('tests').run_plugin_tests()
 -- Run specific tests
 require('tests').test_lazy_nvim()
 require('tests').test_buffer()
+require('tests').test_codecompanion()
 
 -- Run plugin-specific tests
 local telescope_tests = require('tests.units.telescope_spec')
 telescope_tests.test_telescope_installed()
 telescope_tests.test_telescope_keybindings()
 telescope_tests.test_telescope_configuration()
+
+local codecompanion_tests = require('tests.units.codecompanion_spec')
+codecompanion_tests.test_codecompanion_installed()
+codecompanion_tests.test_codecompanion_keybindings()
+codecompanion_tests.test_codecompanion_configuration()
+codecompanion_tests.test_codecompanion_tdd_workflow()
 ```
 
 ## Configuration Structure
@@ -34,6 +41,7 @@ telescope_tests.test_telescope_configuration()
   - `plugins/`: Plugin configurations
     - `init.lua`: Main plugin specification file
     - `telescope.lua`: Telescope configuration
+    - `codecompanion.lua`: CodeCompanion AI assistant configuration
 - `lua/utils/`: Utility functions with single responsibility
   - `feed_keys.lua`: Utilities for simulating user keypresses
   - `test_helpers.lua`: Helper functions for testing
@@ -41,6 +49,7 @@ telescope_tests.test_telescope_configuration()
   - `init.lua`: Main test runner
   - `units/`: Unit tests for each feature
     - `telescope_spec.lua`: Tests for telescope functionality
+    - `codecompanion_spec.lua`: Tests for CodeCompanion functionality
 
 ## Code Style Preferences
 
@@ -64,6 +73,35 @@ telescope_tests.test_telescope_configuration()
 -- Update plugins
 :Lazy update
 ```
+
+## CodeCompanion Usage
+
+CodeCompanion provides AI-assisted coding with Claude in Neovim.
+
+```lua
+-- Open CodeCompanion prompt
+-- Default keybinding: <space>aa
+
+-- CodeCompanion commands
+:CodeCompanion toggle           -- Toggle the CodeCompanion prompt
+:CodeCompanion context add      -- Add current buffer to context
+:CodeCompanion workflow tdd     -- Use the TDD workflow
+```
+
+### TDD Workflow
+
+The TDD workflow follows these steps:
+1. Write tests based on specifications
+2. Verify tests are complete and accurate
+3. Implement features to make tests pass
+4. Refactor code while maintaining passing tests
+5. Iterate until all specifications are met
+
+When using the TDD workflow:
+- Provide clear specifications for what you want to build
+- CodeCompanion will write tests and implementation code
+- It will automatically make changes to files when requested
+- Explanations will be kept brief and focused
 
 ## Phases
 
@@ -92,9 +130,25 @@ telescope_tests.test_telescope_configuration()
   - Structured tests with proper assertions
   - Test helpers for consistent testing
 
+### Phase 3: CodeCompanion Integration (2025-03-22)
+
+- Added CodeCompanion.nvim for AI-assisted coding with Claude
+- Configured with the following features:
+  - `<space>aa` keybinding to open the prompt
+  - Automatic buffer context integration
+  - Automatic file modifications without confirmation
+  - Concise explanations after changes
+  - Custom TDD workflow for test-driven development
+- Added comprehensive tests for CodeCompanion:
+  - Verification of proper installation
+  - Key binding tests
+  - Configuration validation
+  - TDD workflow verification
+- Updated documentation with CodeCompanion usage instructions
+
 ### Future Phases (Planned)
 
-- Phase 3: Add LSP support and completion
-- Phase 4: Add additional file navigation and search tools 
-- Phase 5: Add Git integration
-- Phase 6: Add debugging support
+- Phase 4: Add LSP support and completion
+- Phase 5: Add additional file navigation and search tools 
+- Phase 6: Add Git integration
+- Phase 7: Add debugging support

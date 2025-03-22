@@ -37,4 +37,24 @@ return {
       },
     },
   },
+  
+  -- CodeCompanion for AI-assisted coding
+  {
+    "olimorris/codecompanion.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "stevearc/dressing.nvim", -- Optional: for better UI
+    },
+    config = function()
+      local codecompanion_config = require("config.plugins.codecompanion")
+      codecompanion_config.setup()
+    end,
+    keys = {
+      {
+        vim.g.key_codecompanion_prompt,
+        function() require("codecompanion.actions").toggle() end,
+        desc = "Toggle CodeCompanion prompt",
+      },
+    },
+  },
 }
