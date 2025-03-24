@@ -25,7 +25,6 @@ Main.init({
 	'macro',
 	'theme',
 	'refactor',
-	'ai',
 	'test',
 	-- 'abz',
 	-- 'touch',
