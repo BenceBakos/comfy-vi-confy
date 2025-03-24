@@ -42,4 +42,5 @@ Main.init({
 	--
 	-- treesitter based lsp replacement? treesitter does one file, but I could map all files?
 	-- gpt prompt(bash)
+	'copilot',
 })
