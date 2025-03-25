@@ -3,7 +3,7 @@ local curl = require("plenary.curl")
 local Log = require("utils.log")
 local Package = require("utils.package")
 
-local Copilot = {
+local Erik = {
     model = "claude-3.7-sonnet",
     github_token = nil,
     packages = {
@@ -17,30 +17,30 @@ local Copilot = {
 -- @param prompt_text string: The user input prompt.
 -- @param options table|nil: Additional options, including model selection.
 -- @return string|nil: The response from the AI model or nil on failure.
-function Copilot.prompt(prompt_text, options)
-    options = options or { model = Copilot.model }
+function Erik.prompt(prompt_text, options)
+    options = options or { model = Erik.model }
     Log.log("Sending prompt to " .. options.model)
 
-    if not Copilot.github_token then
-        local oauth_token = Copilot.get_oauth_token()
+    if not Erik.github_token then
+        local oauth_token = Erik.get_oauth_token()
         if not oauth_token then
             Log.err("Failed to get OAuth token. Please ensure you are authenticated with Copilot.")
             return nil
         end
 
-        local token_data = Copilot.authorize_token(oauth_token)
+        local token_data = Erik.authorize_token(oauth_token)
         if not token_data or not token_data.token then
             Log.err("Failed to authorize GitHub Copilot token")
             return nil
         end
 
-        Copilot.github_token = token_data.token
+        Erik.github_token = token_data.token
     end
 
     local response = curl.post("https://api.githubcopilot.com/chat/completions", {
         headers = {
             ["Content-Type"] = "application/json",
-            ["Authorization"] = "Bearer " .. Copilot.github_token,
+            ["Authorization"] = "Bearer " .. Erik.github_token,
             ["Copilot-Integration-Id"] = "vscode-chat",
             ["Editor-Version"] = "Neovim/" .. table.concat({vim.version().major, vim.version().minor, vim.version().patch}, "."),
         },
@@ -69,7 +69,7 @@ end
 
 --- Retrieves the OAuth token for GitHub Copilot.
 -- @return string|nil: The OAuth token if found, or nil otherwise.
-function Copilot.get_oauth_token()
+function Erik.get_oauth_token()
     local config_path = vim.fn.expand("$XDG_CONFIG_HOME")
     if not config_path or vim.fn.isdirectory(config_path) == 0 then
         config_path = vim.fn.expand("~/.config")
@@ -96,7 +96,7 @@ end
 --- Authorizes the OAuth token and retrieves a GitHub Copilot token.
 -- @param oauth_token string: The OAuth token to authorize.
 -- @return table|nil: The authorized token data or nil on failure.
-function Copilot.authorize_token(oauth_token)
+function Erik.authorize_token(oauth_token)
     local response = curl.get("https://api.github.com/copilot_internal/v2/token", {
         headers = {
             ["Authorization"] = "token " .. oauth_token,
@@ -113,7 +113,7 @@ function Copilot.authorize_token(oauth_token)
 end
 
 --- Initializes the Copilot plugin.
-function Copilot.init()
+function Erik.init()
 
 	local CopilotLua = Package.want("copilot")
 	if not CopilotLua  then return false end
@@ -126,7 +126,7 @@ function Copilot.init()
     vim.api.nvim_create_user_command("Prompt", function(opts)
         local prompt_text = opts.args
         if prompt_text and prompt_text ~= "" then
-            local response = Copilot.prompt(prompt_text)
+            local response = Erik.prompt(prompt_text)
             if response then
                 local buf = vim.api.nvim_create_buf(false, true)
                 vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(response, "\n"))
@@ -141,5 +141,5 @@ function Copilot.init()
     end, { nargs = "+" })
 end
 
-return Copilot
+return Erik
 
