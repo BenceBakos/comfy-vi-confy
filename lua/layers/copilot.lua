@@ -1,21 +1,15 @@
-local Log = require("utils.log")
+
 local curl = require("plenary.curl")
+local Log = require("utils.log")
 
 local Copilot = {
     model = "claude-3.7-sonnet",
-    github_token = nil,  -- Cached GitHub Copilot token
-    excludeOs = {},
-    dependencyBinaries = {},
-    envCommands = {},
+    github_token = nil,
     packages = {
         "zbirenbaum/copilot.lua",
         "github/copilot.vim",
         "nvim-lua/plenary.nvim"
-    },
-    options = { g = {}, opt = {} },
-    commands = {},
-    autocmds = {},
-    maps = {}
+    }
 }
 
 --- Sends a prompt to the AI model and returns a response.
@@ -23,15 +17,13 @@ local Copilot = {
 -- @param options table|nil: Additional options, including model selection.
 -- @return string|nil: The response from the AI model or nil on failure.
 function Copilot.prompt(prompt_text, options)
-    options = options or {}
-    options.model = options.model or Copilot.model
+    options = options or { model = Copilot.model }
     Log.log("Sending prompt to " .. options.model)
 
-    -- Ensure the GitHub token is available
     if not Copilot.github_token then
         local oauth_token = Copilot.get_oauth_token()
         if not oauth_token then
-            Log.err("Failed to get OAuth token. Please make sure you are authenticated with Copilot.")
+            Log.err("Failed to get OAuth token. Please ensure you are authenticated with Copilot.")
             return nil
         end
 
@@ -44,22 +36,18 @@ function Copilot.prompt(prompt_text, options)
         Copilot.github_token = token_data.token
     end
 
-    local body = {
-        model = options.model,
-        messages = {
-            { role = "user", content = prompt_text }
-        },
-        stream = false
-    }
-
     local response = curl.post("https://api.githubcopilot.com/chat/completions", {
         headers = {
             ["Content-Type"] = "application/json",
             ["Authorization"] = "Bearer " .. Copilot.github_token,
             ["Copilot-Integration-Id"] = "vscode-chat",
-            ["Editor-Version"] = "Neovim/" .. vim.version().major .. "." .. vim.version().minor .. "." .. vim.version().patch,
+            ["Editor-Version"] = "Neovim/" .. table.concat({vim.version().major, vim.version().minor, vim.version().patch}, "."),
         },
-        body = vim.fn.json_encode(body),
+        body = vim.fn.json_encode({
+            model = options.model,
+            messages = { { role = "user", content = prompt_text } },
+            stream = false
+        }),
         timeout = 30000,
     })
 
@@ -69,8 +57,9 @@ function Copilot.prompt(prompt_text, options)
     end
 
     local json_response = vim.fn.json_decode(response.body)
-    if json_response and json_response.choices and json_response.choices[1] and json_response.choices[1].message then
-        return json_response.choices[1].message.content
+    local message = json_response and json_response.choices and json_response.choices[1] and json_response.choices[1].message
+    if message then
+        return message.content
     else
         Log.err("Failed to parse response from Copilot")
         return nil
@@ -81,27 +70,18 @@ end
 -- @return string|nil: The OAuth token if found, or nil otherwise.
 function Copilot.get_oauth_token()
     local config_path = vim.fn.expand("$XDG_CONFIG_HOME")
-
     if not config_path or vim.fn.isdirectory(config_path) == 0 then
         config_path = vim.fn.expand("~/.config")
     end
 
-    local file_paths = {
-        config_path .. "/github-copilot/hosts.json",
-        config_path .. "/github-copilot/apps.json",
-    }
-
-    for _, file_path in ipairs(file_paths) do
+    for _, file_name in ipairs({ "hosts.json", "apps.json" }) do
+        local file_path = config_path .. "/github-copilot/" .. file_name
         if vim.fn.filereadable(file_path) == 1 then
-            local content = vim.fn.readfile(file_path)
-            if vim.islist(content) then
-                content = table.concat(content, "")
-            end
-
+            local content = table.concat(vim.fn.readfile(file_path), "")
             local ok, data = pcall(vim.fn.json_decode, content)
             if ok then
                 for key, value in pairs(data) do
-                    if string.find(key, "github.com") then
+                    if key:find("github.com") then
                         return value.oauth_token
                     end
                 end
