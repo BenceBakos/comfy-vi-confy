@@ -1,6 +1,7 @@
 
 local curl = require("plenary.curl")
 local Log = require("utils.log")
+local Package = require("utils.package")
 
 local Copilot = {
     model = "claude-3.7-sonnet",
@@ -113,7 +114,11 @@ end
 
 --- Initializes the Copilot plugin.
 function Copilot.init()
-    require("copilot").setup({
+
+	local CopilotLua = Package.want("copilot")
+	if not CopilotLua  then return false end
+
+    CopilotLua.setup({
         suggestion = { enabled = false },
         panel = { enabled = false },
     })
