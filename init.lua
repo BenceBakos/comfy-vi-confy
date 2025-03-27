@@ -11,7 +11,7 @@ Main.init({
 	'comment',
 	'git',
 	'spell',
-	'lsp',
+	'ide',
 	'lua',
 	'web',
 	'php',

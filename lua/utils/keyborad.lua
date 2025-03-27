@@ -82,13 +82,4 @@ Keyboard.command = function(name, keys, commandOpts)
 	vim.api.nvim_create_user_command(name, keys, commandOpts)
 end
 
-Keyboard.doubleCharactersOpen = { "'", '"', '`', '(', '[', '{', '<' }
-Keyboard.doubleCharactersClose = { "'", '"', '`', ')', ']', '}', '>' }
-
-Keyboard.getCurrentChar = function()
-	local col = vim.api.nvim_win_get_cursor(0)[2] + 1
-	local char = vim.api.nvim_get_current_line():sub(col, col) -- Maybe col-1
-	return char
-end
-
 return Keyboard

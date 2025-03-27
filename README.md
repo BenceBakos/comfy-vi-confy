@@ -1,12 +1,8 @@
 # Comfy vi
 
-Replace utils with plenary, vim, or just don't wrap uselessly
-
-Merge too separated layers(like lsp)
-
-Rename lsp layer to ide
-
-Remove abz layer
+ - [x] Rename lsp layer to ide
+ - [ ] ~Merge too separated layers(like lsp)~ **lsps are separate because of dependency binaries**
+ - [ ] Replace utils with plenary, vim, or just don't wrap uselessly
 
 Clauda-like layer: erik + database layer
 Let them work together(context into db)

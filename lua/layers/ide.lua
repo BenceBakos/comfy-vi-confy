@@ -1,21 +1,21 @@
 Terminal = require("utils.terminal")
 
-Lsp = {}
+Ide = {}
 
-Lsp.excludeOs = {
+Ide.excludeOs = {
 	Terminal.TERMUX
 }
 
-Lsp.dependencyBinaries = {
+Ide.dependencyBinaries = {
 	debian = { 'git', 'curl', 'unzip' }, -- TODO gzip as an optional
 	arch = { 'git', 'curl', 'unzip' } -- TODO gzip as an optional
 }
 
-Lsp.envCommands = {
+Ide.envCommands = {
 	-- debian =  {'',''}
 }
 
-Lsp.packages = {
+Ide.packages = {
 	'nvim-lua/plenary.nvim',
 	'stevearc/dressing.nvim',
 	'williamboman/mason.nvim',
@@ -31,10 +31,10 @@ Lsp.packages = {
 	'saadparwaiz1/cmp_luasnip',
 }
 
-Lsp.capabilities = nil
-Lsp.lspconfig = nil
+Ide.capabilities = nil
+Ide.lspconfig = nil
 
-Lsp.init = function()
+Ide.init = function()
 	-- LSP, DAP related sys dependency installer(requires some package managgers like npm, depending on the server)
 	local Mason = Package.want("mason")
 
@@ -109,29 +109,29 @@ Lsp.init = function()
 
 
 	local CmpLsp = Package.want('cmp_nvim_lsp')
-	Lsp.lspconfig = Package.want('lspconfig')
+	Ide.lspconfig = Package.want('lspconfig')
 
-	if not CmpLsp or not Lsp.lspconfig then return false end
+	if not CmpLsp or not Ide.lspconfig then return false end
 
 	-- Extend cmp capabilities
-	local lspDefaults = Lsp.lspconfig.util.default_config
+	local lspDefaults = Ide.lspconfig.util.default_config
 
-	Lsp.capabilities = CmpLsp.default_capabilities()
+	Ide.capabilities = CmpLsp.default_capabilities()
 
 	lspDefaults.capabilities = vim.tbl_deep_extend(
 		'force',
 		lspDefaults.capabilities,
-		Lsp.capabilities
+		Ide.capabilities
 	)
 end
 
-Lsp.options = {
+Ide.options = {
 	opt = {
 		completeopt = { 'menu', 'menuone', 'noselect' }
 	}
 }
 
-Lsp.autocmds = {
+Ide.autocmds = {
 	-- twig shall be regarded as html
 	{
 		events = { 'BufReadPost' },
@@ -153,7 +153,7 @@ Lsp.autocmds = {
 	}
 }
 
-Lsp.maps = {
+Ide.maps = {
 	{ mode = 'n', map = 'K',   to = '<cmd>lua vim.lsp.buf.hover()<cr>',                   options = false },
 	{ mode = 'n', map = 'gd',  to = '<cmd>lua vim.lsp.buf.definition()<cr>',              options = false },
 	{ mode = 'n', map = 'gD',  to = '<cmd>lua vim.lsp.buf.declaration()<cr>',             options = false },
@@ -178,4 +178,4 @@ Lsp.maps = {
 	}
 }
 
-return Lsp
+return Ide
