@@ -1,24 +1,30 @@
 # Comfy vi
 
+## Todo
+
  - [x] Rename lsp layer to ide
  - [ ] ~Merge too separated layers(like lsp)~ **lsps are separate because of dependency binaries**
- - [ ] Replace utils with plenary, vim, or just don't wrap uselessly
-
-Clauda-like layer: erik + database layer
-Let them work together(context into db)
-Reusable prompts
-
-Telescope
-
-Signatures for every function
-
-Restruckture in some way, code reuse, groupping of finctionality, more dependencies will come with osint, scrape, exploitation
-
-Create first tool so I can loot: 
-wifi breaker or network mapper, 
-add it to touch layer for single click launc
+ - [x] Replace utils with plenary, vim, or just don't wrap uselessly **Kind of done, utils are useful, cant really replace them**
+ - [ ] Erik + db
+ - [ ] Signature for every function
+ - [ ] Looter
+ - [ ] Telscope
+ - [ ] Integrate db conent(snippets, commands)
 
 
-Wifi breaker: scan constantly and try to get into network. Store gps and network creds when success
+## Erik + DB
+ - reusable prompts
 
-Network mapper: check router speed then start scanning the subnet for devices, and then scan each famous ports of those devices
+## Looter
+ - figure touch first, and refactor abz into touch.(just put the functionality to a cell or table)
+
+### Scan for wifi or use current one
+ - store some gps cords where wifi was available
+ - store creds
+
+### Scan for targets or use an ip
+ - check network capability, scan based on that
+ - optimize search(binary search or research where to look first in the range)
+
+### Scan ports and find vulnerabilities
+ - msf console or other databases, get software version

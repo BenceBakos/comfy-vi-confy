@@ -15,16 +15,6 @@ Table.hasKey = function(table, key)
 end
 
 
-Table.hasEmbeddedKey = function(table, keys)
-	for _, key in pairs(keys) do
-		if not Table.hasKey(table, key) then return false end
-		table = table[key]
-	end
-
-	return true
-end
-
-
 Table.getEmbeddedValue = function(table, path)
 	for _, key in pairs(path) do
 		if not Table.hasKey(table, key) then return nil end
@@ -72,14 +62,6 @@ Table.traversePath = function(data, path)
 		end
 	end
 	return current
-end
-
-Table.getKeys = function(t)
-	local keys = {}
-	for key, _ in pairs(t) do
-		table.insert(keys, key)
-	end
-	return keys
 end
 
 return Table
