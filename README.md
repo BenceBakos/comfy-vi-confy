@@ -21,9 +21,17 @@
  - multiplle tags from the same type possible
  - tag types
      - creator computer
-     - type(md/bash/code/image/credantial)
+     - type(md/bash/code/image/credantial/url...)
      - workdir
      - repository
+ - tag type crud(delete only when not used)
+ - search
+     - preset filters based on conditions(like repo)
+     - set filters in a list of lists, up down on types, and left-right on certain items selection + clear tag type completely
+ - open
+     - based on type, text files in vim, media in system prompt, prep for termux as well with a reminder error message
+ - create
+     - set tags, some by default
 
 #### Todo
 
