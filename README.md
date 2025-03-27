@@ -16,11 +16,23 @@
 
 ### DB
 
+#### Outline
+ - nodes of infromations with tags
+ - multiplle tags from the same type possible
+ - tag types
+     - creator computer
+     - type(md/bash/code/image/credantial)
+     - workdir
+     - repository
+
+#### Todo
+
 ### Erik
  - reusable prompts
 
 
 ## Looter
+ - exceptions list
  - figure touch first, and refactor abz into touch.(just put the functionality to a cell or table)
 
 ### Scan for wifi or use current one
