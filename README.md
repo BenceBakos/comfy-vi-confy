@@ -13,7 +13,12 @@
 
 
 ## Erik + DB
+
+### DB
+
+### Erik
  - reusable prompts
+
 
 ## Looter
  - figure touch first, and refactor abz into touch.(just put the functionality to a cell or table)
