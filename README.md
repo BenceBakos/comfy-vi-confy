@@ -1,38 +1,28 @@
 # Comfy vi
 
-### Architecture
+Replace utils with plenary, vim, or just don't wrap uselessly
 
-## Plugins
- - use lazy
- - plugin folder
- - setup options from triggers
- - mappable functions into utils
+Merge too separated layers(like lsp)
 
-## Triggers
- - init, where order defined
+Rename lsp layer to ide
 
-```lua
-return {
-    nmap('th',':tabfirst<CR>')
+Remove abz layer
 
-    nmap(
-        'th',
-        cl(
-            'feed',
-            cl(
-                'concat',
-                ':tabedit',
-                cl('cwd'),
-                '/'
-            )
-        )
-    )
-}
-```
+Clauda-like layer: erik + database layer
+Let them work together(context into db)
+Reusable prompts
 
-## Utils
-one function one file groupped, result verified, interfacing
+Telescope
+
+Signatures for every function
+
+Restruckture in some way, code reuse, groupping of finctionality, more dependencies will come with osint, scrape, exploitation
+
+Create first tool so I can loot: 
+wifi breaker or network mapper, 
+add it to touch layer for single click launc
 
 
-### Todo
+Wifi breaker: scan constantly and try to get into network. Store gps and network creds when success
 
+Network mapper: check router speed then start scanning the subnet for devices, and then scan each famous ports of those devices
