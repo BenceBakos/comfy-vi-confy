@@ -17,7 +17,9 @@
 ### DB
 
 #### Outline
- - nodes of infromations with tags
+a single folder with files, their names are their content hashes + key-value pairs stored separatly for each
+
+ - items with tags
  - multiplle tags from the same type possible
  - tag types
      - creator computer
