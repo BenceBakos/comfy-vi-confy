@@ -69,10 +69,14 @@ Erik.initAvante = function()
 	avante.setup({
 		provider = 'copilot',
 		copilot = {
-			-- model = "claude-3.7-sonnet",
+			model = "claude-3.7-sonnet",
 		},
 		behaviour = {
 			auto_suggestions = false,
+			auto_apply_diff_after_generation = true,
+			auto_accept_diff_after_generation = true,
+			support_paste_from_clipboard = true,
+			use_cwd_as_project_root = true,
 		},
 		-- other config
 		system_prompt = function()
