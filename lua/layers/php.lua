@@ -1,5 +1,5 @@
 Terminal = require("utils.terminal")
-Lsp = require("layers.lsp")
+Lsp = require("layers.ide")
 
 Php = {}
 
