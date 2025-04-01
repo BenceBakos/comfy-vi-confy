@@ -9,12 +9,12 @@ Erik.excludeOs = {
 }
 
 Erik.packages = {
+	"zbirenbaum/copilot.lua",
 	"nvim-lua/plenary.nvim",
 	"ravitemer/mcphub.nvim",
 	'stevearc/dressing.nvim',
 	'MunifTanjim/nui.nvim',
 	'echasnovski/mini.icons',
-	'zbirenbaum/copilot.lua',
 	'yetone/avante.nvim',
 	'HakonHarnes/img-clip.nvim',
 }
@@ -22,8 +22,8 @@ Erik.packages = {
 Erik.mcphub = nil
 
 Erik.init = function()
-	Erik.initMcphub()
 	Erik.initAvante()
+	Erik.initMcphub()
 end
 
 Erik.initMcphub = function()
@@ -55,9 +55,9 @@ Erik.initAvante = function()
 		}
 	})
 
-	local copilot = Package.want('copilot')
-	if not copilot then return false end
-	copilot.setup({})
+	-- local copilot = Package.want('copilot')
+	-- if not copilot then return false end
+	-- copilot.setup({})
 
 	local avanteLib = Package.want('avante_lib')
 	if not avanteLib then return false end
@@ -68,12 +68,8 @@ Erik.initAvante = function()
 	if not avante then return false end
 	avante.setup({
 		provider = 'copilot',
-		auto_suggestions_provider = "copilot",
-		claude = {
-			endpoint = "https://api.anthropic.com",
-			model = "claude-3-7-sonnet-20241022",
-			temperature = 0,
-			max_tokens = 4096,
+		copilot = {
+			-- model = "claude-3.7-sonnet",
 		},
 		behaviour = {
 			auto_suggestions = false,
