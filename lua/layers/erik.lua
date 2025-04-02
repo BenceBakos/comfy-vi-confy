@@ -32,11 +32,7 @@ Erik.initMcphub = function()
 	if not Erik.mcphub then return false end
 
 	Erik.mcphub.setup({
-		extensions = {
-			avante = {
-				auto_approve_mcp_tool_calls = true, -- Auto approves mcp tool calls.
-			}
-		}
+		auto_approve = true
 	})
 end
 
