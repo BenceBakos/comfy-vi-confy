@@ -13,6 +13,7 @@ Main.init({
 	'spell',
 	'ide',
 	'lua',
+	'python',
 	'web',
 	'php',
 	'bash',
