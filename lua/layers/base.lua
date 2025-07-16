@@ -139,6 +139,7 @@ Base.maps = {
 	{ mode = "v", map = ">",         to = ">gv" },
 	-- exit to normal mode from terminal
 	{ mode = "t", map = "<Esc>",     to = "<C-\\><C-n>" },
+    { mode = "t", map = "<C-e>", to = "<Esc>" },
 	-- close symbols
 	{ mode = "i", map = "(",         to = "()<Esc>i" },
 	{ mode = "i", map = "[",         to = "[]<Esc>i" },
