@@ -27,7 +27,7 @@ Main.init({
 	'theme',
 	'refactor',
 	'test',
-	'erik',
+	-- 'erik',
 	-- 'abz',
 	-- 'touch',
 	-- where to store snippets, refactors, spells?
