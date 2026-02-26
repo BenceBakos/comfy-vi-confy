@@ -1,0 +1,14 @@
+init.lua: ./init.lua
+PhpActor is already up-to-date
+HEADLESS TEST - 2026-02-26 14:59:14
+Using init.lua env NVIM_INIT=./init.lua
+Main: type=table, is_table=true
+Package: exists=true, install_type=function
+keymap[th]: true
+keymap[tj]: true
+keymap[tk]: true
+require base: ok=false
+require treesitter: ok=false
+require fuzzy: ok=false
+require ide: ok=false
+require git: ok=false
