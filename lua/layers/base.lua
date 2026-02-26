@@ -193,13 +193,13 @@ Base.maps = {
 	},
 
 	-- these cause more harm than good, disabled for now
-	{ mode = MODES, map = '<4-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
-	{ mode = MODES, map = '<3-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
-	{ mode = MODES, map = '<2-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
-	{ mode = MODES, map = '<LeftMouse>',   to = '<Nop>', options = { noremap = false, silent = true } },
-	{ mode = MODES, map = '<LeftRelease>',   to = '<Nop>', options = { noremap = false, silent = true } },
-	{ mode = MODES, map = '<ScrollWheelUp>',   to = '<Nop>', options = { noremap = false, silent = true } },
-	{ mode = MODES, map = '<ScrollWheelDown>',   to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = G.MODES, map = '<4-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = G.MODES, map = '<3-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = G.MODES, map = '<2-LeftMouse>', to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = G.MODES, map = '<LeftMouse>',   to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = G.MODES, map = '<LeftRelease>',   to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = G.MODES, map = '<ScrollWheelUp>',   to = '<Nop>', options = { noremap = false, silent = true } },
+	{ mode = G.MODES, map = '<ScrollWheelDown>',   to = '<Nop>', options = { noremap = false, silent = true } },
 
 }
 

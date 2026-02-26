@@ -99,7 +99,7 @@ Main.sections = {
 Main.init = function(layers)
 	Log.log('LAYERS: ')
 	Log.log(layers)
-	Log.log('OS: ' .. OS)
+	Log.log('G.OS: ' .. G.OS)
 
 	-- INSTALL MISSING PACKAGES
 	local missingPackages = {}
@@ -109,7 +109,7 @@ Main.init = function(layers)
 			Log.log('Failed to load layer ' .. layerName .. ': ' .. tostring(layer))
 		else
 
-			if Table.hasKey(layer, 'packages') and not (Table.hasKey(layer, 'excludeOs') and Table.hasValue(layer.excludeOs, OS)) then
+			if Table.hasKey(layer, 'packages') and not (Table.hasKey(layer, 'excludeOs') and Table.hasValue(layer.excludeOs, G.OS)) then
 				for _, packageName in pairs(layer.packages) do
 					local folderName = packageName:match('/([^/]+)$') or packageName
 					if not Package.isInstalled(folderName) then
@@ -135,7 +135,7 @@ end
 			Log.log('Failed to load layer ' .. layerName .. ': ' .. tostring(layer))
 		else
 
-			if not (Table.hasKey(layer, 'excludeOs') and Table.hasValue(layer.excludeOs, OS)) then
+			if not (Table.hasKey(layer, 'excludeOs') and Table.hasValue(layer.excludeOs, G.OS)) then
 				for _, section in ipairs(Main.sections) do
 					Main.initSection(layer, section.path, section.init)
 				end
@@ -165,17 +165,17 @@ end
 Main.initMouseEvents = function(mouseMaps, buffer)
 	for eventName, handlers in pairs(mouseMaps) do
 		local opts = {
-			mode = MODES,
+			mode = G.MODES,
 			map = eventName,
 			to = { noremap = false, silent = true },
 		}
 
 		if buffer ~= nil then
-			Keyboard.mapFunctionBuffer(buffer, MODES, eventName, function()
+			Keyboard.mapFunctionBuffer(buffer, G.MODES, eventName, function()
 				Main.handleMouseEvent(eventName, handlers)
 			end, opts)
 		else
-			Keyboard.mapFunction(MODES, eventName, function()
+			Keyboard.mapFunction(G.MODES, eventName, function()
 				Main.handleMouseEvent(eventName, handlers)
 			end, opts)
 		end
