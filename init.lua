@@ -21,7 +21,6 @@ Main.init({
 	'nix',
 	'yaml',
 	'xml',
-	'git',
 	'oil',
 	'macro',
 	'theme',

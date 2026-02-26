@@ -1,6 +1,6 @@
 Terminal = require("utils.terminal")
 Package = require("utils.package")
-Keyboard = require("utils.keyborad")
+Keyboard = require("utils.keyboard")
 
 Refactor = {}
 

@@ -1,5 +1,5 @@
 Terminal = require("utils.terminal")
-Keyboard = require("utils.keyborad")
+Keyboard = require("utils.keyboard")
 Table = require("utils.table")
 Tui = require("utils.tui")
 File = require("utils.file")

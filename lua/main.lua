@@ -1,6 +1,6 @@
 Log = require("utils.log")
 File = require("utils.file")
-Keyboard = require("utils.keyborad")
+Keyboard = require("utils.keyboard")
 Terminal = require("utils.terminal")
 Table = require("utils.table")
 Package = require("utils.package")
@@ -103,13 +103,17 @@ Main.init = function(layers)
 	-- INSTALL MISSING PACKAGES
 	local missingPackages = {}
 	for _, layerName in pairs(layers) do
-		local layer = require('layers.' .. layerName)
+		local ok, layer = pcall(require, 'layers.' .. layerName)
+		if not ok then
+			Log.log('Failed to load layer ' .. layerName .. ': ' .. tostring(layer))
+		else
 
-		if Table.hasKey(layer, 'packages') and not (Table.hasKey(layer, 'excludeOs') and Table.hasValue(layer.excludeOs, OS)) then
-			for _, packageName in pairs(layer.packages) do
-				local folderName = vim.split(packageName, '/')[2]
-				if not Package.isInstalled(folderName) then
-					missingPackages[#missingPackages + 1] = packageName
+			if Table.hasKey(layer, 'packages') and not (Table.hasKey(layer, 'excludeOs') and Table.hasValue(layer.excludeOs, OS)) then
+				for _, packageName in pairs(layer.packages) do
+					local folderName = packageName:match('/([^/]+)$') or packageName
+					if not Package.isInstalled(folderName) then
+						missingPackages[#missingPackages + 1] = packageName
+					end
 				end
 			end
 		end
@@ -119,11 +123,15 @@ Main.init = function(layers)
 
 	-- INIT LAYERS
 	for _, layerName in pairs(layers) do
-		local layer = require('layers.' .. layerName)
+		local ok, layer = pcall(require, 'layers.' .. layerName)
+		if not ok then
+			Log.log('Failed to load layer ' .. layerName .. ': ' .. tostring(layer))
+		else
 
-		if not (Table.hasKey(layer, 'excludeOs') and Table.hasValue(layer.excludeOs, OS)) then
-			for _, section in ipairs(Main.sections) do
-				Main.initSection(layer, section.path, section.init)
+			if not (Table.hasKey(layer, 'excludeOs') and Table.hasValue(layer.excludeOs, OS)) then
+				for _, section in ipairs(Main.sections) do
+					Main.initSection(layer, section.path, section.init)
+				end
 			end
 		end
 	end
