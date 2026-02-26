@@ -1,10 +1,14 @@
-Terminal = require("utils.terminal")
+local Terminal = require("utils.terminal")
 
-CONFIG_PATH = vim.fn.stdpath('config')
-CONFIG_LUA_PATH = vim.fn.stdpath('config') .. '/lua'
+local M = {}
 
-NOTE_PATHS_FILE_PATH = vim.fn.stdpath('data') .. '/notePaths.json'
+M.CONFIG_PATH = vim.fn.stdpath('config')
+M.CONFIG_LUA_PATH = vim.fn.stdpath('config') .. '/lua'
 
-MODES = { 'n', 'i', 'v', 'c' }
+M.NOTE_PATHS_FILE_PATH = vim.fn.stdpath('data') .. '/notePaths.json'
 
-OS = Terminal.getOs()
+M.MODES = { 'n', 'i', 'v', 'c' }
+
+M.OS = Terminal.getOs()
+
+return M

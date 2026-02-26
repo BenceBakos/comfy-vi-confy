@@ -2,6 +2,7 @@ Log = require("utils.log")
 File = require("utils.file")
 Keyboard = require("utils.keyboard")
 Terminal = require("utils.terminal")
+local G = require("globals")
 Table = require("utils.table")
 Package = require("utils.package")
 
@@ -17,11 +18,11 @@ Main.sections = {
 	{
 		path = 'excludeOs',
 		init = function(key, value)
-			if value == OS then return false end
+			if value == G.OS then return false end
 		end
 	},
 	{
-		path = { 'dependencyBinaries', OS },
+		path = { 'dependencyBinaries', G.OS },
 		init = function(key, value)
 			if not Terminal.binaryExists(value) then
 				return false
@@ -29,7 +30,7 @@ Main.sections = {
 		end
 	},
 	{
-		path = { 'envCommands', OS },
+		path = { 'envCommands', G.OS },
 		init = function(key, value)
 			Terminal.runSync(value)
 		end
@@ -119,7 +120,13 @@ Main.init = function(layers)
 		end
 	end
 
-	if next(missingPackages) ~= nil then Package.install(missingPackages) end
+	if next(missingPackages) ~= nil then
+	if os.getenv('NVIM_ALLOW_PLUGIN_INSTALL') == '1' then
+		Package.install(missingPackages)
+	else
+		Log.log('Skipping plugin install: set NVIM_ALLOW_PLUGIN_INSTALL=1 to enable')
+	end
+end
 
 	-- INIT LAYERS
 	for _, layerName in pairs(layers) do

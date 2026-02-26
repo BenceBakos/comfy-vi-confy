@@ -1,5 +1,6 @@
 Terminal = require("utils.terminal")
 Tui = require("utils.tui")
+local G = require("globals")
 
 Base = {}
 

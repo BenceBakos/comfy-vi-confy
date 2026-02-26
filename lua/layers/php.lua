@@ -1,5 +1,9 @@
 Terminal = require("utils.terminal")
-Lsp = require("layers.ide")
+local ok_lsp, Lsp = pcall(require, "layers.ide")
+if not ok_lsp then
+	Log.log('layers.ide not found for php layer: ' .. tostring(Lsp))
+	Lsp = nil
+end
 
 Php = {}
 
