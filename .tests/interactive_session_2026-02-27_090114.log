@@ -1,0 +1,43 @@
+PhpActor is already up-to-date
+CONFIG LOADED
+INTERACTIVE SESSION CHECK - 2026-02-27 09:01:15
+{
+  echo_err = "",
+  echo_ok = true,
+  initfile = "/home/user/.config/nvim/init.lua",
+  keymaps = {
+    th = true,
+    tj = true,
+    tk = true
+  },
+  nvim_find = {
+    ok = true
+  },
+  package = {
+    exists = true,
+    opt = "",
+    path = "/home/user/.local/share/nvim/site/pack/pkgs/",
+    start = "Comment.nvim\nLuaSnip\navante.nvim\ncmp-buffer\ncmp-nvim-lsp\ncmp-path\ncmp_luasnip\ncopilot.lua\ndmacro.vim\ndressing.nvim\nfriendly-snippets\ngit-blame.nvim\nhop.nvim\nimg-clip.nvim\nmason-lspConfig.nvim\nmason.nvim\nmcphub.nvim\nmini.icons\nnui.nvim\nnvim-cmp\nnvim-find\nnvim-lspconfig\nnvim-treesitter\nnvim-treesitter-refactor\noil.nvim\nphpactor.nvim\nplenary.nvim\nrefactoring.nvim\ntransparent.nvim\ntreesj\n"
+  },
+  plugins = {
+    ["nvim-treesitter"] = {
+      ok = true,
+      type = "table"
+    },
+    phpactor = {
+      ok = true,
+      type = "table"
+    },
+    telescope = {
+      ok = false,
+      type = "string"
+    }
+  },
+  telescope = {
+    ok = false
+  },
+  timestamp = "2026-02-27 09:01:15",
+  treesitter = {
+    ok = true
+  }
+}
