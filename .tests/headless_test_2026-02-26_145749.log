@@ -11,4 +11,4 @@ require base: ok=false
 require treesitter: ok=false
 require fuzzy: ok=false
 require ide: ok=false
-require git: ok=false
+require git: ok=falseCOMMIT_HASH=11e80be2fe7a795f13c0b7e0148f508f0850e98c
