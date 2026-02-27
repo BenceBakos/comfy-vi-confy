@@ -1,0 +1,28 @@
+HEADLESS LAYER REQUIRE CHECK - Fri Feb 27 09:00:21 2026layer: env -> 
+OKlayer: base -> 
+OKlayer: treesitter -> 
+OKlayer: fuzzy -> 
+OKlayer: hop -> 
+OKlayer: comment -> 
+OKlayer: git -> 
+OKlayer: spell -> 
+OKlayer: ide -> 
+OKlayer: lua -> 
+OKlayer: python -> 
+OKlayer: web -> 
+OKlayer: php -> 
+OKlayer: bash -> 
+OKlayer: docker -> 
+OKlayer: nix -> 
+OKlayer: yaml -> 
+OKlayer: xml -> 
+OKlayer: oil -> 
+OKlayer: macro -> 
+OKlayer: theme -> 
+OKlayer: refactor -> 
+OKlayer: test -> 
+OKlayer: erik -> 
+OKlayer: abz -> 
+OKlayer: touch -> 
+OKlayer: dap -> 
+OK
