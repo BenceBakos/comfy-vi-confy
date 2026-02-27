@@ -37,6 +37,10 @@ Log.log = function(msg)
 		f.write(f, msg .. "\n")
 		io.close(f)
 	end
+
+	if os.getenv("NVIM_LOG_STDERR") == "1" and msg then
+		io.stderr:write(msg .. "\n")
+	end
 end
 
 Log.serializeValue = function(v)
@@ -50,7 +54,7 @@ end
 Log.err = function(msg)
 	if type(msg) == "table" then msg = Log.tableToString(msg) end
 
-	print(msg)
+	io.stderr:write(msg .. "\n")
 	Log.log(msg)
 end
 
