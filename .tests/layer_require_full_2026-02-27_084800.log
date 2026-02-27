@@ -1,0 +1,26 @@
+init_file: init.lua
+timestamp: 2026-02-27 08:48:00
+---
+layer: env -> ERROR: lua interpreter not found
+layer: base -> ERROR: lua interpreter not found
+layer: treesitter -> ERROR: lua interpreter not found
+layer: fuzzy -> ERROR: lua interpreter not found
+layer: hop -> ERROR: lua interpreter not found
+layer: comment -> ERROR: lua interpreter not found
+layer: git -> ERROR: lua interpreter not found
+layer: spell -> ERROR: lua interpreter not found
+layer: ide -> ERROR: lua interpreter not found
+layer: lua -> ERROR: lua interpreter not found
+layer: python -> ERROR: lua interpreter not found
+layer: web -> ERROR: lua interpreter not found
+layer: php -> ERROR: lua interpreter not found
+layer: bash -> ERROR: lua interpreter not found
+layer: docker -> ERROR: lua interpreter not found
+layer: nix -> ERROR: lua interpreter not found
+layer: yaml -> ERROR: lua interpreter not found
+layer: xml -> ERROR: lua interpreter not found
+layer: oil -> ERROR: lua interpreter not found
+layer: macro -> ERROR: lua interpreter not found
+layer: theme -> ERROR: lua interpreter not found
+layer: refactor -> ERROR: lua interpreter not found
+layer: test -> ERROR: lua interpreter not found
