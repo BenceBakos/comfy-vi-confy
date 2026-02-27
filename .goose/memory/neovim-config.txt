@@ -1,0 +1,47 @@
+# nvim config layers package-management fuzzy treesitter
+Overview:
+- Lua-based Neovim configuration organized as a "layers" system. Entry point: init.lua which requires globals and calls Main.init({ ...layers... }).
+- Main orchestrator: lua/main.lua. Responsibilities:
+  - Discover and optionally install packages declared by layers (Package.install, gated by NVIM_ALLOW_PLUGIN_INSTALL).
+  - Initialize layers by iterating standardized "sections" (excludeOs, dependencyBinaries, envCommands, init functions, options (g/opt/wo), commands, autocmds, maps, mouseMaps).
+  - Wire mouse events and log mouse coordinates.
+  - Uses utilities from lua/utils (Terminal, Package, Keyboard, Table, Log).
+- Globals: lua/globals.lua exports module table with CONFIG_PATH, CONFIG_LUA_PATH, NOTE_PATHS_FILE_PATH, MODES, OS.
+- Package manager: lua/utils/package.lua clones GitHub repos under stdpath('data')/site/pack/pkgs/{start,opt}, exposes install, installPackage, update, clean, want (safe require).
+- Logger: lua/utils/log.lua writes to ~/nvim.error and can also write to stderr when NVIM_LOG_STDERR=1. Log.err writes error both to stderr and log file.
+- Keyboard utils: lua/utils/keyboard.lua (renamed from keyborad) provides mapping helpers used across layers.
+
+Layers (lua/layers/*.lua) and purpose (summary):
+- base.lua: general editor settings (options, commands, autocmds, many keymaps). Core mappings like tab navigation, window navigation, mouse no-ops. Sets many vim.opt and vim.g settings.
+- treesitter.lua: sets up nvim-treesitter configuration and related textobjects/refactor modules.
+- fuzzy.lua: provides fuzzy search via bencebakos/nvim-find. Exposes <Leader>c (files) and <Leader>b (buffers). Configures UI size, ignore globs, alternative paths via $NOTES_PATH.
+- hop.lua: hop motions integration (simple hop plugin mapping file).
+- comment.lua: comment toggling setup.
+- git.lua: git integrations (mappings and package list) and likely uses plugins like git-blame etc.
+- spell.lua: spell/checking configuration.
+- ide.lua: LSP and completion glue (nvim-cmp, lsp-setup); other IDE-like integrations.
+- lua.lua, python.lua, web.lua, php.lua, bash.lua, docker.lua, nix.lua, yaml.lua, xml.lua: language-specific layers providing LSP, filetype config, keymaps, package lists for language tooling.
+- oil.lua: file-explorer integration (oil.nvim or similar).
+- macro.lua: macros support.
+- refactor.lua: treesitter-based refactor helpers (textobject and refactor helpers).
+- theme.lua: color theme setup.
+- test.lua: test-related tooling (DAP? test runners).
+- sample.lua, touch.lua, abz.lua, erik.lua: custom/experimental layers or personal tweaks.
+
+Runtime & behavior notes:
+- Layers may declare 'packages' table with GitHub repo strings. Main collects missing ones and calls Package.install if env var allows.
+- Main wraps require('layers.<name>') in pcall to avoid failing entire init when a layer errors; failures logged via Log.log.
+- Package.want(name) is used by layers to safely require plugin modules (returns module or nil and logs missing packages).
+- Many layers use the standardized `sections` handlers so behavior is consistent (maps, autocmds, options etc.).
+
+Testing & current state (as of 2026-02-27 11:24:02):
+- Full Lua syntax checks passed (headless loadfile checks). Headless startup passes (no fatal errors). Interactive checks verified keymaps, treesitter present; telescope not installed.
+- NVIM_ALLOW_PLUGIN_INSTALL is required to enable automatic cloning of missing packages.
+- NVIM_LOG_STDERR controls whether Log.log outputs to stderr during development.
+
+Notes/To-dos (captured separately in TODO):
+- Consider implementing Package.isInstalled robustly (currently incomplete).
+- Optionally add telescope integration or another fuzzy backend.
+- Optionally remove committed .bak files from repo history or delete locally.
+
+
