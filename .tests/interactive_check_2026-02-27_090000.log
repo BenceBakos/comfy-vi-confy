@@ -1,0 +1,16 @@
+PhpActor is already up-to-date
+INTERACTIVE CHECK - 2026-02-27 08:53:36
+{
+  keymaps = {
+    th = true,
+    tj = true,
+    tk = true
+  },
+  package_dirs = {
+    opt = "",
+    start = "Comment.nvim\nLuaSnip\navante.nvim\ncmp-buffer\ncmp-nvim-lsp\ncmp-path\ncmp_luasnip\ncopilot.lua\ndmacro.vim\ndressing.nvim\nfriendly-snippets\ngit-blame.nvim\nhop.nvim\nimg-clip.nvim\nmason-lspConfig.nvim\nmason.nvim\nmcphub.nvim\nmini.icons\nnui.nvim\nnvim-cmp\nnvim-find\nnvim-lspconfig\nnvim-treesitter\nnvim-treesitter-refactor\noil.nvim\nphpactor.nvim\nplenary.nvim\nrefactoring.nvim\ntransparent.nvim\ntreesj\n"
+  },
+  package_path = "/home/user/.local/share/nvim/site/pack/pkgs/",
+  telescope = false,
+  treesitter = true
+}
